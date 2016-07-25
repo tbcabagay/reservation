@@ -42,6 +42,13 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                /*'package' => 'package/index',
+                'package/index' => 'package/index',
+                'package/create' => 'package/create',
+                'package/view/<id:\d+>' => 'package/view',
+                'package/update/<id:\d+>' => 'package/update',
+                'package/delete/<id:\d+>' => 'package/delete',
+                'package/<slug>' => 'package/slug',*/
             ],
         ],
     ],

@@ -121,4 +121,16 @@ class PackageController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function actionSlug($slug)
+    {
+        $model = Package::find()->where(['slug' => $slug])->one();
+        if ($model !== null) {
+            return $this->render('view', [
+                'model' => $model,
+            ]);
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
 }

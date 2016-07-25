@@ -575,12 +575,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-dialog.git",
-                "reference": "9049c08c4d71b23bee441c7b28710f765ba1e484"
+                "reference": "76f0d00774beb7e9a032f4c120d827cee80bbb6c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-dialog/zipball/9049c08c4d71b23bee441c7b28710f765ba1e484",
-                "reference": "9049c08c4d71b23bee441c7b28710f765ba1e484",
+                "url": "https://api.github.com/repos/kartik-v/yii2-dialog/zipball/76f0d00774beb7e9a032f4c120d827cee80bbb6c",
+                "reference": "76f0d00774beb7e9a032f4c120d827cee80bbb6c",
                 "shasum": ""
             },
             "require": {
@@ -619,7 +619,7 @@
                 "modal",
                 "yii2"
             ],
-            "time": "2016-07-12 06:27:34"
+            "time": "2016-07-25 12:31:40"
         },
         {
             "name": "kartik-v/yii2-grid",
@@ -2479,12 +2479,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "039eeba8a61788df89c7800eccb2c56723a0db34"
+                "reference": "5265f16ae0ae9b6acaf7c518063d80b2383a8086"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/039eeba8a61788df89c7800eccb2c56723a0db34",
-                "reference": "039eeba8a61788df89c7800eccb2c56723a0db34",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/5265f16ae0ae9b6acaf7c518063d80b2383a8086",
+                "reference": "5265f16ae0ae9b6acaf7c518063d80b2383a8086",
                 "shasum": ""
             },
             "require": {
@@ -2521,7 +2521,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2016-07-11 08:36:05"
+            "time": "2016-07-25 09:33:04"
         },
         {
             "name": "myclabs/deep-copy",
