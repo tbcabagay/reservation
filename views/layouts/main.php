@@ -8,8 +8,13 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use app\assets\FontAwesomeAsset;
+use app\assets\RespondAsset;
 
+raoul2000\bootswatch\BootswatchAsset::$theme = 'flatly';
 AppAsset::register($this);
+FontAwesomeAsset::register($this);
+RespondAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -30,7 +35,7 @@ AppAsset::register($this);
         'brandLabel' => 'My Company',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
+            'class' => 'navbar-default navbar-fixed-top',
         ],
     ]);
     echo Nav::widget([
