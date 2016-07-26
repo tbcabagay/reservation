@@ -23,6 +23,15 @@ use yii\behaviors\SluggableBehavior;
  */
 class PackageItem extends \yii\db\ActiveRecord
 {
+    const SCENARIO_ADD = 'add';
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_ADD] = ['package_id', 'title', 'content', 'quantity', 'role'];
+        return $scenarios;
+    }
+
     /**
      * @inheritdoc
      */

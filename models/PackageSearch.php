@@ -18,7 +18,6 @@ class PackageSearch extends Package
     public function rules()
     {
         return [
-            [['id', 'created_at', 'updated_at'], 'integer'],
             [['title'], 'safe'],
         ];
     }
@@ -56,13 +55,6 @@ class PackageSearch extends Package
             // $query->where('0=1');
             return $dataProvider;
         }
-
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-        ]);
 
         $query->andFilterWhere(['like', 'title', $this->title]);
 

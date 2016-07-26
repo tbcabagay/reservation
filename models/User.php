@@ -172,6 +172,14 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return ArrayHelper::map($roles, 'name', 'name');
     }
 
+    public function getStatusDropdownList()
+    {
+        return [
+            self::STATUS_ACTIVE => 'STATUS_ACTIVE',
+            self::STATUS_INACTIVE => 'STATUS_INACTIVE',
+        ];
+    }
+
     public function beforeSave($insert)
     {
         if ($insert) {
@@ -184,4 +192,5 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         }
         return parent::beforeSave($insert);
     }
+
 }

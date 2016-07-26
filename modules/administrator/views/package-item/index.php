@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\PackageItemSearch */
@@ -12,28 +12,55 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="package-item-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header"><?= Html::encode($this->title) ?></h1>
+        </div>
+    </div>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Package Item'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+    <div class="row">
+        <div class="col-lg-12">
+            <?php Pjax::begin(); ?>
+                <?= GridView::widget([
+                    'dataProvider' => $dataProvider,
+                    'filterModel' => $searchModel,
+                    'columns' => [
+                        ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'package_id',
-            'title',
-            'content:ntext',
-            'quantity',
-            // 'rate',
-            // 'created_at',
-            // 'updated_at',
+                        'package_id',
+                        'title',
+                        'content:ntext',
+                        'quantity',
+                        'rate',
+                        [
+                            'attribute' => 'id',
+                            'filter' => false,
+                        ],
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-<?php Pjax::end(); ?></div>
+                        ['class' => 'yii\grid\ActionColumn'],
+                    ],
+                    'panel'=>[
+                        'type' => GridView::TYPE_DEFAULT,
+                        'heading' => 'Grid',
+                    ],
+                    'toolbar' => [
+                        [
+                            'content' =>
+                            Html::a('<i class="fa fa-plus"></i>', ['create'], [
+                                'title' => Yii::t('app', 'Add Library'), 
+                                'class' => 'btn btn-success',
+                                'data-pjax' => 0,
+                            ]) . ' ' .
+                            Html::a('<i class="fa fa-repeat"></i>', ['index'], [
+                                'class' => 'btn btn-default', 
+                                'title' => Yii::t('app', 'Reset Grid'),
+                                'data-pjax' => 0,
+                            ]),
+                        ],
+                        '{toggleData}',
+                    ],
+                ]); ?>
+            <?php Pjax::end(); ?>
+        </div>
+    </div>
+</div>

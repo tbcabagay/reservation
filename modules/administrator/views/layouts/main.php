@@ -14,6 +14,8 @@ use app\assets\RespondAsset;
 AdminAsset::register($this);
 FontAwesomeAsset::register($this);
 RespondAsset::register($this);
+
+$identity = Yii::$app->user->identity;
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -96,12 +98,9 @@ RespondAsset::register($this);
                     <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
-                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                    </li>
-                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                    </li>
+                    <li><?= Html::a('<i class="fa fa-user fa-fw"></i> View Profile', ['/administrator/user/view', 'id' => $identity->id]) ?></li>
                     <li class="divider"></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    <li><?= Html::a('<i class="fa fa-sign-out fa-fw"></i> Logout (' . $identity->username . ')', '/site/logout', ['data-method' => 'post']) ?></li>
                     </li>
                 </ul>
             </li>
@@ -121,17 +120,16 @@ RespondAsset::register($this);
                         </div>
                     </li>
                     <li>
-                        <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        <?= Html::a('<i class="fa fa-cog fa-fw"></i> Settings<span class="fa arrow"></span>', '#') ?>
+                        <ul class="nav nav-second-level">
+                            <li><?= Html::a('Users', ['user/index']) ?></li>
+                        </ul>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
+                        <?= Html::a('<i class="fa fa-file-o fa-fw"></i> Contents<span class="fa arrow"></span>', '#') ?>
                         <ul class="nav nav-second-level">
-                            <li>
-                                <a href="flot.html">Flot Charts</a>
-                            </li>
-                            <li>
-                                <a href="morris.html">Morris.js Charts</a>
-                            </li>
+                            <li><?= Html::a('Packages', ['package/index']) ?></li>
+                            <li><?= Html::a('Package Items', ['package-item/index']) ?></li>
                         </ul>
                     </li>
                 </ul>
@@ -140,6 +138,11 @@ RespondAsset::register($this);
     </nav>
 
     <div id="page-wrapper">
+        <div class="row">
+            <?= Breadcrumbs::widget([
+                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            ]) ?>
+        </div>
         <?= $content ?>
     </div>
 </div>

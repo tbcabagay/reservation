@@ -59,6 +59,9 @@ $config = [
         'gridview' => [
             'class' => '\kartik\grid\Module',
         ],
+        'markdown' => [
+            'class' => 'kartik\markdown\Module',
+        ],
         'administrator' => [
             'class' => 'app\modules\administrator\Module',
         ],

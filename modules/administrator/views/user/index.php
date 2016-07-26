@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
+
+use app\models\User;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\UserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -30,9 +32,34 @@ $this->params['breadcrumbs'][] = $this->title;
                         'username',
                         'email:email',
                         'registration_ip',
-                        'status',
-                        'created_at',
-                        'updated_at',
+                        [
+                            'attribute' => 'status',
+                            'filter' => $searchModel->getStatusDropdownList(),
+                            'value' => function ($model, $key, $index, $column) {
+                                $status = '';
+                                if ($model->status === User::STATUS_ACTIVE) {
+                                    $status = '<span class="label label-success">STATUS_ACTIVE</span>';
+                                } else if ($model->status === User::STATUS_INACTIVE) {
+                                    $status = '<span class="label label-warning">STATUS_INACTIVE</span>';
+                                }
+                                return $status;
+                            },
+                            'format' => 'raw',
+                        ],
+                        [
+                            'attribute' => 'created_at',
+                            'filter' => false,
+                            'value' => function ($model, $key, $index, $column) {
+                                return Yii::$app->formatter->asDateTime($model->created_at);
+                            }
+                        ],
+                        [
+                            'attribute' => 'updated_at',
+                            'filter' => false,
+                            'value' => function ($model, $key, $index, $column) {
+                                return Yii::$app->formatter->asDateTime($model->updated_at);
+                            }
+                        ],
                         [
                             'attribute' => 'id',
                             'filter' => false,

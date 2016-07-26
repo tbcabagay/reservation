@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\administrator\controllers;
 
 use Yii;
 use app\models\PackageItem;
@@ -8,6 +8,8 @@ use app\models\PackageItemSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
+use app\models\Package;
 
 /**
  * PackageItemController implements the CRUD actions for PackageItem model.
@@ -64,12 +66,14 @@ class PackageItemController extends Controller
     public function actionCreate()
     {
         $model = new PackageItem();
+        $model->scenario = PackageItem::SCENARIO_ADD;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'packages' => Package::getTitleDropdownList(),
             ]);
         }
     }

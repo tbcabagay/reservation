@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\SluggableBehavior;
@@ -78,6 +79,16 @@ class Package extends \yii\db\ActiveRecord
                 'ensureUnique' => true,
             ],
         ];
+    }
+
+    public static function getTitleDropdownList()
+    {
+        $model = self::find()->asArray()->all();
+        if (!empty($model)) {
+            return ArrayHelper::map($model, 'id', 'title');
+        } else {
+            return [];
+        }
     }
 
     public function beforeSave($insert)
