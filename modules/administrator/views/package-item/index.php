@@ -27,15 +27,15 @@ $this->params['breadcrumbs'][] = $this->title;
                     'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
 
-                        'package_id',
                         'title',
-                        'content:ntext',
+                        [
+                            'attribute' => 'package_id',
+                            'filter' => $packages,
+                            'value' => 'package.title',
+                        ],
                         'quantity',
                         'rate',
-                        [
-                            'attribute' => 'id',
-                            'filter' => false,
-                        ],
+                        'id',
 
                         ['class' => 'yii\grid\ActionColumn'],
                     ],

@@ -21,12 +21,12 @@ body {
     padding-top: 20px;
 }
 
-.jumbotron {
+.site-error .jumbotron {
+    margin-top: 4em;
     text-align: center;
-    background-color: transparent;
 }
 
-.jumbotron .btn {
+.site-error .jumbotron .btn {
     font-size: 21px;
     padding: 14px 24px;
 }

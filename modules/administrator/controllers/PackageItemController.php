@@ -43,6 +43,7 @@ class PackageItemController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'packages' => Package::getTitleDropdownList(),
         ]);
     }
 
@@ -93,6 +94,7 @@ class PackageItemController extends Controller
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'packages' => Package::getTitleDropdownList(),
             ]);
         }
     }

@@ -18,9 +18,8 @@ class PackageItemSearch extends PackageItem
     public function rules()
     {
         return [
-            [['id', 'package_id', 'quantity', 'created_at', 'updated_at'], 'integer'],
-            [['title', 'content'], 'safe'],
-            [['rate'], 'number'],
+            [['package_id'], 'integer'],
+            [['title'], 'safe'],
         ];
     }
 
@@ -60,16 +59,11 @@ class PackageItemSearch extends PackageItem
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
             'package_id' => $this->package_id,
-            'quantity' => $this->quantity,
             'rate' => $this->rate,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'content', $this->content]);
+        $query->andFilterWhere(['like', 'title', $this->title]);
 
         return $dataProvider;
     }

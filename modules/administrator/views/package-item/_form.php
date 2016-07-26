@@ -39,7 +39,7 @@ use kartik\widgets\TouchSpin;
 
                         <?= $form->field($model, 'content')->widget(MarkdownEditor::classname(), [
                             'height' => 300,
-                            'encodeLabels' => false,
+                            /*'encodeLabels' => false,*/
                         ]) ?>
 
                         <div class="form-group">

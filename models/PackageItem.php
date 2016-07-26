@@ -62,7 +62,7 @@ class PackageItem extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'package_id' => Yii::t('app', 'Package ID'),
+            'package_id' => Yii::t('app', 'Package'),
             'title' => Yii::t('app', 'Title'),
             'content' => Yii::t('app', 'Content'),
             'quantity' => Yii::t('app', 'Quantity'),
