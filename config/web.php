@@ -51,10 +51,16 @@ $config = [
                 'package/<slug>' => 'package/slug',*/
             ],
         ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
     ],
     'modules' => [
         'gridview' => [
             'class' => '\kartik\grid\Module',
+        ],
+        'administrator' => [
+            'class' => 'app\modules\administrator\Module',
         ],
     ],
     'params' => $params,
