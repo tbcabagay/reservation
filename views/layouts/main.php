@@ -10,6 +10,7 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use app\assets\FontAwesomeAsset;
 use app\assets\RespondAsset;
+use yii\bootstrap\Carousel;
 
 raoul2000\bootswatch\BootswatchAsset::$theme = 'flatly';
 AppAsset::register($this);
@@ -29,53 +30,71 @@ RespondAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 
-<div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => 'My Company',
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-default navbar-fixed-top',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post', ['class' => 'navbar-form'])
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
-    ]);
-    NavBar::end();
-    ?>
+<?php
+NavBar::begin([
+    'brandLabel' => Yii::$app->params['appName'],
+    'brandUrl' => Yii::$app->homeUrl,
+    'options' => [
+        'class' => 'navbar-default navbar-fixed-top',
+    ],
+]);
+echo Nav::widget([
+    'options' => ['class' => 'navbar-nav navbar-right'],
+    'items' => [
+        ['label' => 'Home', 'url' => ['/site/index']],
+        ['label' => 'Rate', 'url' => ['/site/rate']],
+        ['label' => 'Contact', 'url' => ['/site/contact']],
+    ],
+]);
+NavBar::end();
+?>
 
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= $content ?>
+<?php if (($this->context->id === 'site') && ($this->context->action->id === 'index')): ?>
+<?= Carousel::widget([
+    'items' => [
+        [
+            'content' => '<div class="fill" style="background-image:url(\'http://placehold.it/1900x1080&text=Slide One\');"></div>',
+            'caption' => '<h4>Caption 1</h4>'
+        ],
+        [
+            'content' => '<div class="fill" style="background-image:url(\'http://placehold.it/1900x1080&text=Slide Two\');"></div>',
+            'caption' => '<h4>Caption 2</h4>'
+        ],
+        [
+            'content' => '<div class="fill" style="background-image:url(\'http://placehold.it/1900x1080&text=Slide Three\');"></div>',
+            'caption' => '<h4>Caption 3</h4>'
+        ],
+    ],
+    'options' => ['id' => 'myCarousel', 'class' => 'slide'],
+    'controls' => ['<span class="icon-prev"></span>', '<span class="icon-next"></span>'],
+]) ?>
+<?php endif; ?>
+
+<div class="container">
+<?php if (($this->context->id === 'site') && ($this->context->action->id !== 'index')): ?>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header"><?= Html::encode($this->title) ?></h1>
+            <?= Breadcrumbs::widget([
+                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            ]) ?>
+        </div>
     </div>
+<?php endif; ?>
+
+    <?= $content ?>
+
+    <hr>
+
+    <footer>
+        <div class="row">
+            <div class="col-lg-12">
+                <p>Copyright &copy; <?= Yii::$app->params['appName'] ?> <?= date('Y') ?></p>
+            </div>
+        </div>
+    </footer>
+
 </div>
-
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
 
 <?php $this->endBody() ?>
 </body>

@@ -5,45 +5,43 @@
 /* @var $model app\models\ContactForm */
 
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+use kartik\form\ActiveForm;
 use yii\captcha\Captcha;
 
 $this->title = 'Contact';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-contact">
-    <h1><?= Html::encode($this->title) ?></h1>
+<?php if (Yii::$app->session->hasFlash('contactFormSubmitted')): ?>
 
-    <?php if (Yii::$app->session->hasFlash('contactFormSubmitted')): ?>
+    <div class="alert alert-success">Thank you for contacting us. We will respond to you as soon as possible.</div>
 
-        <div class="alert alert-success">
-            Thank you for contacting us. We will respond to you as soon as possible.
+<?php else: ?>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3870.3498646885855!2d121.3325269153785!3d14.05650589015074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd4333702be959%3A0x26152f04d27829ef!2sSanctuario+de+San+Pablo+Resort+Spa!5e0!3m2!1sen!2sph!4v1469607130790" width="100%" height="400" frameborder="0" style="border:0" allowfullscreen></iframe>
         </div>
+        <div class="col-lg-4">
+            <p class="lead">For reservation, please call</p>
+            <p><i class="fa fa-phone"></i> <abbr title="Phone">P</abbr>: (049) 561-1106 / (049) 561-3006</p>
+            <p><i class="fa fa-fax"></i> <abbr title="Fax">F</abbr>: (049) 562-6867</p>
+            <p><i class="fa fa-phone"></i> <strong>Manila Line</strong>: (02) 546-5243</p>
+            <p><i class="fa fa-mobile"></i> <abbr title="Mobile">M</abbr>: 0998-428-5353</p>
+            <p><i class="fa fa-envelope-o"></i> <abbr title="Email">E</abbr>: <?= Html::mailto('firstdlsventuresinc@yahoo.com') ?></p>
+        </div>
+    </div>
 
-        <p>
-            Note that if you turn on the Yii debugger, you should be able
-            to view the mail message on the mail panel of the debugger.
-            <?php if (Yii::$app->mailer->useFileTransport): ?>
-                Because the application is in development mode, the email is not sent but saved as
-                a file under <code><?= Yii::getAlias(Yii::$app->mailer->fileTransportPath) ?></code>.
-                Please configure the <code>useFileTransport</code> property of the <code>mail</code>
-                application component to be false to enable email sending.
-            <?php endif; ?>
-        </p>
+    <div class="row">
+        <div class="col-lg-8">
+            <h2>Send us a Message</h2>
 
-    <?php else: ?>
+            <p>If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.</p>
 
-        <p>
-            If you have business inquiries or other questions, please fill out the following form to contact us.
-            Thank you.
-        </p>
-
-        <div class="row">
-            <div class="col-lg-5">
-
+            <div class="well">
                 <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
 
-                    <?= $form->field($model, 'name')->textInput(['autofocus' => true]) ?>
+                    <?= $form->field($model, 'name')->textInput() ?>
 
                     <?= $form->field($model, 'email') ?>
 
@@ -60,9 +58,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
 
                 <?php ActiveForm::end(); ?>
-
             </div>
         </div>
+    </div>
 
-    <?php endif; ?>
+<?php endif; ?>
 </div>
