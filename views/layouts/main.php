@@ -42,7 +42,7 @@ echo Nav::widget([
     'options' => ['class' => 'navbar-nav navbar-right'],
     'items' => [
         ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'Rate', 'url' => ['/site/rate']],
+        ['label' => 'Explore', 'url' => ['/site/explore']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
     ],
 ]);

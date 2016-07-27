@@ -11,7 +11,7 @@ use app\assets\AppAsset;
 use app\assets\FontAwesomeAsset;
 use app\assets\RespondAsset;
 
-raoul2000\bootswatch\BootswatchAsset::$theme = 'flatly';
+raoul2000\bootswatch\BootswatchAsset::$theme = 'slate';
 AppAsset::register($this);
 FontAwesomeAsset::register($this);
 RespondAsset::register($this);

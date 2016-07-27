@@ -115,13 +115,8 @@ class SiteController extends Controller
         ]);
     }
 
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    public function actionAbout()
+    public function actionExplore()
     {
-        return $this->render('about');
+        return $this->render('explore');
     }
 }
