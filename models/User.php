@@ -18,6 +18,8 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ *
+ * @property News[] $news
  */
 class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
@@ -26,6 +28,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public $role;
 
     const SCENARIO_REGISTER = 'register';
+    const SCENARIO_COMMAND = 'command';
     const SCENARIO_LOGIN = 'login';
 
     const STATUS_ACTIVE = 10;
@@ -36,6 +39,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_LOGIN] = ['username', 'password'];
+        $scenarios[self::SCENARIO_COMMAND] = ['username', 'email', 'password', 'role'];
         $scenarios[self::SCENARIO_REGISTER] = ['username', 'email', 'password', 'confirm_password', 'role'];
         return $scenarios;
     }
@@ -85,6 +89,14 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'Password' => Yii::t('app', 'Password'),
             'Confirm Password' => Yii::t('app', 'Confirm Password'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getNews()
+    {
+        return $this->hasMany(News::className(), ['user_id' => 'id']);
     }
 
     /**
@@ -185,7 +197,9 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         if ($insert) {
             $this->setAttribute('auth_key', \Yii::$app->security->generateRandomString());
             $this->setAttribute('status', self::STATUS_ACTIVE);
-            $this->setAttribute('registration_ip', \Yii::$app->request->userIP);
+            if (\Yii::$app instanceof WebApplication) {
+                $this->setAttribute('registration_ip', \Yii::$app->request->userIP);
+            }
         }
         if (!empty($this->password)) {
             $this->setAttribute('password_hash', Yii::$app->getSecurity()->generatePasswordHash($this->password));

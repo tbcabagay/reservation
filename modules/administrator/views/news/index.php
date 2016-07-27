@@ -3,16 +3,14 @@
 use yii\helpers\Html;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
-
-use app\models\User;
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\UserSearch */
+/* @var $searchModel app\models\NewsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Users');
+$this->title = Yii::t('app', 'News');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="user-index">
+<div class="news-index">
 
     <div class="row">
         <div class="col-lg-12">
@@ -29,22 +27,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
 
-                        'username',
-                        'email:email',
-                        'registration_ip',
+                        'title',
                         [
-                            'attribute' => 'status',
-                            'filter' => $searchModel->getStatusDropdownList(),
-                            'value' => function ($model, $key, $index, $column) {
-                                $status = '';
-                                if ($model->status === User::STATUS_ACTIVE) {
-                                    $status = '<span class="label label-success">STATUS_ACTIVE</span>';
-                                } else if ($model->status === User::STATUS_INACTIVE) {
-                                    $status = '<span class="label label-warning">STATUS_INACTIVE</span>';
-                                }
-                                return $status;
-                            },
-                            'format' => 'raw',
+                            'attribute' => 'user_id',
+                            'value' => 'user.username',
                         ],
                         [
                             'attribute' => 'created_at',

@@ -11,7 +11,7 @@ use yii\widgets\ActiveForm;
 <div class="user-form">
 
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-8">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Form</h3>

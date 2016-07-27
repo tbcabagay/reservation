@@ -130,6 +130,7 @@ $identity = Yii::$app->user->identity;
                         <ul class="nav nav-second-level">
                             <li><?= Html::a('Packages', ['package/index']) ?></li>
                             <li><?= Html::a('Package Items', ['package-item/index']) ?></li>
+                            <li><?= Html::a('News', ['news/index']) ?></li>
                         </ul>
                     </li>
                 </ul>

@@ -436,12 +436,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "3567c909397f78c3ed8ed8c2fa5b83b1faa0a460"
+                "reference": "470d41689f6861ee9f3353e1684875be4cdc51eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/3567c909397f78c3ed8ed8c2fa5b83b1faa0a460",
-                "reference": "3567c909397f78c3ed8ed8c2fa5b83b1faa0a460",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/470d41689f6861ee9f3353e1684875be4cdc51eb",
+                "reference": "470d41689f6861ee9f3353e1684875be4cdc51eb",
                 "shasum": ""
             },
             "type": "library",
@@ -481,7 +481,7 @@
                 "progress",
                 "upload"
             ],
-            "time": "2016-07-25 17:39:37"
+            "time": "2016-07-26 17:37:11"
         },
         {
             "name": "kartik-v/bootstrap-star-rating",
@@ -2172,12 +2172,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "2ce1552bcaa069d83347b3daf4d147bc72086019"
+                "reference": "0b33044aec078530213dd98475b01d96d1437d88"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/2ce1552bcaa069d83347b3daf4d147bc72086019",
-                "reference": "2ce1552bcaa069d83347b3daf4d147bc72086019",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/0b33044aec078530213dd98475b01d96d1437d88",
+                "reference": "0b33044aec078530213dd98475b01d96d1437d88",
                 "shasum": ""
             },
             "require": {
@@ -2258,7 +2258,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2016-07-25 20:33:42"
+            "time": "2016-07-26 12:36:08"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
