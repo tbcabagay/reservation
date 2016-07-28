@@ -12,7 +12,7 @@ use app\assets\FontAwesomeAsset;
 use app\assets\RespondAsset;
 use yii\bootstrap\Carousel;
 
-raoul2000\bootswatch\BootswatchAsset::$theme = 'flatly';
+raoul2000\bootswatch\BootswatchAsset::$theme = 'yeti';
 AppAsset::register($this);
 FontAwesomeAsset::register($this);
 RespondAsset::register($this);
@@ -35,7 +35,7 @@ NavBar::begin([
     'brandLabel' => Yii::$app->params['appName'],
     'brandUrl' => Yii::$app->homeUrl,
     'options' => [
-        'class' => 'navbar-default navbar-fixed-top',
+        'class' => 'navbar-inverse navbar-fixed-top',
     ],
 ]);
 echo Nav::widget([

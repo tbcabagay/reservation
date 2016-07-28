@@ -54,6 +54,9 @@ $config = [
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],
+        'formatter' => [
+            'timeZone' => 'Asia/Manila',
+        ],
     ],
     'modules' => [
         'gridview' => [

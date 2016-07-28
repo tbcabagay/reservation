@@ -66,4 +66,18 @@ class NewsSearch extends News
 
         return $dataProvider;
     }
+
+    public function searchLatest()
+    {
+        $query = News::find()->orderBy('created_at DESC');
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 1,
+            ],
+        ]);
+
+        return $dataProvider;
+    }
 }
