@@ -36,13 +36,13 @@ $this->params['breadcrumbs'][] = $this->title;
                             'attribute' => 'created_at',
                             'value' => function ($model, $key, $index, $column) {
                                 return Yii::$app->formatter->asDateTime($model->created_at);
-                            }
+                            },
                         ],
                         [
                             'attribute' => 'updated_at',
                             'value' => function ($model, $key, $index, $column) {
                                 return Yii::$app->formatter->asDateTime($model->updated_at);
-                            }
+                            },
                         ],
                         'id',
 

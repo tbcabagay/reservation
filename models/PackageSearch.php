@@ -60,4 +60,18 @@ class PackageSearch extends Package
 
         return $dataProvider;
     }
+
+    public function catalog()
+    {
+        $query = Package::find()->with(['packageItems']);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 1,
+            ],
+        ]);
+
+        return $dataProvider;
+    }
 }

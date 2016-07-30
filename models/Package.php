@@ -15,6 +15,9 @@ use yii\behaviors\SluggableBehavior;
  * @property string $title
  * @property integer $created_at
  * @property integer $updated_at
+ * @property string $slug
+ * @property string $header
+ * @property string $footer
  *
  * @property PackageItem[] $packageItems
  */
@@ -36,6 +39,7 @@ class Package extends \yii\db\ActiveRecord
         return [
             [['title'], 'required'],
             [['created_at', 'updated_at'], 'integer'],
+            [['header', 'footer'], 'string'],
             [['title'], 'string', 'max' => 100],
         ];
     }
@@ -50,6 +54,9 @@ class Package extends \yii\db\ActiveRecord
             'title' => Yii::t('app', 'Title'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
+            'slug' => Yii::t('app', 'Slug'),
+            'header' => Yii::t('app', 'Header Information'),
+            'footer' => Yii::t('app', 'Footer Information'),
         ];
     }
 

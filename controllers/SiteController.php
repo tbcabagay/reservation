@@ -10,6 +10,7 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 
 use app\models\NewsSearch;
+use app\models\PackageSearch;
 
 class SiteController extends Controller
 {
@@ -63,7 +64,7 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $searchModel = new NewsSearch();
-        $dataProvider = $searchModel->searchLatest();
+        $dataProvider = $searchModel->latestNews();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -125,6 +126,12 @@ class SiteController extends Controller
 
     public function actionExplore()
     {
-        return $this->render('explore');
+        $searchModel = new PackageSearch();
+        $dataProvider = $searchModel->catalog();
+
+        return $this->render('explore', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 }

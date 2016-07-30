@@ -67,7 +67,7 @@ class NewsSearch extends News
         return $dataProvider;
     }
 
-    public function searchLatest()
+    public function latestNews()
     {
         $query = News::find()->orderBy('created_at DESC');
 

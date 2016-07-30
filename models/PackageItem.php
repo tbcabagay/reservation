@@ -6,6 +6,7 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\SluggableBehavior;
+use pendalf89\filemanager\behaviors\MediafileBehavior;
 
 /**
  * This is the model class for table "{{%package_item}}".
@@ -23,12 +24,15 @@ use yii\behaviors\SluggableBehavior;
  */
 class PackageItem extends \yii\db\ActiveRecord
 {
+    public $file_identifier;
+    public $thumbnail;
+
     const SCENARIO_ADD = 'add';
 
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIO_ADD] = ['package_id', 'title', 'content', 'quantity', 'role'];
+        $scenarios[self::SCENARIO_ADD] = ['package_id', 'title', 'content', 'quantity', 'rate'];
         return $scenarios;
     }
 
@@ -97,6 +101,13 @@ class PackageItem extends \yii\db\ActiveRecord
                 'immutable' => true,
                 'ensureUnique' => true,
             ],
+            'mediafile' => [
+                'class' => MediafileBehavior::className(),
+                'name' => 'post',
+                'attributes' => [
+                    'thumbnail',
+                ],
+            ]
         ];
     }
 }

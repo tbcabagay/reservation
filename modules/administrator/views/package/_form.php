@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
+use kartik\markdown\MarkdownEditor;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Package */
@@ -20,6 +21,14 @@ use kartik\widgets\ActiveForm;
                     <?php $form = ActiveForm::begin(); ?>
 
                         <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+
+                        <?= $form->field($model, 'header')->widget(MarkdownEditor::classname(), [
+                            'height' => 300,
+                        ]) ?>
+
+                        <?= $form->field($model, 'footer')->widget(MarkdownEditor::classname(), [
+                            'height' => 300,
+                        ]) ?>
 
                         <div class="form-group">
                             <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

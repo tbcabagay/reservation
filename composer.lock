@@ -4,9 +4,267 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "89846c20c1c42c9bdb5fbbfcbe0c82d1",
-    "content-hash": "2f1dcc4048f176fbd4dc5d350d7ffdf3",
+    "hash": "3e92d454bef7cb2dad2a83b9a151934a",
+    "content-hash": "5ca1583ce98b561344ee01c74647727a",
     "packages": [
+        {
+            "name": "2amigos/yii2-file-upload-widget",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/2amigos/yii2-file-upload-widget.git",
+                "reference": "23ea4f4d386948791b7d21a9c846b012e9ee5685"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/2amigos/yii2-file-upload-widget/zipball/23ea4f4d386948791b7d21a9c846b012e9ee5685",
+                "reference": "23ea4f4d386948791b7d21a9c846b012e9ee5685",
+                "shasum": ""
+            },
+            "require": {
+                "2amigos/yii2-gallery-widget": "~1.0",
+                "bower-asset/blueimp-file-upload": "~9.9",
+                "yiisoft/yii2": "~2.0.0",
+                "yiisoft/yii2-bootstrap": "~2.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "asset-installer-paths": {
+                    "npm-asset-library": "vendor/npm",
+                    "bower-asset-library": "vendor/bower"
+                },
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "dosamigos\\fileupload\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "2amigOS! Consulting Group",
+                    "email": "hola@2amigos.us",
+                    "homepage": "http://2amigos.us",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Alexander Kochetov",
+                    "email": "creocoder@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Blueimp file upload widget for the Yii framework",
+            "homepage": "https://github.com/2amigos/yii2-file-upload-widget",
+            "keywords": [
+                "2amigos",
+                "upload",
+                "widget",
+                "yii",
+                "yii 2",
+                "yii2"
+            ],
+            "time": "2016-07-10 17:03:46"
+        },
+        {
+            "name": "2amigos/yii2-gallery-widget",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/2amigos/yii2-gallery-widget.git",
+                "reference": "e6f59a14b6c2f44fe8960432e245bd3368ead7d6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/2amigos/yii2-gallery-widget/zipball/e6f59a14b6c2f44fe8960432e245bd3368ead7d6",
+                "reference": "e6f59a14b6c2f44fe8960432e245bd3368ead7d6",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/blueimp-gallery": "~2.17.0",
+                "yiisoft/yii2": "~2.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "scrutinizer/ocular": "~1.1"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "asset-installer-paths": {
+                    "npm-asset-library": "vendor/npm",
+                    "bower-asset-library": "vendor/bower"
+                },
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "dosamigos\\gallery\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "2amigOS! Consulting Group",
+                    "email": "hola@2amigos.us",
+                    "homepage": "http://2amigos.us",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Blueimp gallery widget for the Yii framework",
+            "homepage": "https://github.com/2amigos/yii2-gallery-widget",
+            "keywords": [
+                "2amigos",
+                "gallery",
+                "widget",
+                "yii",
+                "yii 2",
+                "yii2"
+            ],
+            "time": "2016-07-11 07:21:53"
+        },
+        {
+            "name": "bower-asset/blueimp-canvas-to-blob",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/blueimp/JavaScript-Canvas-to-Blob.git",
+                "reference": "cb5add6fd18abba567c4824a601f57b9a9e30e04"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/blueimp/JavaScript-Canvas-to-Blob/zipball/cb5add6fd18abba567c4824a601f57b9a9e30e04",
+                "reference": "cb5add6fd18abba567c4824a601f57b9a9e30e04",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "time": "2016-02-24 20:22:57"
+        },
+        {
+            "name": "bower-asset/blueimp-file-upload",
+            "version": "9.12.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/blueimp/jQuery-File-Upload.git",
+                "reference": "b9e144b735ab95a598b975bdc8375e14a2e76157"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/blueimp/jQuery-File-Upload/zipball/b9e144b735ab95a598b975bdc8375e14a2e76157",
+                "reference": "b9e144b735ab95a598b975bdc8375e14a2e76157",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/blueimp-canvas-to-blob": ">=2.1.1",
+                "bower-asset/blueimp-load-image": ">=1.13.0",
+                "bower-asset/blueimp-tmpl": ">=2.5.4",
+                "bower-asset/jquery": ">=1.6"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "js/jquery.fileupload.js"
+                ],
+                "bower-asset-ignore": [
+                    "/*.*",
+                    "/cors",
+                    "css/demo-ie8.css",
+                    "css/demo.css",
+                    "css/style.css",
+                    "js/app.js",
+                    "js/main.js",
+                    "server",
+                    "test"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "File Upload widget with multiple file selection, drag&amp;drop support, progress bar, validation and preview images.",
+            "keywords": [
+                "bootstrap",
+                "chunk",
+                "cross-domain",
+                "cross-site",
+                "drag",
+                "drop",
+                "file",
+                "gae",
+                "go",
+                "jquery",
+                "multiple",
+                "php",
+                "preview",
+                "progress",
+                "python",
+                "resume",
+                "selection",
+                "upload",
+                "widget"
+            ]
+        },
+        {
+            "name": "bower-asset/blueimp-gallery",
+            "version": "v2.17.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/blueimp/Gallery.git",
+                "reference": "8336bb5934cb623608808601129db3fbf9201a09"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/blueimp/Gallery/zipball/8336bb5934cb623608808601129db3fbf9201a09",
+                "reference": "8336bb5934cb623608808601129db3fbf9201a09",
+                "shasum": ""
+            },
+            "type": "bower-asset-library"
+        },
+        {
+            "name": "bower-asset/blueimp-load-image",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/blueimp/JavaScript-Load-Image.git",
+                "reference": "da2e77837e81a2a0a143a77034dc01604173790a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/blueimp/JavaScript-Load-Image/zipball/da2e77837e81a2a0a143a77034dc01604173790a",
+                "reference": "da2e77837e81a2a0a143a77034dc01604173790a",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "time": "2016-03-21 15:49:39"
+        },
+        {
+            "name": "bower-asset/blueimp-tmpl",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/blueimp/JavaScript-Templates.git",
+                "reference": "9dc414739a4d23663018575c5036b88e0de2ba4d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/blueimp/JavaScript-Templates/zipball/9dc414739a4d23663018575c5036b88e0de2ba4d",
+                "reference": "9dc414739a4d23663018575c5036b88e0de2ba4d",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "time": "2016-04-11 21:26:22"
+        },
         {
             "name": "bower-asset/bootstrap",
             "version": "v3.3.7",
@@ -431,6 +689,63 @@
             "time": "2016-07-16 12:58:58"
         },
         {
+            "name": "imagine/imagine",
+            "version": "0.5.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avalanche123/Imagine.git",
+                "reference": "343580fceed1f89220481ac98480e92f47d91e6c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avalanche123/Imagine/zipball/343580fceed1f89220481ac98480e92f47d91e6c",
+                "reference": "343580fceed1f89220481ac98480e92f47d91e6c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "sami/sami": "dev-master"
+            },
+            "suggest": {
+                "ext-gd": "to use the GD implementation",
+                "ext-gmagick": "to use the Gmagick implementation",
+                "ext-imagick": "to use the Imagick implementation"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "0.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Imagine": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bulat Shakirzyanov",
+                    "email": "mallluhuct@gmail.com",
+                    "homepage": "http://avalanche123.com"
+                }
+            ],
+            "description": "Image processing for PHP 5.3",
+            "homepage": "http://imagine.readthedocs.org/",
+            "keywords": [
+                "drawing",
+                "graphics",
+                "image manipulation",
+                "image processing"
+            ],
+            "time": "2014-06-13 10:54:04"
+        },
+        {
             "name": "kartik-v/bootstrap-fileinput",
             "version": "dev-master",
             "source": {
@@ -627,12 +942,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-grid.git",
-                "reference": "a47a8f735a71351eed3d57e4ec15faa6dea951b9"
+                "reference": "ca5a945787b15bbf7ee8f2d48e2491541861fe60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/a47a8f735a71351eed3d57e4ec15faa6dea951b9",
-                "reference": "a47a8f735a71351eed3d57e4ec15faa6dea951b9",
+                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/ca5a945787b15bbf7ee8f2d48e2491541861fe60",
+                "reference": "ca5a945787b15bbf7ee8f2d48e2491541861fe60",
                 "shasum": ""
             },
             "require": {
@@ -669,7 +984,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-07-25 17:29:09"
+            "time": "2016-07-27 19:57:14"
         },
         {
             "name": "kartik-v/yii2-krajee-base",
@@ -1959,6 +2274,84 @@
             "time": "2016-05-10 07:10:19"
         },
         {
+            "name": "pendalf89/yii2-filemanager",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PendalF89/yii2-filemanager.git",
+                "reference": "1a7c31ddebe78074cabf4b7d07ff9cddeb039759"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PendalF89/yii2-filemanager/zipball/1a7c31ddebe78074cabf4b7d07ff9cddeb039759",
+                "reference": "1a7c31ddebe78074cabf4b7d07ff9cddeb039759",
+                "shasum": ""
+            },
+            "require": {
+                "2amigos/yii2-file-upload-widget": "*",
+                "kartik-v/yii2-widget-alert": "*",
+                "kartik-v/yii2-widget-select2": "*",
+                "pendalf89/yii2-tinymce": "*",
+                "yiisoft/yii2": "*",
+                "yiisoft/yii2-imagine": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "pendalf89\\filemanager\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PendalF",
+                    "email": "pendalf@mail.ru"
+                }
+            ],
+            "description": "Yii2 filemanager",
+            "time": "2016-07-18 12:11:54"
+        },
+        {
+            "name": "pendalf89/yii2-tinymce",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PendalF89/yii2-tinymce.git",
+                "reference": "a142d071b48719fd4ef1e0ee22afcef5163721f7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PendalF89/yii2-tinymce/zipball/a142d071b48719fd4ef1e0ee22afcef5163721f7",
+                "reference": "a142d071b48719fd4ef1e0ee22afcef5163721f7",
+                "shasum": ""
+            },
+            "require": {
+                "tinymce/tinymce": "*",
+                "yiisoft/yii2": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "pendalf89\\tinymce\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PendalF",
+                    "email": "pendalf@mail.ru"
+                }
+            ],
+            "description": "Yii2 TinyMCE widget",
+            "time": "2016-03-09 17:40:51"
+        },
+        {
             "name": "raoul2000/yii2-bootswatch-asset",
             "version": "dev-master",
             "source": {
@@ -2167,17 +2560,63 @@
             "time": "2015-11-24 23:36:58"
         },
         {
+            "name": "tinymce/tinymce",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tinymce/tinymce-dist.git",
+                "reference": "1fe6087b3b1194f5d4e1bd5e5d725262fe1fbbf0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/1fe6087b3b1194f5d4e1bd5e5d725262fe1fbbf0",
+                "reference": "1fe6087b3b1194f5d4e1bd5e5d725262fe1fbbf0",
+                "shasum": ""
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "tinymce.js",
+                        "plugins/*/plugin.js",
+                        "themes/*/theme.js"
+                    ],
+                    "files": [
+                        "tinymce.min.js",
+                        "plugins/*/plugin.min.js",
+                        "themes/*/theme.min.js",
+                        "skins/**"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1"
+            ],
+            "description": "Web based JavaScript HTML WYSIWYG editor control.",
+            "homepage": "http://www.tinymce.com",
+            "keywords": [
+                "editor",
+                "html",
+                "javascript",
+                "richtext",
+                "tinymce",
+                "wysiwyg"
+            ],
+            "time": "2016-07-26 09:51:16"
+        },
+        {
             "name": "yiisoft/yii2",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "0b33044aec078530213dd98475b01d96d1437d88"
+                "reference": "427941abddab9d210244e4119b78269a6f2c3dd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/0b33044aec078530213dd98475b01d96d1437d88",
-                "reference": "0b33044aec078530213dd98475b01d96d1437d88",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/427941abddab9d210244e4119b78269a6f2c3dd4",
+                "reference": "427941abddab9d210244e4119b78269a6f2c3dd4",
                 "shasum": ""
             },
             "require": {
@@ -2258,7 +2697,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2016-07-26 12:36:08"
+            "time": "2016-07-29 09:02:09"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -2266,12 +2705,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-bootstrap.git",
-                "reference": "124848377d7c7a03bde51f70c2aca4c111fcb10b"
+                "reference": "f41768b3ad7524a7bfb65a328d085e83d32bbc7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-bootstrap/zipball/124848377d7c7a03bde51f70c2aca4c111fcb10b",
-                "reference": "124848377d7c7a03bde51f70c2aca4c111fcb10b",
+                "url": "https://api.github.com/repos/yiisoft/yii2-bootstrap/zipball/f41768b3ad7524a7bfb65a328d085e83d32bbc7e",
+                "reference": "f41768b3ad7524a7bfb65a328d085e83d32bbc7e",
                 "shasum": ""
             },
             "require": {
@@ -2308,7 +2747,7 @@
                 "bootstrap",
                 "yii2"
             ],
-            "time": "2016-07-25 21:32:52"
+            "time": "2016-07-27 22:19:11"
         },
         {
             "name": "yiisoft/yii2-composer",
@@ -2356,6 +2795,54 @@
                 "yii2"
             ],
             "time": "2016-06-05 20:34:32"
+        },
+        {
+            "name": "yiisoft/yii2-imagine",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-imagine.git",
+                "reference": "3be1ecc324aa156a97f03e3fc59045c8d61be1f8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-imagine/zipball/3be1ecc324aa156a97f03e3fc59045c8d61be1f8",
+                "reference": "3be1ecc324aa156a97f03e3fc59045c8d61be1f8",
+                "shasum": ""
+            },
+            "require": {
+                "imagine/imagine": "0.5.*",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yii\\imagine\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Antonio Ramirez",
+                    "email": "amigo.cobos@gmail.com"
+                }
+            ],
+            "description": "The Imagine integration for the Yii framework",
+            "keywords": [
+                "helper",
+                "image",
+                "imagine",
+                "yii2"
+            ],
+            "time": "2016-04-14 08:48:05"
         },
         {
             "name": "yiisoft/yii2-swiftmailer",
@@ -2442,12 +2929,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Specify.git",
-                "reference": "f1c2d44d6a67b10b2965daa2ee4323aa4e5cb166"
+                "reference": "076584d125c4172af2463359810f660809fcc226"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Specify/zipball/f1c2d44d6a67b10b2965daa2ee4323aa4e5cb166",
-                "reference": "f1c2d44d6a67b10b2965daa2ee4323aa4e5cb166",
+                "url": "https://api.github.com/repos/Codeception/Specify/zipball/076584d125c4172af2463359810f660809fcc226",
+                "reference": "076584d125c4172af2463359810f660809fcc226",
                 "shasum": ""
             },
             "require": {
@@ -2471,7 +2958,7 @@
                 }
             ],
             "description": "BDD code blocks for PHPUnit and Codeception",
-            "time": "2016-07-14 20:24:15"
+            "time": "2016-07-28 11:50:05"
         },
         {
             "name": "fzaninotto/faker",
@@ -2654,12 +3141,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-debug.git",
-                "reference": "92688f5dc795faa0771af7fa7673251f132f135e"
+                "reference": "91a0f4ebcef6da85d9633c7b84f2d8dcf181271e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/92688f5dc795faa0771af7fa7673251f132f135e",
-                "reference": "92688f5dc795faa0771af7fa7673251f132f135e",
+                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/91a0f4ebcef6da85d9633c7b84f2d8dcf181271e",
+                "reference": "91a0f4ebcef6da85d9633c7b84f2d8dcf181271e",
                 "shasum": ""
             },
             "require": {
@@ -2693,7 +3180,7 @@
                 "debugger",
                 "yii2"
             ],
-            "time": "2016-07-25 23:41:40"
+            "time": "2016-07-27 22:09:01"
         },
         {
             "name": "yiisoft/yii2-faker",
@@ -2748,12 +3235,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-gii.git",
-                "reference": "45696e9f01485799022b0daa56372fc00baece06"
+                "reference": "752f6cfc17572f32f599639770289a6e52cf3dc2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/45696e9f01485799022b0daa56372fc00baece06",
-                "reference": "45696e9f01485799022b0daa56372fc00baece06",
+                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/752f6cfc17572f32f599639770289a6e52cf3dc2",
+                "reference": "752f6cfc17572f32f599639770289a6e52cf3dc2",
                 "shasum": ""
             },
             "require": {
@@ -2793,7 +3280,7 @@
                 "gii",
                 "yii2"
             ],
-            "time": "2016-07-25 20:27:11"
+            "time": "2016-07-28 22:50:13"
         }
     ],
     "aliases": [],

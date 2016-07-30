@@ -34,7 +34,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             'value' => 'package.title',
                         ],
                         'quantity',
-                        'rate',
+                        [
+                            'attribute' => 'rate',
+                            'value' => function ($model, $key, $index, $column) {
+                                return Yii::$app->formatter->asCurrency($model->rate);
+                            },
+                        ],
                         'id',
 
                         ['class' => 'yii\grid\ActionColumn'],

@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use kartik\form\ActiveForm;
 use kartik\markdown\MarkdownEditor;
 use kartik\widgets\TouchSpin;
+use pendalf89\filemanager\widgets\FileInput;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\PackageItem */
@@ -39,7 +40,22 @@ use kartik\widgets\TouchSpin;
 
                         <?= $form->field($model, 'content')->widget(MarkdownEditor::classname(), [
                             'height' => 300,
-                            /*'encodeLabels' => false,*/
+                        ]) ?>
+
+                        <?= $form->field($model, 'file_identifier')->widget(FileInput::className(), [
+                            'name' => 'mediafile',
+                            'buttonTag' => 'button',
+                            'buttonName' => 'Browse',
+                            'buttonOptions' => ['class' => 'btn btn-default'],
+                            'options' => ['class' => 'form-control'],
+                            // Widget template
+                            'template' => '<div class="input-group">{input}<span class="input-group-btn">{button}</span></div>',
+                            // Optional, if set, only this image can be selected by user
+                            'thumb' => 'original',
+                            // Optional, if set, in container will be inserted selected image
+                            'imageContainer' => '.img',
+                            // Default to FileInput::DATA_IDL. This data will be inserted in input field
+                            'pasteData' => FileInput::DATA_ID,
                         ]) ?>
 
                         <div class="form-group">
