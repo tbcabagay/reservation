@@ -133,6 +133,7 @@ $identity = Yii::$app->user->identity;
                             <li><?= Html::a('News', ['news/index']) ?></li>
                         </ul>
                     </li>
+                    <li><?= Html::a('<i class="fa fa-book fa-fw"></i> Reservations', ['reservation/index']) ?></li>
                 </ul>
             </div>
         </div>

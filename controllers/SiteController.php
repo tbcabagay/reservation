@@ -9,8 +9,12 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 
+use app\models\PackageItem;
+use app\models\Reservation;
 use app\models\NewsSearch;
 use app\models\PackageSearch;
+
+use yii\web\NotFoundHttpException;
 
 class SiteController extends Controller
 {
@@ -133,5 +137,24 @@ class SiteController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionReservation($slug)
+    {
+        $packageItem = PackageItem::find()->where(['slug' => $slug])->one();
+        if ($packageItem === null) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+        $reservation = new Reservation();
+        $reservation->scenario = Reservation::SCENARIO_SITE_RESERVATION;
+
+        if ($reservation->load(Yii::$app->request->post()) && $reservation->placeReservation($packageItem)) {
+            echo 'Okay!';
+        } else {
+            return $this->render('reservation', [
+                'reservation' => $reservation,
+                'packageItem' => $packageItem,
+            ]);
+        }
     }
 }

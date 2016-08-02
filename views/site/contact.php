@@ -23,12 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3870.3498646885855!2d121.3325269153785!3d14.05650589015074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd4333702be959%3A0x26152f04d27829ef!2sSanctuario+de+San+Pablo+Resort+Spa!5e0!3m2!1sen!2sph!4v1469607130790" width="100%" height="400" frameborder="0" style="border:0" allowfullscreen></iframe>
         </div>
         <div class="col-lg-4">
-            <p class="lead">For reservation, please call</p>
-            <p><i class="fa fa-phone"></i> <abbr title="Phone">P</abbr>: (049) 561-1106 / (049) 561-3006</p>
-            <p><i class="fa fa-fax"></i> <abbr title="Fax">F</abbr>: (049) 562-6867</p>
-            <p><i class="fa fa-phone"></i> <strong>Manila Line</strong>: (02) 546-5243</p>
-            <p><i class="fa fa-mobile"></i> <abbr title="Mobile">M</abbr>: 0998-428-5353</p>
-            <p><i class="fa fa-envelope-o"></i> <abbr title="Email">E</abbr>: <?= Html::mailto('firstdlsventuresinc@yahoo.com') ?></p>
+            <?= app\components\ContactWidget::widget() ?>
         </div>
     </div>
 

@@ -42,6 +42,7 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'site/reservation/<slug>' => 'site/reservation',
                 /*'package' => 'package/index',
                 'package/index' => 'package/index',
                 'package/create' => 'package/create',

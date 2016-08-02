@@ -19,8 +19,10 @@ use pendalf89\filemanager\behaviors\MediafileBehavior;
  * @property string $rate
  * @property integer $created_at
  * @property integer $updated_at
+ * @property string $slug
  *
  * @property Package $package
+ * @property Reservation[] $reservations
  */
 class PackageItem extends \yii\db\ActiveRecord
 {
@@ -82,6 +84,14 @@ class PackageItem extends \yii\db\ActiveRecord
     public function getPackage()
     {
         return $this->hasOne(Package::className(), ['id' => 'package_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getReservations()
+    {
+        return $this->hasMany(Reservation::className(), ['package_item_id' => 'id']);
     }
 
     public function behaviors()
