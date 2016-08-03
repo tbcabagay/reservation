@@ -7,6 +7,7 @@ use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\SluggableBehavior;
 use pendalf89\filemanager\behaviors\MediafileBehavior;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%package_item}}".
@@ -119,5 +120,15 @@ class PackageItem extends \yii\db\ActiveRecord
                 ],
             ]
         ];
+    }
+
+    public static function getTitleDropdownList()
+    {
+        $model = self::find()->asArray()->all();
+        if (!empty($model)) {
+            return ArrayHelper::map($model, 'id', 'title');
+        } else {
+            return [];
+        }
     }
 }

@@ -18,8 +18,8 @@ class ReservationSearch extends Reservation
     public function rules()
     {
         return [
-            [['id', 'package_item_id', 'status', 'quantity_of_guest', 'created_at', 'updated_at'], 'integer'],
-            [['firstname', 'lastname', 'contact', 'email', 'check_in', 'remark', 'address'], 'safe'],
+            [['package_item_id', 'status', 'created_at'], 'integer'],
+            [['firstname', 'lastname', 'check_in'], 'safe'],
         ];
     }
 
@@ -59,21 +59,14 @@ class ReservationSearch extends Reservation
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
             'package_item_id' => $this->package_item_id,
             'status' => $this->status,
             'check_in' => $this->check_in,
-            'quantity_of_guest' => $this->quantity_of_guest,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'firstname', $this->firstname])
-            ->andFilterWhere(['like', 'lastname', $this->lastname])
-            ->andFilterWhere(['like', 'contact', $this->contact])
-            ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'remark', $this->remark])
-            ->andFilterWhere(['like', 'address', $this->address]);
+            ->andFilterWhere(['like', 'lastname', $this->lastname]);
 
         return $dataProvider;
     }
