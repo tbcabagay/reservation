@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Reservation;
+use app\models\Transaction;
 
 /**
- * ReservationSearch represents the model behind the search form about `app\models\Reservation`.
+ * TransactionSearch represents the model behind the search form about `app\models\Transaction`.
  */
-class ReservationSearch extends Reservation
+class TransactionSearch extends Transaction
 {
     /**
      * @inheritdoc
@@ -18,8 +18,9 @@ class ReservationSearch extends Reservation
     public function rules()
     {
         return [
-            [['package_item_id', 'status', 'created_at'], 'integer'],
-            [['firstname', 'lastname', 'check_in'], 'safe'],
+            [['id', 'package_item_id', 'status', 'quantity_of_guest', 'check_in', 'check_out', 'created_at', 'updated_at'], 'integer'],
+            [['firstname', 'lastname', 'contact', 'email', 'address'], 'safe'],
+            [['total_amount'], 'number'],
         ];
     }
 
@@ -41,7 +42,7 @@ class ReservationSearch extends Reservation
      */
     public function search($params)
     {
-        $query = Reservation::find()->orderBy('status ASC, created_at DESC');
+        $query = Transaction::find();
 
         // add conditions that should always apply here
 
@@ -59,14 +60,22 @@ class ReservationSearch extends Reservation
 
         // grid filtering conditions
         $query->andFilterWhere([
+            'id' => $this->id,
             'package_item_id' => $this->package_item_id,
             'status' => $this->status,
+            'quantity_of_guest' => $this->quantity_of_guest,
             'check_in' => $this->check_in,
+            'check_out' => $this->check_out,
+            'total_amount' => $this->total_amount,
             'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'firstname', $this->firstname])
-            ->andFilterWhere(['like', 'lastname', $this->lastname]);
+            ->andFilterWhere(['like', 'lastname', $this->lastname])
+            ->andFilterWhere(['like', 'contact', $this->contact])
+            ->andFilterWhere(['like', 'email', $this->email])
+            ->andFilterWhere(['like', 'address', $this->address]);
 
         return $dataProvider;
     }

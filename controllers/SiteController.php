@@ -146,10 +146,12 @@ class SiteController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
         $reservation = new Reservation();
-        $reservation->scenario = Reservation::SCENARIO_SITE_RESERVATION;
+        $reservation->scenario = Reservation::SCENARIO_NEW;
 
         if ($reservation->load(Yii::$app->request->post()) && $reservation->placeReservation($packageItem)) {
-            echo 'Okay!';
+            Yii::$app->session->setFlash('reservationFormSubmitted');
+
+            return $this->refresh();
         } else {
             return $this->render('reservation', [
                 'reservation' => $reservation,

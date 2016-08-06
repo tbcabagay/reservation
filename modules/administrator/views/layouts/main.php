@@ -39,7 +39,7 @@ $identity = Yii::$app->user->identity;
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">SB Admin v2.0</a>
+            <?= Html::a(Yii::$app->params['appName'], ['/administrator'], ['class' => 'navbar-brand']) ?>
         </div>
         <!-- /.navbar-header -->
 
@@ -134,6 +134,7 @@ $identity = Yii::$app->user->identity;
                         </ul>
                     </li>
                     <li><?= Html::a('<i class="fa fa-book fa-fw"></i> Reservations', ['reservation/index']) ?></li>
+                    <li><?= Html::a('<i class="fa fa-tasks fa-fw"></i> Transactions', ['transaction/index']) ?></li>
                 </ul>
             </div>
         </div>

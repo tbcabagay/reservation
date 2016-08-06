@@ -29,14 +29,18 @@ class Reservation extends \yii\db\ActiveRecord
 {
     public $verifyCode;
 
-    const STATUS_SITE_RESERVATION = 5;
+    const STATUS_NEW = 5;
+    const STATUS_CHECK_IN = 10;
+    const STATUS_CANCEL = 50;
 
-    const SCENARIO_SITE_RESERVATION = 'site_reservation';
+    const SCENARIO_NEW = 'new';
+    const SCENARIO_CANCEL = 'cancel';
 
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIO_SITE_RESERVATION] = ['firstname', 'lastname', 'contact', 'check_in', 'quantity_of_guest', 'email', 'address', 'remark'];
+        $scenarios[self::SCENARIO_CANCEL] = ['status'];
+        $scenarios[self::SCENARIO_NEW] = ['firstname', 'lastname', 'contact', 'check_in', 'quantity_of_guest', 'email', 'address', 'remark', 'verifyCode'];
         return $scenarios;
     }
 
@@ -59,7 +63,7 @@ class Reservation extends \yii\db\ActiveRecord
             [['check_in'], 'safe'],
             [['email'], 'email'],
             [['remark'], 'string'],
-            [['verifyCode'], 'captcha'],
+            [['verifyCode'], 'captcha', 'on' => self::SCENARIO_NEW],
             [['firstname', 'lastname'], 'string', 'max' => 25],
             [['contact'], 'string', 'max' => 50],
             [['email', 'address'], 'string', 'max' => 150],
@@ -74,7 +78,7 @@ class Reservation extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'package_item_id' => Yii::t('app', 'Package Item ID'),
+            'package_item_id' => Yii::t('app', 'Package Item'),
             'firstname' => Yii::t('app', 'First Name'),
             'lastname' => Yii::t('app', 'Last Name'),
             'contact' => Yii::t('app', 'Contact'),
@@ -115,7 +119,7 @@ class Reservation extends \yii\db\ActiveRecord
     public function beforeSave($insert)
     {
         if ($insert) {
-            $this->setAttribute('status', self::STATUS_SITE_RESERVATION);
+            $this->setAttribute('status', self::STATUS_NEW);
         }
         return parent::beforeSave($insert);
     }
@@ -124,5 +128,11 @@ class Reservation extends \yii\db\ActiveRecord
     {
         $this->package_item_id = $packageItem->id;
         return $this->save();
+    }
+
+    public function cancel()
+    {
+        $this->setAttribute('status', self::STATUS_CANCEL);
+        $this->save();
     }
 }

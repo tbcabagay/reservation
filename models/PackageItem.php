@@ -6,7 +6,6 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\SluggableBehavior;
-use pendalf89\filemanager\behaviors\MediafileBehavior;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -24,12 +23,10 @@ use yii\helpers\ArrayHelper;
  *
  * @property Package $package
  * @property Reservation[] $reservations
+ * @property Transaction[] $transactions
  */
 class PackageItem extends \yii\db\ActiveRecord
 {
-    public $file_identifier;
-    public $thumbnail;
-
     const SCENARIO_ADD = 'add';
 
     public function scenarios()
@@ -58,6 +55,7 @@ class PackageItem extends \yii\db\ActiveRecord
             [['content'], 'string'],
             [['rate'], 'number'],
             [['title'], 'string', 'max' => 100],
+            [['slug'], 'string', 'max' => 250],
             [['package_id'], 'exist', 'skipOnError' => true, 'targetClass' => Package::className(), 'targetAttribute' => ['package_id' => 'id']],
         ];
     }
@@ -76,6 +74,7 @@ class PackageItem extends \yii\db\ActiveRecord
             'rate' => Yii::t('app', 'Rate'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
+            'slug' => Yii::t('app', 'Slug'),
         ];
     }
 
@@ -95,6 +94,14 @@ class PackageItem extends \yii\db\ActiveRecord
         return $this->hasMany(Reservation::className(), ['package_item_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTransactions()
+    {
+        return $this->hasMany(Transaction::className(), ['package_item_id' => 'id']);
+    }
+
     public function behaviors()
     {
         return [
@@ -112,13 +119,6 @@ class PackageItem extends \yii\db\ActiveRecord
                 'immutable' => true,
                 'ensureUnique' => true,
             ],
-            'mediafile' => [
-                'class' => MediafileBehavior::className(),
-                'name' => 'post',
-                'attributes' => [
-                    'thumbnail',
-                ],
-            ]
         ];
     }
 

@@ -15,7 +15,15 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="site-reservation">
+<?php if (Yii::$app->session->hasFlash('reservationFormSubmitted')): ?>
 
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-success">Thank you! We received your request. We will respond to you as soon as possible.</div>
+        </div>
+    </div>
+
+<?php else: ?>
     <div class="row">
         <div class="col-lg-8">
             <?php $form = ActiveForm::begin(); ?>
@@ -44,6 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'pluginOptions' => [
                                 'autoclose' => true,
                                 'todayHighlight' => true,
+                                'format' => 'yyyy-mm-dd',
                             ]
                         ]) ?>
 
@@ -97,4 +106,5 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
+<?php endif; ?>
 </div>

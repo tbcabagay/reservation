@@ -5,7 +5,9 @@ namespace app\modules\administrator\controllers;
 use Yii;
 use app\models\Reservation;
 use app\models\ReservationSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 
 use app\models\PackageItem;
@@ -15,6 +17,29 @@ use app\models\PackageItem;
  */
 class ReservationController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['logout'],
+                'rules' => [
+                    [
+                        'actions' => ['logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'cancel' => ['post'],
+                ],
+            ],
+        ];
+    }
+
     /**
      * Lists all Reservation models.
      * @return mixed
@@ -41,6 +66,13 @@ class ReservationController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
+    }
+
+    public function actionCancel($id)
+    {
+        $this->findModel($id)->cancel();
+
+        return $this->redirect(['index']);
     }
 
     /**

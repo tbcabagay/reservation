@@ -6,42 +6,54 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Reservation */
 
-$this->title = $model->id;
+$this->title = Yii::t('app', 'Reservation # ') . $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Reservations'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$formatter = Yii::$app->formatter;
 ?>
 <div class="reservation-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+            <p>
+                <?= Html::a(Yii::t('app', 'Check In'), ['check-in', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                <?= Html::a(Yii::t('app', 'Cancel'), ['cancel', 'id' => $model->id], [
+                    'class' => 'btn btn-danger',
+                    'data' => [
+                        'confirm' => Yii::t('app', 'Are you sure you want to cancel this item?'),
+                        'method' => 'post',
+                    ],
+                ]) ?>
+            </p>
+        </div>
+    </div>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'package_item_id',
-            'firstname',
-            'lastname',
-            'contact',
-            'email:email',
-            'status',
-            'check_in',
-            'quantity_of_guest',
-            'remark:ntext',
-            'address',
-            'created_at',
-            'updated_at',
-        ],
-    ]) ?>
+    <div class="row">
+        <div class="col-lg-12">
+            <?= DetailView::widget([
+                'model' => $model,
+                'attributes' => [
+                    [
+                        'attribute' => 'package_item_id',
+                        'value' => $model->packageItem->title,
+                    ],
+                    'firstname',
+                    'lastname',
+                    'contact',
+                    'email:email',
+                    'status',
+                    'check_in:date',
+                    'quantity_of_guest',
+                    'address',
+                    'remark:ntext',
+                    'created_at:datetime',
+                    'updated_at:datetime',
+                ],
+            ]) ?>
+        </div>
+    </div>
 
 </div>
