@@ -9,6 +9,9 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+use app\models\Reservation;
+use app\models\PackageItem;
+
 /**
  * TransactionController implements the CRUD actions for Transaction model.
  */
@@ -61,16 +64,32 @@ class TransactionController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCheckIn()
+    public function actionCheckIn($reservation_id)
     {
-        $model = new Transaction();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if (($reservation = Reservation::find()->where([
+            'id' => $reservation_id, 'status' => Reservation::STATUS_NEW
+        ])->one()) === null) {
+            throw new NotFoundHttpException('The requested page does not exist.');
         } else {
-            return $this->render('check-in', [
-                'model' => $model,
-            ]);
+            $transaction = new Transaction();
+            $transaction->scenario = Transaction::SCENARIO_CHECK_IN;
+            $transaction->setAttribute('package_item_id', $reservation->getAttribute('package_item_id'));
+            $transaction->setAttribute('quantity_of_guest', $reservation->getAttribute('quantity_of_guest'));
+            $transaction->setAttribute('firstname', $reservation->getAttribute('firstname'));
+            $transaction->setAttribute('lastname', $reservation->getAttribute('lastname'));
+            $transaction->setAttribute('contact', $reservation->getAttribute('contact'));
+            $transaction->setAttribute('email', $reservation->getAttribute('email'));
+            $transaction->setAttribute('address', $reservation->getAttribute('address'));
+
+            if ($transaction->load(Yii::$app->request->post()) && $transaction->checkIn($reservation_id)) {
+                return $this->redirect(['view', 'id' => $transaction->id]);
+            } else {
+                return $this->render('check-in', [
+                    'transaction' => $transaction,
+                    'reservation' => $reservation,
+                    'packageItems' => PackageItem::getTitleDropdownList(),
+                ]);
+            }
         }
     }
 

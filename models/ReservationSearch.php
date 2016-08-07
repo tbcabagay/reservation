@@ -18,7 +18,7 @@ class ReservationSearch extends Reservation
     public function rules()
     {
         return [
-            [['package_item_id', 'status', 'created_at'], 'integer'],
+            [['package_item_id', 'status'], 'integer'],
             [['firstname', 'lastname', 'check_in'], 'safe'],
         ];
     }
@@ -62,7 +62,6 @@ class ReservationSearch extends Reservation
             'package_item_id' => $this->package_item_id,
             'status' => $this->status,
             'check_in' => $this->check_in,
-            'created_at' => $this->created_at,
         ]);
 
         $query->andFilterWhere(['like', 'firstname', $this->firstname])

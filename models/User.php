@@ -20,6 +20,8 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $updated_at
  *
  * @property News[] $news
+ * @property Transaction[] $transactions
+ * @property Transaction[] $transactions0
  */
 class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
@@ -97,6 +99,22 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function getNews()
     {
         return $this->hasMany(News::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTransactions()
+    {
+        return $this->hasMany(Transaction::className(), ['updated_by' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTransactions0()
+    {
+        return $this->hasMany(Transaction::className(), ['created_by' => 'id']);
     }
 
     /**

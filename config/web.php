@@ -44,6 +44,7 @@ $config = [
             'rules' => [
                 'reservation/<slug>' => 'site/reservation',
                 'home' => 'site/index',
+                'administrator/transaction/check-in/<reservation_id:\d+>' => 'administrator/transaction/check-in',
                 /*'package' => 'package/index',
                 'package/index' => 'package/index',
                 'package/create' => 'package/create',

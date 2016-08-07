@@ -31,6 +31,7 @@ class Reservation extends \yii\db\ActiveRecord
 
     const STATUS_NEW = 5;
     const STATUS_CHECK_IN = 10;
+    const STATUS_CHECK_OUT = 15;
     const STATUS_CANCEL = 50;
 
     const SCENARIO_NEW = 'new';
@@ -126,7 +127,7 @@ class Reservation extends \yii\db\ActiveRecord
 
     public function placeReservation($packageItem)
     {
-        $this->package_item_id = $packageItem->id;
+        $this->setAttribute('package_item_id', $packageItem->id);
         return $this->save();
     }
 
@@ -134,5 +135,39 @@ class Reservation extends \yii\db\ActiveRecord
     {
         $this->setAttribute('status', self::STATUS_CANCEL);
         $this->save();
+    }
+
+    public function checkIn()
+    {
+        $this->setAttribute('status', self::STATUS_CHECK_IN);
+        $this->save();
+    }
+
+    public static function getStatusDropdownList($template = 'raw')
+    {
+        if ($template === 'raw') {
+            $model = [
+                self::STATUS_NEW => 'NEW',
+                self::STATUS_CHECK_IN => 'CIN',
+                self::STATUS_CHECK_OUT => 'OUT',
+                self::STATUS_CANCEL => 'CAN',
+            ];
+        } else if ($template === 'html') {
+            $model = [
+                self::STATUS_NEW => '<span class="label label-primary">NEW</span>',
+                self::STATUS_CHECK_IN => '<span class="label label-success">CIN</span>',
+                self::STATUS_CHECK_OUT => '<span class="label label-warning">OUT</span>',
+                self::STATUS_CANCEL => '<span class="label label-danger">CAN</span>',
+            ];
+        }
+        return $model;
+    }
+
+    public static function getStatusValue($id)
+    {
+        $status = self::getStatusDropdownList('html');
+        if (isset($status[$id])) {
+            return $status[$id];
+        }
     }
 }

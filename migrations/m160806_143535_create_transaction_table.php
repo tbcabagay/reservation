@@ -25,15 +25,35 @@ class m160806_143535_create_transaction_table extends Migration
             'check_out' => $this->integer(),
             'total_amount' => $this->money(),
             'address' => $this->string(150),
+            'created_by' => $this->integer()->notNull(),
+            'updated_by' => $this->integer()->notNull(),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
         ]);
 
         $this->addForeignKey(
-            'fk-transaction-package-item_id',
+            'fk-transaction-package_item_id',
             '{{%transaction}}',
             'package_item_id',
             '{{%package_item}}',
+            'id',
+            'RESTRICT'
+        );
+
+        $this->addForeignKey(
+            'fk-transaction-created_by',
+            '{{%transaction}}',
+            'created_by',
+            '{{%user}}',
+            'id',
+            'RESTRICT'
+        );
+
+        $this->addForeignKey(
+            'fk-transaction-updated_by',
+            '{{%transaction}}',
+            'updated_by',
+            '{{%user}}',
             'id',
             'RESTRICT'
         );
@@ -44,7 +64,9 @@ class m160806_143535_create_transaction_table extends Migration
      */
     public function down()
     {
-        $this->dropForeignKey('fk-transaction-package-item_id', '{{%transaction}}');
+        $this->dropForeignKey('fk-transaction-created_by', '{{%transaction}}');
+        $this->dropForeignKey('fk-transaction-updated_by', '{{%transaction}}');
+        $this->dropForeignKey('fk-transaction-package_item_id', '{{%transaction}}');
         $this->dropTable('{{%transaction}}');
     }
 }

@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
+use app\models\Reservation;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Reservation */
 
@@ -18,8 +20,9 @@ $formatter = Yii::$app->formatter;
         <div class="col-lg-12">
             <h1><?= Html::encode($this->title) ?></h1>
 
+        <?php if ($model->status === Reservation::STATUS_NEW): ?>
             <p>
-                <?= Html::a(Yii::t('app', 'Check In'), ['check-in', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                <?= Html::a(Yii::t('app', 'Check In'), ['transaction/check-in', 'reservation_id' => $model->id], ['class' => 'btn btn-primary']) ?>
                 <?= Html::a(Yii::t('app', 'Cancel'), ['cancel', 'id' => $model->id], [
                     'class' => 'btn btn-danger',
                     'data' => [
@@ -28,6 +31,7 @@ $formatter = Yii::$app->formatter;
                     ],
                 ]) ?>
             </p>
+        <?php endif; ?>
         </div>
     </div>
 
@@ -44,7 +48,6 @@ $formatter = Yii::$app->formatter;
                     'lastname',
                     'contact',
                     'email:email',
-                    'status',
                     'check_in:date',
                     'quantity_of_guest',
                     'address',
