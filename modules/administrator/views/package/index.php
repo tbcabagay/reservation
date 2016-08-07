@@ -30,7 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         'title',
                         'id',
 
-                        ['class' => 'yii\grid\ActionColumn'],
+                        [
+                            'class' => 'yii\grid\ActionColumn',
+                            'template' => '{update}',
+                        ],
                     ],
                     'panel'=>[
                         'type' => GridView::TYPE_DEFAULT,

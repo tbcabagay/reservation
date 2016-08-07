@@ -2,16 +2,15 @@
 
 use yii\helpers\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Package */
 
-$this->title = Yii::t('app', 'Update {modelClass}', [
-    'modelClass' => 'Package',
-]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Packages'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+/* @var $this yii\web\View */
+/* @var $model app\models\MenuCategory */
+
+$this->title = Yii::t('app', 'Create Menu Category');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Menu Categories'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="package-update">
+<div class="menu-category-create">
 
     <div class="row">
         <div class="col-lg-12">

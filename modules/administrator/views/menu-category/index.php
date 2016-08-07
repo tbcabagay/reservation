@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\PackageItemSearch */
+/* @var $searchModel app\models\MenuCategorySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Package Items');
+$this->title = Yii::t('app', 'Menu Categories');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="package-item-index">
+<div class="menu-category-index">
 
     <div class="row">
         <div class="col-lg-12">
@@ -27,14 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
 
-                        'title',
-                        [
-                            'attribute' => 'package_id',
-                            'filter' => $packages,
-                            'value' => 'package.title',
-                        ],
-                        'quantity',
-                        'rate:currency',
+                        'category',
                         'id',
 
                         [
@@ -50,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         [
                             'content' =>
                             Html::a('<i class="fa fa-plus"></i>', ['create'], [
-                                'title' => Yii::t('app', 'Add Library'), 
+                                'title' => Yii::t('app', 'Add Menu Category'), 
                                 'class' => 'btn btn-success',
                                 'data-pjax' => 0,
                             ]) . ' ' .

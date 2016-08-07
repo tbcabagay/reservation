@@ -133,6 +133,14 @@ $identity = Yii::$app->user->identity;
                             <li><?= Html::a('News', ['news/index']) ?></li>
                         </ul>
                     </li>
+                    <li>
+                        <?= Html::a('<i class="fa fa-cutlery fa-fw"></i> Menus<span class="fa arrow"></span>', '#') ?>
+                        <ul class="nav nav-second-level">
+                            <li><?= Html::a('Categories', ['menu-category/index']) ?></li>
+                            <li><?= Html::a('Packages', ['menu-package/index']) ?></li>
+                            <li><?= Html::a('Items', ['menu-item/index']) ?></li>
+                        </ul>
+                    </li>
                     <li><?= Html::a('<i class="fa fa-book fa-fw"></i> Reservations', ['reservation/index']) ?></li>
                     <li><?= Html::a('<i class="fa fa-tasks fa-fw"></i> Transactions', ['transaction/index']) ?></li>
                 </ul>

@@ -3,18 +3,16 @@
 namespace app\modules\administrator\controllers;
 
 use Yii;
-use app\models\PackageItem;
-use app\models\PackageItemSearch;
+use app\models\MenuPackage;
+use app\models\MenuPackageSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-use app\models\Package;
-
 /**
- * PackageItemController implements the CRUD actions for PackageItem model.
+ * MenuPackageController implements the CRUD actions for MenuPackage model.
  */
-class PackageItemController extends Controller
+class MenuPackageController extends Controller
 {
     /**
      * @inheritdoc
@@ -32,43 +30,40 @@ class PackageItemController extends Controller
     }
 
     /**
-     * Lists all PackageItem models.
+     * Lists all MenuPackage models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new PackageItemSearch();
+        $searchModel = new MenuPackageSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'packages' => Package::getTitleDropdownList(),
         ]);
     }
 
     /**
-     * Creates a new PackageItem model.
+     * Creates a new MenuPackage model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new PackageItem();
-        $model->scenario = PackageItem::SCENARIO_ADD;
+        $model = new MenuPackage();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
-                'packages' => Package::getTitleDropdownList(),
             ]);
         }
     }
 
     /**
-     * Updates an existing PackageItem model.
+     * Updates an existing MenuPackage model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -82,13 +77,12 @@ class PackageItemController extends Controller
         } else {
             return $this->render('update', [
                 'model' => $model,
-                'packages' => Package::getTitleDropdownList(),
             ]);
         }
     }
 
     /**
-     * Deletes an existing PackageItem model.
+     * Deletes an existing MenuPackage model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -101,15 +95,15 @@ class PackageItemController extends Controller
     }
 
     /**
-     * Finds the PackageItem model based on its primary key value.
+     * Finds the MenuPackage model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return PackageItem the loaded model
+     * @return MenuPackage the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = PackageItem::findOne($id)) !== null) {
+        if (($model = MenuPackage::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

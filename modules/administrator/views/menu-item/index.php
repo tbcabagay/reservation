@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\PackageItemSearch */
+/* @var $searchModel app\models\MenuItemSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Package Items');
+$this->title = Yii::t('app', 'Menu Items');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="package-item-index">
+<div class="menu-item-index">
 
     <div class="row">
         <div class="col-lg-12">
@@ -27,14 +27,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
 
-                        'title',
                         [
-                            'attribute' => 'package_id',
+                            'attribute' => 'menu_package_id',
                             'filter' => $packages,
-                            'value' => 'package.title',
+                            'value' => 'menuPackage.title',
                         ],
-                        'quantity',
-                        'rate:currency',
+                        [
+                            'attribute' => 'menu_category_id',
+                            'filter' => $categories,
+                            'value' => 'menuCategory.category',
+                        ],
+                        'title',
+                        'description',
+                        // 'photo',
                         'id',
 
                         [
@@ -50,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         [
                             'content' =>
                             Html::a('<i class="fa fa-plus"></i>', ['create'], [
-                                'title' => Yii::t('app', 'Add Library'), 
+                                'title' => Yii::t('app', 'Add Menu Item'), 
                                 'class' => 'btn btn-success',
                                 'data-pjax' => 0,
                             ]) . ' ' .

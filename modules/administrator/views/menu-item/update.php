@@ -3,15 +3,15 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Package */
+/* @var $model app\models\MenuItem */
 
-$this->title = Yii::t('app', 'Update {modelClass}', [
-    'modelClass' => 'Package',
+$this->title = Yii::t('app', 'Update {modelClass} ', [
+    'modelClass' => 'Menu Item',
 ]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Packages'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Menu Items'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
-<div class="package-update">
+<div class="menu-item-update">
 
     <div class="row">
         <div class="col-lg-12">
