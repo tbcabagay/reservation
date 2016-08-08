@@ -18,7 +18,7 @@ class TransactionSearch extends Transaction
     public function rules()
     {
         return [
-            [['id', 'package_item_id', 'status', 'quantity_of_guest', 'check_in', 'check_out', 'created_at', 'updated_at'], 'integer'],
+            [['package_item_id', 'status', 'quantity_of_guest', 'check_in', 'check_out', 'created_at', 'updated_at'], 'integer'],
             [['firstname', 'lastname', 'contact', 'email', 'address'], 'safe'],
             [['total_amount'], 'number'],
         ];
@@ -60,7 +60,6 @@ class TransactionSearch extends Transaction
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
             'package_item_id' => $this->package_item_id,
             'status' => $this->status,
             'quantity_of_guest' => $this->quantity_of_guest,

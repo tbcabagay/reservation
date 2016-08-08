@@ -33,7 +33,7 @@ class MenuItem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['menu_package_id', 'menu_category_id', 'title', 'description'], 'required'],
+            [['menu_package_id', 'menu_category_id', 'title'], 'required'],
             [['menu_package_id', 'menu_category_id'], 'integer'],
             [['title'], 'string', 'max' => 30],
             [['description'], 'string', 'max' => 50],

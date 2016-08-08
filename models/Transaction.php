@@ -76,9 +76,9 @@ class Transaction extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'package_item_id' => Yii::t('app', 'Package Item ID'),
-            'firstname' => Yii::t('app', 'Firstname'),
-            'lastname' => Yii::t('app', 'Lastname'),
+            'package_item_id' => Yii::t('app', 'Package Item'),
+            'firstname' => Yii::t('app', 'First Name'),
+            'lastname' => Yii::t('app', 'Last Name'),
             'contact' => Yii::t('app', 'Contact'),
             'email' => Yii::t('app', 'Email'),
             'status' => Yii::t('app', 'Status'),

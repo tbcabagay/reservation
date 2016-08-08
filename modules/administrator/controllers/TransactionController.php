@@ -44,6 +44,7 @@ class TransactionController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'packageItems' => PackageItem::getTitleDropdownList(),
         ]);
     }
 
@@ -82,7 +83,7 @@ class TransactionController extends Controller
             $transaction->setAttribute('address', $reservation->getAttribute('address'));
 
             if ($transaction->load(Yii::$app->request->post()) && $transaction->checkIn($reservation_id)) {
-                return $this->redirect(['view', 'id' => $transaction->id]);
+                return $this->redirect(['index']);
             } else {
                 return $this->render('check-in', [
                     'transaction' => $transaction,

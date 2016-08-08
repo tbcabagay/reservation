@@ -17,7 +17,7 @@ class m160807_141857_create_menu_item_table extends Migration
             'menu_package_id' => $this->integer()->notNull(),
             'menu_category_id' => $this->integer()->notNull(),
             'title' => $this->string(30)->notNull(),
-            'description' => $this->string(50)->notNull(),
+            'description' => $this->string(50),
             'photo' =>  $this->string(255),
         ]);
 

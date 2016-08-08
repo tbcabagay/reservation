@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\TransactionSearch */
@@ -12,34 +12,69 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="transaction-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header"><?= Html::encode($this->title) ?></h1>
+        </div>
+    </div>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Transaction'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <?= $this->render('_search', [
+                    'model' => $searchModel,
+                    'packageItems' => $packageItems,
+                ]); ?>
+            </div>            
+        </div>
+    </div>
 
-            'id',
-            'package_item_id',
-            'firstname',
-            'lastname',
-            'contact',
-            // 'email:email',
-            // 'status',
-            // 'quantity_of_guest',
-            // 'check_in',
-            // 'check_out',
-            // 'total_amount',
-            // 'address',
-            // 'created_at',
-            // 'updated_at',
+    <div class="row">
+        <div class="col-lg-12">
+            <?php Pjax::begin(); ?>
+                <?= GridView::widget([
+                    'dataProvider' => $dataProvider,
+                    /*'filterModel' => $searchModel,*/
+                    'columns' => [
+                        ['class' => 'yii\grid\SerialColumn'],
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-<?php Pjax::end(); ?></div>
+                        [
+                            'attribute' => 'package_item_id',
+                            'value' => 'packageItem.title',
+                        ],
+                        'firstname',
+                        'lastname',
+                        'status',
+                        'check_in:datetime',
+                        [
+                            'attribute' => 'check_out',
+                            'value' => function ($model, $key, $index, $column) {
+                                return (empty($model->check_out)) ? null : $model->check_out;
+                            },
+                            'format' => 'datetime',
+                        ],
+                        'total_amount',
+                        'id',
+
+                        ['class' => 'yii\grid\ActionColumn'],
+                    ],
+                    'panel'=>[
+                        'type' => GridView::TYPE_DEFAULT,
+                        'heading' => 'Grid',
+                    ],
+                    'toolbar' => [
+                        [
+                            'content' =>
+                            Html::a('<i class="fa fa-repeat"></i>', ['index'], [
+                                'class' => 'btn btn-default', 
+                                'title' => Yii::t('app', 'Reset Grid'),
+                                'data-pjax' => 0,
+                            ]),
+                        ],
+                        '{toggleData}',
+                    ],
+                ]); ?>
+            <?php Pjax::end(); ?>
+        </div>
+    </div>
+</div>
