@@ -65,6 +65,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     'toolbar' => [
                         [
                             'content' =>
+                            Html::a('<i class="fa fa-plus"></i>', ['check-in'], [
+                                'title' => Yii::t('app', 'Add Library'), 
+                                'class' => 'btn btn-success',
+                                'data-pjax' => 0,
+                            ]) . ' ' .
                             Html::a('<i class="fa fa-repeat"></i>', ['index'], [
                                 'class' => 'btn btn-default', 
                                 'title' => Yii::t('app', 'Reset Grid'),

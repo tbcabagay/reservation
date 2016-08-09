@@ -65,15 +65,15 @@ class TransactionController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCheckIn($reservation_id)
+    public function actionCheckIn($reservation_id = null)
     {
-        if (($reservation = Reservation::find()->where([
+        $transaction = new Transaction();
+        $transaction->scenario = Transaction::SCENARIO_CHECK_IN;
+        $reservation = null;
+
+        if (($reservation_id !== null) && ($reservation = Reservation::find()->where([
             'id' => $reservation_id, 'status' => Reservation::STATUS_NEW
-        ])->one()) === null) {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        } else {
-            $transaction = new Transaction();
-            $transaction->scenario = Transaction::SCENARIO_CHECK_IN;
+        ])->one()) !== null) {
             $transaction->setAttribute('package_item_id', $reservation->getAttribute('package_item_id'));
             $transaction->setAttribute('quantity_of_guest', $reservation->getAttribute('quantity_of_guest'));
             $transaction->setAttribute('firstname', $reservation->getAttribute('firstname'));
@@ -81,16 +81,16 @@ class TransactionController extends Controller
             $transaction->setAttribute('contact', $reservation->getAttribute('contact'));
             $transaction->setAttribute('email', $reservation->getAttribute('email'));
             $transaction->setAttribute('address', $reservation->getAttribute('address'));
+        }
 
-            if ($transaction->load(Yii::$app->request->post()) && $transaction->checkIn($reservation_id)) {
-                return $this->redirect(['index']);
-            } else {
-                return $this->render('check-in', [
-                    'transaction' => $transaction,
-                    'reservation' => $reservation,
-                    'packageItems' => PackageItem::getTitleDropdownList(),
-                ]);
-            }
+        if ($transaction->load(Yii::$app->request->post()) && $transaction->checkIn($reservation_id)) {
+            return $this->redirect(['index']);
+        } else {
+            return $this->render('check-in', [
+                'transaction' => $transaction,
+                'reservation' => $reservation,
+                'packageItems' => PackageItem::getTitleDropdownList(),
+            ]);
         }
     }
 

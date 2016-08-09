@@ -125,12 +125,12 @@ $identity = Yii::$app->user->identity;
                             <li><?= Html::a('Users', ['user/index']) ?></li>
                         </ul>
                     </li>
+                    <li><?= Html::a('<i class="fa fa-newspaper-o fa-fw"></i> News', ['news/index']) ?></li>
                     <li>
-                        <?= Html::a('<i class="fa fa-file-o fa-fw"></i> Contents<span class="fa arrow"></span>', '#') ?>
+                        <?= Html::a('<i class="fa fa-gift fa-fw"></i> Packages<span class="fa arrow"></span>', '#') ?>
                         <ul class="nav nav-second-level">
-                            <li><?= Html::a('Packages', ['package/index']) ?></li>
-                            <li><?= Html::a('Package Items', ['package-item/index']) ?></li>
-                            <li><?= Html::a('News', ['news/index']) ?></li>
+                            <li><?= Html::a('Categories', ['package/index']) ?></li>
+                            <li><?= Html::a('Items', ['package-item/index']) ?></li>
                         </ul>
                     </li>
                     <li>
