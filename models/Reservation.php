@@ -62,6 +62,7 @@ class Reservation extends \yii\db\ActiveRecord
             [['package_item_id', 'firstname', 'lastname', 'contact', 'email', 'status', 'check_in', 'quantity_of_guest', 'created_at', 'updated_at'], 'required'],
             [['package_item_id', 'status', 'quantity_of_guest', 'created_at', 'updated_at'], 'integer'],
             [['check_in'], 'safe'],
+            [['check_in'], 'validateCheckIn'],
             [['email'], 'email'],
             [['remark'], 'string'],
             [['verifyCode'], 'captcha', 'on' => self::SCENARIO_NEW],
@@ -168,6 +169,15 @@ class Reservation extends \yii\db\ActiveRecord
         $status = self::getStatusDropdownList('html');
         if (isset($status[$id])) {
             return $status[$id];
+        }
+    }
+
+    public function validateCheckIn($attribute, $params)
+    {
+        $dateToCompare = $this->$attribute;
+        $now = date('Y-m-d');
+        if (strtotime($dateToCompare) < strtotime($now)) {
+            $this->addError($attribute, 'The check-in date should not set to period earlier than today.');
         }
     }
 }

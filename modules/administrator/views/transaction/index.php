@@ -56,7 +56,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         'total_amount',
                         'id',
 
-                        ['class' => 'yii\grid\ActionColumn'],
+                        [
+                            'class' => 'yii\grid\ActionColumn',
+                            'template' => '{view}',
+                        ],
                     ],
                     'panel'=>[
                         'type' => GridView::TYPE_DEFAULT,
