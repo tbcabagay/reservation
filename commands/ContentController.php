@@ -12,6 +12,15 @@ use app\models\MenuItem;
 
 class ContentController extends Controller
 {
+    public function actionIndex()
+    {
+        $this->actionPackage();
+        $this->actionPackageItem();
+        $this->actionMenuCategory();
+        $this->actionMenuPackage();
+        $this->actionMenuItem();
+    }
+
     public function actionPackage()
     {
         $packages = ['Casitas Premiere', 'Casitas De Luxe'];

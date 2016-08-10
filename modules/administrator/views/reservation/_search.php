@@ -14,6 +14,7 @@ use kartik\widgets\DatePicker;
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
+        'id' => 'reservation-search-form',
     ]); ?>
 
     <div class="col-lg-6">

@@ -5,6 +5,8 @@ use kartik\grid\GridView;
 use yii\widgets\Pjax;
 
 use app\models\Reservation;
+use yii\bootstrap\Modal;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ReservationSearch */
@@ -63,10 +65,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         'id',
 
-                        [
+                        /*[
                             'class' => 'yii\grid\ActionColumn',
                             'template' => '{view}',
-                        ],
+                        ],*/
                     ],
                     'panel'=>[
                         'type' => GridView::TYPE_DEFAULT,
@@ -83,8 +85,41 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         '{toggleData}',
                     ],
+                    'hover' => true,
+                    'rowOptions' => function ($model, $key, $index, $grid) {
+                        return ['data-id' => $model->id];
+                    },
                 ]); ?>
             <?php Pjax::end(); ?>
         </div>
     </div>
 </div>
+
+<?php
+    Modal::begin([
+        'header' => '<h4>Reservation Window</h4>',
+        'id' => 'modal-reservation',
+        'size' => Modal::SIZE_LARGE,
+    ]);
+    echo '<div id="modal-reservation-content"></div>';
+    Modal::end ();
+?>
+
+<?php
+$this->registerJs('
+    (function($) {
+        $("td").click(function (e) {
+            var id = $(this).closest("tr").data("id");
+            if (e.target == this) {
+                var url = "' . Url::to(['view']) . '?id=" + id;
+                $("#modal-reservation").modal("show")
+                    .find("#modal-reservation-content")
+                    .load(url);
+            }
+        });/*
+        $("#reservation-search-form").change(function() {
+            $(this).submit();
+        });*/
+    })(jQuery);
+');
+?>

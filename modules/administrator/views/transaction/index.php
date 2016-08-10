@@ -59,10 +59,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         'total_amount',
                         'id',
 
-                        [
+                        /*[
                             'class' => 'yii\grid\ActionColumn',
                             'template' => '{view}',
-                        ],
+                        ],*/
                     ],
                     'panel'=>[
                         'type' => GridView::TYPE_DEFAULT,
@@ -96,11 +96,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php
     Modal::begin([
-        'header' => '<h4>Hello</h4>',
-        'id' => 'transaction-modal',
+        'header' => '<h4>Transaction Window</h4>',
+        'id' => 'modal-transaction',
         'size' => Modal::SIZE_LARGE,
     ]);
-    echo '<div id="transaction-modal-content"></div>';
+    echo '<div id="modal-transaction-content"></div>';
     Modal::end ();
 ?>
 
@@ -111,8 +111,8 @@ $this->registerJs('
             var id = $(this).closest("tr").data("id");
             if (e.target == this) {
                 var url = "' . Url::to(['view']) . '?id=" + id;
-                $("#transaction-modal").modal("show")
-                    .find("#transaction-modal-content")
+                $("#modal-transaction").modal("show")
+                    .find("#modal-transaction-content")
                     .load(url);
             }
         });
