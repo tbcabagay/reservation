@@ -3,6 +3,9 @@
 use yii\helpers\Html;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
+use yii\bootstrap\Modal;
+use yii\helpers\Url;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\TransactionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -81,8 +84,38 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         '{toggleData}',
                     ],
+                    'hover' => true,
+                    'rowOptions' => function ($model, $key, $index, $grid) {
+                        return ['data-id' => $model->id];
+                    },
                 ]); ?>
             <?php Pjax::end(); ?>
         </div>
     </div>
 </div>
+
+<?php
+    Modal::begin([
+        'header' => '<h4>Hello</h4>',
+        'id' => 'transaction-modal',
+        'size' => Modal::SIZE_LARGE,
+    ]);
+    echo '<div id="transaction-modal-content"></div>';
+    Modal::end ();
+?>
+
+<?php
+$this->registerJs('
+    (function($) {
+        $("td").click(function (e) {
+            var id = $(this).closest("tr").data("id");
+            if (e.target == this) {
+                var url = "' . Url::to(['view']) . '?id=" + id;
+                $("#transaction-modal").modal("show")
+                    .find("#transaction-modal-content")
+                    .load(url);
+            }
+        });
+    })(jQuery);
+');
+?>
