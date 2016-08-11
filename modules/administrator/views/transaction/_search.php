@@ -15,27 +15,37 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <div class="col-lg-6">
-        <?= $form->field($model, 'package_item_id')->dropdownList($packageItems, ['prompt' => '- Select -']) ?>
+    <?= $form->field($model, 'id') ?>
 
-        <?= $form->field($model, 'firstname') ?>
+    <?= $form->field($model, 'package_item_id') ?>
 
-        <?= $form->field($model, 'lastname') ?>        
-    </div>
+    <?= $form->field($model, 'firstname') ?>
 
-    <div class="col-lg-6">
-        <?= $form->field($model, 'status') ?>
+    <?= $form->field($model, 'lastname') ?>
 
-        <?= $form->field($model, 'check_in') ?>
+    <?= $form->field($model, 'contact') ?>
 
-        <?= $form->field($model, 'check_out') ?>
-    </div>
+    <?php // echo $form->field($model, 'status') ?>
 
-    <div class="col-lg-12">
-        <div class="form-group">
-            <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
-            <?= Html::a(Yii::t('app', 'Reset'), ['index'], ['class' => 'btn btn-default']) ?>
-        </div>
+    <?php // echo $form->field($model, 'quantity_of_guest') ?>
+
+    <?php // echo $form->field($model, 'check_in') ?>
+
+    <?php // echo $form->field($model, 'check_out') ?>
+
+    <?php // echo $form->field($model, 'total_amount') ?>
+
+    <?php // echo $form->field($model, 'created_by') ?>
+
+    <?php // echo $form->field($model, 'updated_by') ?>
+
+    <?php // echo $form->field($model, 'created_at') ?>
+
+    <?php // echo $form->field($model, 'updated_at') ?>
+
+    <div class="form-group">
+        <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

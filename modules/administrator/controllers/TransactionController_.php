@@ -55,7 +55,7 @@ class TransactionController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        return $this->renderAjax('view', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -79,12 +79,11 @@ class TransactionController extends Controller
             $transaction->setAttribute('firstname', $reservation->getAttribute('firstname'));
             $transaction->setAttribute('lastname', $reservation->getAttribute('lastname'));
             $transaction->setAttribute('contact', $reservation->getAttribute('contact'));
+            $transaction->setAttribute('email', $reservation->getAttribute('email'));
+            $transaction->setAttribute('address', $reservation->getAttribute('address'));
         }
 
         if ($transaction->load(Yii::$app->request->post()) && $transaction->save()) {
-            if ($reservation !== null) {
-                $reservation->checkIn();
-            }
             return $this->redirect(['index']);
         } else {
             return $this->render('check-in', [

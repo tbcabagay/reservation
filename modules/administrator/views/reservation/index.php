@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'packageItems' => $packageItems,
                     'status' => $status,
                 ]); ?>
-            </div>            
+            </div>
         </div>
     </div>
 

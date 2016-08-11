@@ -18,8 +18,8 @@ class TransactionSearch extends Transaction
     public function rules()
     {
         return [
-            [['package_item_id', 'status', 'quantity_of_guest', 'check_in', 'check_out', 'created_at', 'updated_at'], 'integer'],
-            [['firstname', 'lastname', 'contact', 'email', 'address'], 'safe'],
+            [['id', 'package_item_id', 'status', 'quantity_of_guest', 'check_in', 'check_out', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
+            [['firstname', 'lastname', 'contact'], 'safe'],
             [['total_amount'], 'number'],
         ];
     }
@@ -60,21 +60,22 @@ class TransactionSearch extends Transaction
 
         // grid filtering conditions
         $query->andFilterWhere([
+            'id' => $this->id,
             'package_item_id' => $this->package_item_id,
             'status' => $this->status,
             'quantity_of_guest' => $this->quantity_of_guest,
             'check_in' => $this->check_in,
             'check_out' => $this->check_out,
             'total_amount' => $this->total_amount,
+            'created_by' => $this->created_by,
+            'updated_by' => $this->updated_by,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'firstname', $this->firstname])
             ->andFilterWhere(['like', 'lastname', $this->lastname])
-            ->andFilterWhere(['like', 'contact', $this->contact])
-            ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'address', $this->address]);
+            ->andFilterWhere(['like', 'contact', $this->contact]);
 
         return $dataProvider;
     }

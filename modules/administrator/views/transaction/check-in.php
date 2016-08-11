@@ -11,6 +11,9 @@ use kartik\widgets\TouchSpin;
 $this->title = Yii::t('app', 'Check In');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Transactions'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$transaction->toggle_date_time = ($transaction->toggle_date_time === null) ? 0 : $transaction->toggle_date_time;
+var_dump($transaction->toggle_date_time);
 ?>
 <div class="transaction-create">
 
@@ -22,7 +25,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <div class="col-lg-12">
-            <?php $form = ActiveForm::begin(); ?>
+            <?php $form = ActiveForm::begin([
+                'enableClientValidation' => false,
+            ]); ?>
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <legend>Details</legend>
@@ -40,9 +45,11 @@ $this->params['breadcrumbs'][] = $this->title;
                             'pluginOptions' => [
                                 'autoclose' => true,
                                 'todayHighlight' => true,
-                                'format' => 'yyyy-mm-dd hh:ii',
+                                'format' => 'yyyy-mm-dd hh:ii:ss',
                             ]
                         ]) ?>
+
+                        <?= $form->field($transaction, 'toggle_date_time')->radioList([0 => 'Use System Clock', 1 => 'Set Manually'], ['inline' => true])->label(false) ?>
                     </div>
                 </div>
 
@@ -56,10 +63,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         <?= $form->field($transaction, 'contact')->textInput(['maxlength' => true]) ?>
 
-                        <?= $form->field($transaction, 'email')->textInput(['maxlength' => true]) ?>
-
-                        <?= $form->field($transaction, 'address')->textInput(['maxlength' => true]) ?>
-
                         <div class="form-group">
                             <?= Html::submitButton(Yii::t('app', 'Check In'), ['class' => 'btn btn-primary']) ?>
                         </div>
@@ -70,3 +73,24 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
 </div>
+
+<?php
+$this->registerJs('
+(function($) {
+    var checkIn = "#' . Html::getInputId($transaction, 'check_in') . '";
+    if ($(checkIn).value == 1) {
+        $(checkIn).prop("disabled", false);
+    } else {
+        $(checkIn).prop("disabled", true);
+    }
+    $(checkIn).prop("disabled", true);
+    $(\'input:radio[name="' . Html::getInputName($transaction, 'toggle_date_time') . '"]\').change(function() {
+        if (this.value == 1) {
+            $(checkIn).prop("disabled", false);
+        } else {
+            $(checkIn).prop("disabled", true);
+        }
+    });
+})(jQuery);
+');
+?>

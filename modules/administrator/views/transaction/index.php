@@ -5,7 +5,6 @@ use kartik\grid\GridView;
 use yii\widgets\Pjax;
 use yii\bootstrap\Modal;
 use yii\helpers\Url;
-
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\TransactionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -20,15 +19,14 @@ $this->params['breadcrumbs'][] = $this->title;
             <h1 class="page-header"><?= Html::encode($this->title) ?></h1>
         </div>
     </div>
-
+    
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="row">
                 <?= $this->render('_search', [
                     'model' => $searchModel,
-                    'packageItems' => $packageItems,
                 ]); ?>
-            </div>            
+            </div>
         </div>
     </div>
 
@@ -44,25 +42,17 @@ $this->params['breadcrumbs'][] = $this->title;
                         [
                             'attribute' => 'package_item_id',
                             'value' => 'packageItem.title',
+                            'filter' => $packageItems,
                         ],
                         'firstname',
                         'lastname',
                         'status',
                         'check_in:datetime',
-                        [
-                            'attribute' => 'check_out',
-                            'value' => function ($model, $key, $index, $column) {
-                                return (empty($model->check_out)) ? null : $model->check_out;
-                            },
-                            'format' => 'datetime',
-                        ],
+                        'check_out:datetime',
                         'total_amount',
                         'id',
 
-                        /*[
-                            'class' => 'yii\grid\ActionColumn',
-                            'template' => '{view}',
-                        ],*/
+                        ['class' => 'yii\grid\ActionColumn'],
                     ],
                     'panel'=>[
                         'type' => GridView::TYPE_DEFAULT,
@@ -72,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         [
                             'content' =>
                             Html::a('<i class="fa fa-plus"></i>', ['check-in'], [
-                                'title' => Yii::t('app', 'Add Library'), 
+                                'title' => Yii::t('app', 'Add Transaction'), 
                                 'class' => 'btn btn-success',
                                 'data-pjax' => 0,
                             ]) . ' ' .
@@ -118,4 +108,3 @@ $this->registerJs('
         });
     })(jQuery);
 ');
-?>
