@@ -52,7 +52,18 @@ $this->params['breadcrumbs'][] = $this->title;
                         'total_amount',
                         'id',
 
-                        ['class' => 'yii\grid\ActionColumn'],
+                        [
+                            'class' => 'yii\grid\ActionColumn',
+                            'template' => '{menu} {checkout}',
+                            'buttons' => [
+                                'menu' => function ($url, $model, $key) {
+                                    return Html::a('<i class="fa fa-cutlery"></i>', ['package/create'], ['title' => 'Menu', 'aria-label' => 'Menu', 'data-pjax' => 0]);
+                                },
+                                'checkout' => function ($url, $model, $key) {
+                                    return Html::a('<i class="fa fa-shopping-cart"></i>', ['news/create'], ['title' => 'Menu', 'aria-label' => 'Menu', 'data-pjax' => 0]);
+                                },
+                            ],
+                        ],
                     ],
                     'panel'=>[
                         'type' => GridView::TYPE_DEFAULT,
@@ -86,25 +97,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php
     Modal::begin([
-        'header' => '<h4>Transaction Window</h4>',
+        /*'header' => '<h4>Transaction Window</h4>',*/
         'id' => 'modal-transaction',
         'size' => Modal::SIZE_LARGE,
     ]);
-    echo '<div id="modal-transaction-content"></div>';
     Modal::end ();
 ?>
 
 <?php
-$this->registerJs('
-    (function($) {
-        $("td").click(function (e) {
-            var id = $(this).closest("tr").data("id");
-            if (e.target == this) {
-                var url = "' . Url::to(['view']) . '?id=" + id;
-                $("#modal-transaction").modal("show")
-                    .find("#modal-transaction-content")
-                    .load(url);
-            }
-        });
-    })(jQuery);
-');
+?>

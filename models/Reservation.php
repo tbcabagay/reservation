@@ -35,12 +35,12 @@ class Reservation extends \yii\db\ActiveRecord
     const STATUS_CANCEL = 50;
 
     const SCENARIO_NEW = 'new';
-    const SCENARIO_CANCEL = 'cancel';
+    const SCENARIO_CHANGE_STATUS = 'change_status';
 
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIO_CANCEL] = ['status'];
+        $scenarios[self::SCENARIO_CHANGE_STATUS] = ['status'];
         $scenarios[self::SCENARIO_NEW] = ['firstname', 'lastname', 'contact', 'check_in', 'quantity_of_guest', 'email', 'address', 'remark', 'verifyCode'];
         return $scenarios;
     }
@@ -134,12 +134,14 @@ class Reservation extends \yii\db\ActiveRecord
 
     public function cancel()
     {
+        $this->scenario = self::SCENARIO_CHANGE_STATUS;
         $this->setAttribute('status', self::STATUS_CANCEL);
         $this->save();
     }
 
     public function checkIn()
     {
+        $this->scenario = self::SCENARIO_CHANGE_STATUS;
         $this->setAttribute('status', self::STATUS_CHECK_IN);
         $this->save();
     }

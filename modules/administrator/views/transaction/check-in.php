@@ -12,8 +12,7 @@ $this->title = Yii::t('app', 'Check In');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Transactions'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
-$transaction->toggle_date_time = ($transaction->toggle_date_time === null) ? 0 : $transaction->toggle_date_time;
-var_dump($transaction->toggle_date_time);
+$transaction->toggle_date_time = ($transaction->toggle_date_time === null) ? 'system' : $transaction->toggle_date_time;
 ?>
 <div class="transaction-create">
 
@@ -25,9 +24,7 @@ var_dump($transaction->toggle_date_time);
 
     <div class="row">
         <div class="col-lg-12">
-            <?php $form = ActiveForm::begin([
-                'enableClientValidation' => false,
-            ]); ?>
+            <?php $form = ActiveForm::begin(); ?>
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <legend>Details</legend>
@@ -49,7 +46,7 @@ var_dump($transaction->toggle_date_time);
                             ]
                         ]) ?>
 
-                        <?= $form->field($transaction, 'toggle_date_time')->radioList([0 => 'Use System Clock', 1 => 'Set Manually'], ['inline' => true])->label(false) ?>
+                        <?= $form->field($transaction, 'toggle_date_time')->radioList(['system' => 'Use System Clock', 'manual' => 'Set Manually'], ['inline' => true])->label(false) ?>
                     </div>
                 </div>
 
@@ -78,16 +75,16 @@ var_dump($transaction->toggle_date_time);
 $this->registerJs('
 (function($) {
     var checkIn = "#' . Html::getInputId($transaction, 'check_in') . '";
-    if ($(checkIn).value == 1) {
+    var toggleDateTimeValue = $(\'input:radio[name="' . Html::getInputName($transaction, 'toggle_date_time') . '"]:checked\').val();
+    if (toggleDateTimeValue == "manual") {
         $(checkIn).prop("disabled", false);
-    } else {
+    } else if (toggleDateTimeValue == "system") {
         $(checkIn).prop("disabled", true);
     }
-    $(checkIn).prop("disabled", true);
     $(\'input:radio[name="' . Html::getInputName($transaction, 'toggle_date_time') . '"]\').change(function() {
-        if (this.value == 1) {
+        if (this.value == "manual") {
             $(checkIn).prop("disabled", false);
-        } else {
+        } else if (this.value == "system") {
             $(checkIn).prop("disabled", true);
         }
     });

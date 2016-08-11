@@ -16,8 +16,8 @@ use yii\behaviors\BlameableBehavior;
  * @property string $contact
  * @property integer $status
  * @property integer $quantity_of_guest
- * @property integer $check_in
- * @property integer $check_out
+ * @property string $check_in
+ * @property string $check_out
  * @property string $total_amount
  * @property integer $created_by
  * @property integer $updated_by
@@ -83,7 +83,6 @@ class Transaction extends \yii\db\ActiveRecord
             'status' => Yii::t('app', 'Status'),
             'quantity_of_guest' => Yii::t('app', '# Of Guest'),
             'check_in' => Yii::t('app', 'Check In'),
-            'check_in' => Yii::t('app', 'Check In'),
             'check_out' => Yii::t('app', 'Check Out'),
             'total_amount' => Yii::t('app', 'Total Amount'),
             'created_by' => Yii::t('app', 'Created By'),
@@ -125,16 +124,6 @@ class Transaction extends \yii\db\ActiveRecord
         return $this->hasOne(PackageItem::className(), ['id' => 'package_item_id']);
     }
 
-    public function beforeSave($insert)
-    {
-        if ($this->isNewRecord) {
-            date_default_timezone_set('Asia/Manila');
-            $this->setAttribute('check_in', strtotime($this->check_in));
-            /*var_dump($this->check_in); die();*/
-        }
-        return parent::beforeSave($insert);
-    }
-
     public function behaviors()
     {
         return [
@@ -152,14 +141,17 @@ class Transaction extends \yii\db\ActiveRecord
         ];
     }
 
-    public function beforeValidate()
+    public function checkIn()
     {
         if ($this->isNewRecord) {
-            if (isset($this->toggle_date_time) && (intval($this->toggle_date_time) === 0)) {
-                $this->setAttribute('check_in', date('Y-m-d H:i:s'));
+            if ($this->toggle_date_time === 'system') {
+                $this->check_in = date('Y-m-d H:i:s');
+            } else if ($this->toggle_date_time === 'manual') {
+                $this->check_in = date('Y-m-d H:i:s', (strtotime($this->check_in) - (8 * 3600)));
             }
+            return $this->save();
         }
-        return parent::beforeValidate();
+        return false;
     }
 
     public function validateCheckIn($attribute, $params)

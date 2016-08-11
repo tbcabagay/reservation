@@ -55,7 +55,7 @@ class TransactionController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        return $this->renderAjax('view', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -81,7 +81,7 @@ class TransactionController extends Controller
             $transaction->setAttribute('contact', $reservation->getAttribute('contact'));
         }
 
-        if ($transaction->load(Yii::$app->request->post()) && $transaction->save()) {
+        if ($transaction->load(Yii::$app->request->post()) && $transaction->checkIn()) {
             if ($reservation !== null) {
                 $reservation->checkIn();
             }
