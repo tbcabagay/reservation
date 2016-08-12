@@ -57,10 +57,10 @@ $this->params['breadcrumbs'][] = $this->title;
                             'template' => '{menu} {checkout}',
                             'buttons' => [
                                 'menu' => function ($url, $model, $key) {
-                                    return Html::a('<i class="fa fa-cutlery"></i>', ['package/create'], ['title' => 'Menu', 'aria-label' => 'Menu', 'data-pjax' => 0]);
+                                    return Html::a('<i class="fa fa-cutlery"></i>', ['order/create', 'transaction_id' => $model->id], ['title' => 'Menu', 'aria-label' => 'Menu', 'data-pjax' => 0, 'class' => 'transaction-gridview-button']);
                                 },
                                 'checkout' => function ($url, $model, $key) {
-                                    return Html::a('<i class="fa fa-shopping-cart"></i>', ['news/create'], ['title' => 'Menu', 'aria-label' => 'Menu', 'data-pjax' => 0]);
+                                    return Html::a('<i class="fa fa-shopping-cart"></i>', ['check-out'], ['title' => 'Menu', 'aria-label' => 'Menu', 'data-pjax' => 0, 'class' => 'transaction-gridview-button']);
                                 },
                             ],
                         ],
@@ -72,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'toolbar' => [
                         [
                             'content' =>
-                            Html::a('<i class="fa fa-plus"></i>', ['check-in'], [
+                            Html::a('<i class="fa fa-plus"></i>', ['create'], [
                                 'title' => Yii::t('app', 'Add Transaction'), 
                                 'class' => 'btn btn-success',
                                 'data-pjax' => 0,
@@ -97,12 +97,23 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php
     Modal::begin([
-        /*'header' => '<h4>Transaction Window</h4>',*/
+        'header' => '<h4>Transaction Window</h4>',
         'id' => 'modal-transaction',
         'size' => Modal::SIZE_LARGE,
     ]);
+    echo '<div id="modal-transaction-content"></div>';
     Modal::end ();
 ?>
 
 <?php
+$this->registerJs('
+(function($) {
+    $(".transaction-gridview-button").click(function(e) {
+        $("#modal-transaction").modal("show")
+            .find("#modal-transaction-content")
+            .load(this.href);
+        e.preventDefault();
+    });
+})(jQuery);
+');
 ?>

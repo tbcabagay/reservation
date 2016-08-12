@@ -27,6 +27,15 @@ use yii\behaviors\BlameableBehavior;
  */
 class Order extends \yii\db\ActiveRecord
 {
+    const SCENARIO_TRANSACTION_ORDER = 'transaction_order';
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_TRANSACTION_ORDER] = ['menu_package_id', 'quantity'];
+        return $scenarios;
+    }
+
     /**
      * @inheritdoc
      */
@@ -58,8 +67,8 @@ class Order extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'transaction_id' => Yii::t('app', 'Transaction ID'),
-            'menu_package_id' => Yii::t('app', 'Menu Package ID'),
+            'transaction_id' => Yii::t('app', 'Transaction'),
+            'menu_package_id' => Yii::t('app', 'Menu Package'),
             'quantity' => Yii::t('app', 'Quantity'),
             'amount' => Yii::t('app', 'Amount'),
             'total' => Yii::t('app', 'Total'),
@@ -117,5 +126,23 @@ class Order extends \yii\db\ActiveRecord
                 'updatedByAttribute' => 'updated_by',
             ],
         ];
+    }
+
+    public function add()
+    {
+        if ($this->isNewRecord) {
+            $this->transaction_id = Yii::$app->request->get('transaction_id');
+
+            $menuPackage = MenuPackage::findOne($this->menu_package_id);
+            if ($menuPackage === null) {
+                return false;
+            } else {
+                $this->amount = $menuPackage->amount;
+                $this->total = $this->quantity * $this->amount;
+            }
+
+            return $this->save();
+        }
+        return false;
     }
 }

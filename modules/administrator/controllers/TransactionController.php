@@ -65,6 +65,21 @@ class TransactionController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
+    public function actionCreate()
+    {
+        $model = new Transaction();
+        $model->scenario = Transaction::SCENARIO_CHECK_IN;
+
+        if ($model->load(Yii::$app->request->post()) && $model->checkIn()) {
+            return $this->redirect(['index']);
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+                'packageItems' => PackageItem::getTitleDropdownList(),
+            ]);
+        }
+    }
+
     public function actionCheckIn($reservation_id = null)
     {
         $transaction = new Transaction();

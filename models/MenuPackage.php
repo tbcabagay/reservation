@@ -68,4 +68,14 @@ class MenuPackage extends \yii\db\ActiveRecord
             return [];
         }
     }
+
+    public static function getRadioList()
+    {
+        $model = self::find()->asArray()->all();
+        if (!empty($model)) {
+            return ArrayHelper::map($model, 'id', 'title');
+        } else {
+            return [];
+        }
+    }
 }

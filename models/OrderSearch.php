@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Reservation;
+use app\models\Order;
 
 /**
- * ReservationSearch represents the model behind the search form about `app\models\Reservation`.
+ * OrderSearch represents the model behind the search form about `app\models\Order`.
  */
-class ReservationSearch extends Reservation
+class OrderSearch extends Order
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class ReservationSearch extends Reservation
     public function rules()
     {
         return [
-            [['package_item_id', 'status'], 'integer'],
-            [['firstname', 'lastname', 'check_in'], 'safe'],
+            [['id', 'transaction_id', 'menu_package_id', 'quantity', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
+            [['amount', 'total'], 'number'],
         ];
     }
 
@@ -41,7 +41,7 @@ class ReservationSearch extends Reservation
      */
     public function search($params)
     {
-        $query = Reservation::find()/*->orderBy('status ASC, created_at DESC')*/;
+        $query = Order::find();
 
         // add conditions that should always apply here
 
@@ -59,13 +59,28 @@ class ReservationSearch extends Reservation
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'package_item_id' => $this->package_item_id,
-            'status' => $this->status,
-            'check_in' => $this->check_in,
+            'id' => $this->id,
+            'transaction_id' => $this->transaction_id,
+            'menu_package_id' => $this->menu_package_id,
+            'quantity' => $this->quantity,
+            'amount' => $this->amount,
+            'total' => $this->total,
+            'created_by' => $this->created_by,
+            'updated_by' => $this->updated_by,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'firstname', $this->firstname])
-            ->andFilterWhere(['like', 'lastname', $this->lastname]);
+        return $dataProvider;
+    }
+
+    public function transactionOrder($transaction_id)
+    {
+        $query = Order::find()->where(['transaction_id' => $transaction_id]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
 
         return $dataProvider;
     }

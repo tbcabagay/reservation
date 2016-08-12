@@ -18,8 +18,8 @@ class TransactionSearch extends Transaction
     public function rules()
     {
         return [
-            [['id', 'package_item_id', 'status', 'quantity_of_guest', 'check_in', 'check_out', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
-            [['firstname', 'lastname', 'contact'], 'safe'],
+            [['id', 'package_item_id', 'status', 'quantity_of_guest', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
+            [['firstname', 'lastname', 'contact', 'check_in', 'check_out'], 'safe'],
             [['total_amount'], 'number'],
         ];
     }

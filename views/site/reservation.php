@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         <?= $form->field($reservation, 'email')->textInput(['maxlength' => true]) ?>
 
-                        <?= $form->field($reservation, 'address')->textInput(['maxlength' => true]) ?>
+                        <?= $form->field($reservation, 'address')->textArea(['rows' => 5]) ?>
                     </div>
                 </div>
 
