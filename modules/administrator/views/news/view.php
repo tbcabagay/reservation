@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
+use kartik\markdown\Markdown;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\News */
@@ -9,33 +9,27 @@ use yii\widgets\DetailView;
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'News'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$formatter = Yii::$app->formatter;
 ?>
 <div class="news-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header"><?= Html::encode($this->title) ?></h1>
+            <p class="text-muted"><i class="fa fa-clock-o"></i> <em><?= $formatter->asDateTime($model->created_at) ?></em></p>
+        </div>
+    </div>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'user_id',
-            'title',
-            'content:ntext',
-            'created_at',
-            'updated_at',
-            'slug',
-        ],
-    ]) ?>
+    <div class="row">
+        <div class="col-lg-12">
+            <p><?= Markdown::convert($model->content) ?></p>
+
+            <p>
+                <?= Html::a(Yii::t('app', 'Upload Image'), ['upload-image', 'id' => $model->id], ['class' => 'btn btn-primary btn-sm']) ?>
+            </p>
+        </div>
+    </div>
 
 </div>

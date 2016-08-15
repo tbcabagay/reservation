@@ -9,6 +9,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+use yii\web\UploadedFile;
+
 /**
  * NewsController implements the CRUD actions for News model.
  */
@@ -105,6 +107,23 @@ class NewsController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionUploadImage($id)
+    {
+        $model = $this->findModel($id);
+        $model->scenario = News::SCENARIO_UPLOAD_IMAGE;
+
+        if (Yii::$app->request->isAjax && Yii::$app->request->isPost) {
+            $model->photo_file = UploadedFile::getInstance($model, 'photo_file');
+            if ($model->upload()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+        } else {
+            return $this->render('upload-image', [
+                'model' => $model,
+            ]);
+        }
     }
 
     /**
