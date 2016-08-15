@@ -147,7 +147,7 @@ class Transaction extends \yii\db\ActiveRecord
             if ($this->toggle_date_time === 'system') {
                 $this->check_in = date('Y-m-d H:i:s');
             } else if ($this->toggle_date_time === 'manual') {
-                $this->check_in = date('Y-m-d H:i:s', (strtotime($this->check_in) - (8 * 3600)));
+                $this->check_in = date('Y-m-d H:i:s', (strtotime($this->check_in . ' Asia/Manila')));
             }
             return $this->save();
         }

@@ -32,18 +32,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             'attribute' => 'user_id',
                             'value' => 'user.username',
                         ],
-                        [
-                            'attribute' => 'created_at',
-                            'value' => function ($model, $key, $index, $column) {
-                                return Yii::$app->formatter->asDateTime($model->created_at);
-                            },
-                        ],
-                        [
-                            'attribute' => 'updated_at',
-                            'value' => function ($model, $key, $index, $column) {
-                                return Yii::$app->formatter->asDateTime($model->updated_at);
-                            },
-                        ],
+                        'created_at:datetime',
+                        'updated_at:datetime',
                         'id',
 
                         ['class' => 'yii\grid\ActionColumn'],
