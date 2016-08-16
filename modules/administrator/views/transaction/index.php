@@ -25,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="row">
                 <?= $this->render('_search', [
                     'model' => $searchModel,
+                    'packageItems' => $packageItems,
                 ]); ?>
             </div>
         </div>
