@@ -36,7 +36,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         'updated_at:datetime',
                         'id',
 
-                        ['class' => 'yii\grid\ActionColumn'],
+                        [
+                            'class' => 'yii\grid\ActionColumn',
+                            'template' => '{view} {update}',
+                        ],
                     ],
                     'panel'=>[
                         'type' => GridView::TYPE_DEFAULT,

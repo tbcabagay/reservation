@@ -27,12 +27,14 @@ class News extends \yii\db\ActiveRecord
     public $photo_file;
 
     const SCENARIO_ADD = 'add';
+    const SCENARIO_EDIT = 'edit';
     const SCENARIO_UPLOAD_IMAGE = 'upload_image';
 
     public function scenarios()
     {
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_ADD] = ['title', 'content'];
+        $scenarios[self::SCENARIO_EDIT] = ['title', 'content'];
         $scenarios[self::SCENARIO_UPLOAD_IMAGE] = ['photo', 'photo_file'];
         return $scenarios;
     }
@@ -90,6 +92,7 @@ class News extends \yii\db\ActiveRecord
     public function beforeSave($insert)
     {
         if ($insert) {
+            $this->setAttribute('photo', 'http://placehold.it/1200x1200');
             $this->setAttribute('user_id', Yii::$app->user->identity->id);
         }
         return parent::beforeSave($insert);
@@ -118,17 +121,27 @@ class News extends \yii\db\ActiveRecord
     public function upload()
     {
         if ($this->validate()) {
-            $savePath = Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR .'news' . DIRECTORY_SEPARATOR . $this->id;
+            $this->deleteOldPhoto();
+
+            $savePath = Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'news' . DIRECTORY_SEPARATOR . $this->id;
+            $urlPath = Yii::getAlias('@web') . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'news' . DIRECTORY_SEPARATOR . $this->id;
             $fileName = $this->photo_file->baseName . '.' . $this->photo_file->extension;
-            $this->photo = $savePath . DIRECTORY_SEPARATOR . $fileName;
+            $this->photo = $urlPath . DIRECTORY_SEPARATOR . $fileName;
             if ($this->save()) {
                 if (file_exists($savePath) === false) {
-                    BaseFileHelper::createDirectory($savePath, 0755);
+                    BaseFileHelper::createDirectory($savePath, 0755, true);
                 }
-                $this->photo_file->saveAs($this->photo);
+                $this->photo_file->saveAs($savePath . DIRECTORY_SEPARATOR . $fileName);
                 return true;
             }
         }
         return false;
+    }
+
+    public function deleteOldPhoto()
+    {
+        if ((file_exists(Yii::getAlias('@webroot') . $this->photo)) && ($this->photo !== null)) {
+            unlink(Yii::getAlias('@webroot') . $this->photo);
+        }
     }
 }

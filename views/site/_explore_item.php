@@ -19,21 +19,15 @@ use kartik\markdown\Markdown;
 
 <?php foreach ($model->packageItems as $packageItem): ?>
 <div class="row">
-    <div class="col-lg-8">
-        <h3><?= Html::encode($packageItem->title) ?></h3>
-        <?= Markdown::convert($packageItem->content) ?>
-    </div>
     <div class="col-lg-4">
-        
+        <div class="hovereffect">
+            <?= Html::img($packageItem->photo, ['class' => 'img-responsive']) ?>
+        </div>
     </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-12">
-        <hr>
-        <p>
-            <?= Html::a('<i class="fa fa-book""></i> Place Reservation', ['/site/reservation', 'slug' => $packageItem->slug], ['class' => 'btn btn-success']) ?>
-        </p>
+    <div class="col-lg-8">
+        <h3 class="page-header"><?= Html::encode($packageItem->title) ?></h3>
+        <?= Markdown::convert($packageItem->content) ?>
+        <p><?= Html::a('<i class="fa fa-book""></i> Place Reservation', ['/site/reservation', 'slug' => $packageItem->slug], ['class' => 'btn btn-success']) ?></p>
     </div>
 </div>
 <?php endforeach; ?>

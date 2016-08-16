@@ -7,6 +7,7 @@ use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\helpers\ArrayHelper;
+use yii\helpers\BaseFileHelper;
 
 /**
  * This is the model class for table "{{%package_item}}".
@@ -20,6 +21,7 @@ use yii\helpers\ArrayHelper;
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $slug
+ * @property string $photo
  *
  * @property Package $package
  * @property Reservation[] $reservations
@@ -27,12 +29,16 @@ use yii\helpers\ArrayHelper;
  */
 class PackageItem extends \yii\db\ActiveRecord
 {
+    public $photo_file;
+
     const SCENARIO_ADD = 'add';
+    const SCENARIO_UPLOAD_IMAGE = 'upload_image';
 
     public function scenarios()
     {
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_ADD] = ['package_id', 'title', 'content', 'quantity', 'rate'];
+        $scenarios[self::SCENARIO_UPLOAD_IMAGE] = ['photo', 'photo_file'];
         return $scenarios;
     }
 
@@ -56,6 +62,7 @@ class PackageItem extends \yii\db\ActiveRecord
             [['rate'], 'number'],
             [['title'], 'string', 'max' => 100],
             [['slug'], 'string', 'max' => 250],
+            [['photo'], 'string', 'max' => 255],
             [['package_id'], 'exist', 'skipOnError' => true, 'targetClass' => Package::className(), 'targetAttribute' => ['package_id' => 'id']],
         ];
     }
@@ -75,6 +82,7 @@ class PackageItem extends \yii\db\ActiveRecord
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'slug' => Yii::t('app', 'Slug'),
+            'photo' => Yii::t('app', 'Photo'),
         ];
     }
 
@@ -100,6 +108,14 @@ class PackageItem extends \yii\db\ActiveRecord
     public function getTransactions()
     {
         return $this->hasMany(Transaction::className(), ['package_item_id' => 'id']);
+    }
+
+    public function beforeSave($insert)
+    {
+        if ($insert) {
+            $this->setAttribute('photo', 'http://placehold.it/1200x1200');
+        }
+        return parent::beforeSave($insert);
     }
 
     public function behaviors()
@@ -129,6 +145,33 @@ class PackageItem extends \yii\db\ActiveRecord
             return ArrayHelper::map($model, 'id', 'title');
         } else {
             return [];
+        }
+    }
+
+    public function upload()
+    {
+        if ($this->validate()) {
+            $this->deleteOldPhoto();
+
+            $savePath = Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'package_item' . DIRECTORY_SEPARATOR . $this->id;
+            $urlPath = Yii::getAlias('@web') . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'package_item' . DIRECTORY_SEPARATOR . $this->id;
+            $fileName = $this->photo_file->baseName . '.' . $this->photo_file->extension;
+            $this->photo = $urlPath . DIRECTORY_SEPARATOR . $fileName;
+            if ($this->save()) {
+                if (file_exists($savePath) === false) {
+                    BaseFileHelper::createDirectory($savePath, 0755, true);
+                }
+                $this->photo_file->saveAs($savePath . DIRECTORY_SEPARATOR . $fileName);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function deleteOldPhoto()
+    {
+        if ((file_exists(Yii::getAlias('@webroot') . $this->photo)) && ($this->photo !== null)) {
+            unlink(Yii::getAlias('@webroot') . $this->photo);
         }
     }
 }

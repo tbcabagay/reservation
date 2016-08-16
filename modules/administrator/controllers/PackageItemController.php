@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 use app\models\Package;
+use yii\web\UploadedFile;
 
 /**
  * PackageItemController implements the CRUD actions for PackageItem model.
@@ -44,6 +45,18 @@ class PackageItemController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'packages' => Package::getTitleDropdownList(),
+        ]);
+    }
+
+    /**
+     * Displays a single News model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionView($id)
+    {
+        return $this->render('view', [
+            'model' => $this->findModel($id),
         ]);
     }
 
@@ -98,6 +111,23 @@ class PackageItemController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionUploadImage($id)
+    {
+        $model = $this->findModel($id);
+        $model->scenario = PackageItem::SCENARIO_UPLOAD_IMAGE;
+
+        if (Yii::$app->request->isAjax && Yii::$app->request->isPost) {
+            $model->photo_file = UploadedFile::getInstance($model, 'photo_file');
+            if ($model->upload()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+        } else {
+            return $this->render('upload-image', [
+                'model' => $model,
+            ]);
+        }
     }
 
     /**
