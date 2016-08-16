@@ -61,7 +61,7 @@ class ReservationSearch extends Reservation
         $query->andFilterWhere([
             'package_item_id' => $this->package_item_id,
             'status' => $this->status,
-            'check_in' => $this->check_in,
+            'DATE(check_in)' => $this->check_in,
         ]);
 
         $query->andFilterWhere(['like', 'firstname', $this->firstname])

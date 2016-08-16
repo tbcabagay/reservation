@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     return Html::a('<i class="fa fa-cutlery"></i>', ['order/create', 'transaction_id' => $model->id], ['title' => 'Menu', 'aria-label' => 'Menu', 'data-pjax' => 0, 'class' => 'transaction-gridview-button']);
                                 },
                                 'checkout' => function ($url, $model, $key) {
-                                    return Html::a('<i class="fa fa-shopping-cart"></i>', ['check-out'], ['title' => 'Menu', 'aria-label' => 'Menu', 'data-pjax' => 0, 'class' => 'transaction-gridview-button']);
+                                    return Html::a('<i class="fa fa-shopping-cart"></i>', ['check-out', 'id' => $model->id], ['title' => 'Check Out', 'aria-label' => 'Menu', 'data-pjax' => 0, 'class' => 'transaction-gridview-button']);
                                 },
                             ],
                         ],

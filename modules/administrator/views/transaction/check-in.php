@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $transaction->toggle_date_time = ($transaction->toggle_date_time === null) ? 'system' : $transaction->toggle_date_time;
 ?>
-<div class="transaction-create">
+<div class="transaction-check-in">
 
     <div class="row">
         <div class="col-lg-12">
