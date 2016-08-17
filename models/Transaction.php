@@ -32,12 +32,16 @@ use yii\behaviors\BlameableBehavior;
 class Transaction extends \yii\db\ActiveRecord
 {
     public $toggle_date_time;
+    public $toggle_discount;
+    public $discount;
 
     const SCENARIO_CHECK_IN = 'check_in';
+    const SCENARIO_CHECK_OUT = 'check_out';
 
     public function scenarios()
     {
         $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_CHECK_OUT] = ['check_out', 'discount', 'toggle_discount'];
         $scenarios[self::SCENARIO_CHECK_IN] = ['package_item_id', 'quantity_of_guest', 'check_in', 'firstname', 'lastname', 'contact', 'toggle_date_time'];
         return $scenarios;
     }
@@ -57,10 +61,12 @@ class Transaction extends \yii\db\ActiveRecord
     {
         return [
             [['package_item_id', 'firstname', 'lastname', 'contact', 'status', 'quantity_of_guest', 'check_in', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'required'],
-            [['package_item_id', 'status', 'quantity_of_guest', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
+            [['package_item_id', 'status', 'quantity_of_guest', 'created_by', 'updated_by', 'created_at', 'updated_at', 'discount'], 'integer'],
             [['total_amount'], 'number'],
             [['check_in', 'check_out'], 'date', 'format' => 'php:Y-m-d H:i:s'],
-            [['check_in'], 'validateCheckIn'],
+            [['check_in', 'check_out'], 'validateTransactionDate'],
+            [['toggle_discount'], 'boolean'],
+            [['toggle_date_time'], 'string', 'max' => 6],
             [['firstname', 'lastname'], 'string', 'max' => 25],
             [['contact'], 'string', 'max' => 50],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
@@ -89,6 +95,7 @@ class Transaction extends \yii\db\ActiveRecord
             'updated_by' => Yii::t('app', 'Updated By'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
+            'toggle_discount' => Yii::t('app', 'Apply Discount'),
         ];
     }
 
@@ -154,7 +161,24 @@ class Transaction extends \yii\db\ActiveRecord
         return false;
     }
 
-    public function validateCheckIn($attribute, $params)
+    public function checkOut()
+    {
+        $total = 0;
+        $orders = $this->orders;
+        if (empty($orders) !== false) {
+            foreach ($orders as $order) {
+                $total += $order->total;
+            }
+        }
+        if ($this->toggle_date_time === 'system') {
+            $this->check_out = date('Y-m-d H:i:s');
+        } else if ($this->toggle_date_time === 'manual') {
+            $this->check_out = date('Y-m-d H:i:s', (strtotime($this->check_out . ' Asia/Manila')));
+        }
+        return $this->save();
+    }
+
+    public function validateTransactionDate($attribute, $params)
     {
         $dateToCompare = $this->$attribute;
         $now = date('Y-m-d H:i:s');

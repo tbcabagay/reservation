@@ -113,8 +113,9 @@ class TransactionController extends Controller
     public function actionCheckOut($id)
     {
         $model = $this->findModel($id);
+        $model->scenario = Transaction::SCENARIO_CHECK_OUT;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->checkOut()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->renderAjax('check-out', [

@@ -9,8 +9,10 @@ use kartik\widgets\DateTimePicker;
 
 $this->title = Yii::t('app', 'Check Out');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Transactions'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+$this->params['breadcrumbs'][] = $this->title;
+
+$model->toggle_date_time = ($model->toggle_date_time === null) ? 'system' : $model->toggle_date_time;
+$model->toggle_discount = ($model->toggle_discount === null) ? false : $model->toggle_discount;
 ?>
 <div class="transaction-check-out">
 
@@ -36,6 +38,12 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
                         <?= $form->field($model, 'toggle_date_time')->radioList(['system' => 'Use System Clock', 'manual' => 'Set Manually'], ['inline' => true])->label(false) ?>
 
+                        <?= $form->field($model, 'discount', [
+                            'addon' => ['append' => ['content' => '%']]
+                        ])->textInput(['maxlength' => true]) ?>
+
+                        <?= $form->field($model, 'toggle_discount')->checkBox() ?>
+
                         <div class="form-group">
                             <?= Html::submitButton(Yii::t('app', 'Check Out'), ['class' => 'btn btn-success']) ?>
                         </div>
@@ -46,3 +54,30 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
     </div>
 
 </div>
+
+<?php
+$this->registerJs('
+(function($) {
+    var checkOut = "#' . Html::getInputId($model, 'check_out') . '";
+    var discount = "#' . Html::getInputId($model, 'discount') .'";
+    var toggleDateTimeValue = $(\'input:radio[name="' . Html::getInputName($model, 'toggle_date_time') . '"]:checked\').val();
+    var toggleDiscount = "#' . Html::getInputId($model, 'toggle_discount') .'";
+    $(discount).prop("disabled", true);
+    if (toggleDateTimeValue == "manual") {
+        $(checkOut).prop("disabled", false);
+    } else if (toggleDateTimeValue == "system") {
+        $(checkOut).prop("disabled", true);
+    }
+    $(\'input:radio[name="' . Html::getInputName($model, 'toggle_date_time') . '"]\').change(function() {
+        if (this.value == "manual") {
+            $(checkOut).prop("disabled", false);
+        } else if (this.value == "system") {
+            $(checkOut).prop("disabled", true);
+        }
+    });
+    $(toggleDiscount).change(function() {
+        $(discount).prop("disabled", !$(this).is(":checked"));
+    });
+})(jQuery);
+');
+?>
