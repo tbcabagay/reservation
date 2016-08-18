@@ -27,7 +27,10 @@ use kartik\markdown\Markdown;
     <div class="col-lg-8">
         <h3 class="page-header"><?= Html::encode($packageItem->title) ?></h3>
         <?= Markdown::convert($packageItem->content) ?>
-        <p><?= Html::a('<i class="fa fa-book""></i> Place Reservation', ['/site/reservation', 'slug' => $packageItem->slug], ['class' => 'btn btn-success']) ?></p>
+        <p>
+            <?= Html::a('<i class="fa fa-book""></i> Place Reservation', ['/site/reservation', 'slug' => $packageItem->slug], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('<i class="fa fa-picture-o""></i> View Gallery', ['/site/gallery', 'slug' => $packageItem->slug], ['class' => 'btn btn-info']) ?>
+        </p>
     </div>
 </div>
 <?php endforeach; ?>

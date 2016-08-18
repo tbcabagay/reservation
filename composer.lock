@@ -4,9 +4,43 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "43cec5d00cf8fa48545cf3acbe6a1242",
-    "content-hash": "dd732516601d15dfd44d87c6966263a5",
+    "hash": "9dd97c8a691bd65c1c2ddc2ddc94cdd2",
+    "content-hash": "f51a9745876c352198311a4eba4c28d1",
     "packages": [
+        {
+            "name": "bower-asset/Bootstrap-Image-Gallery",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/blueimp/Bootstrap-Image-Gallery.git",
+                "reference": "cf7ce17526011478c829408852f805c00782a62f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/blueimp/Bootstrap-Image-Gallery/zipball/cf7ce17526011478c829408852f805c00782a62f",
+                "reference": "cf7ce17526011478c829408852f805c00782a62f",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "time": "2016-05-20 10:05:19"
+        },
+        {
+            "name": "bower-asset/blueimp-gallery",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/blueimp/Gallery.git",
+                "reference": "fd3db700833b7e916d797e3f7aeecdb421919592"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/blueimp/Gallery/zipball/fd3db700833b7e916d797e3f7aeecdb421919592",
+                "reference": "fd3db700833b7e916d797e3f7aeecdb421919592",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "time": "2016-06-26 20:30:48"
+        },
         {
             "name": "bower-asset/bootstrap",
             "version": "v3.3.7",
@@ -431,17 +465,74 @@
             "time": "2016-07-16 12:58:58"
         },
         {
+            "name": "imagine/imagine",
+            "version": "0.5.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avalanche123/Imagine.git",
+                "reference": "343580fceed1f89220481ac98480e92f47d91e6c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avalanche123/Imagine/zipball/343580fceed1f89220481ac98480e92f47d91e6c",
+                "reference": "343580fceed1f89220481ac98480e92f47d91e6c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "sami/sami": "dev-master"
+            },
+            "suggest": {
+                "ext-gd": "to use the GD implementation",
+                "ext-gmagick": "to use the Gmagick implementation",
+                "ext-imagick": "to use the Imagick implementation"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "0.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Imagine": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bulat Shakirzyanov",
+                    "email": "mallluhuct@gmail.com",
+                    "homepage": "http://avalanche123.com"
+                }
+            ],
+            "description": "Image processing for PHP 5.3",
+            "homepage": "http://imagine.readthedocs.org/",
+            "keywords": [
+                "drawing",
+                "graphics",
+                "image manipulation",
+                "image processing"
+            ],
+            "time": "2014-06-13 10:54:04"
+        },
+        {
             "name": "kartik-v/bootstrap-fileinput",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "abde5a9611d4939b951fdd00f70a9fec935c7b6b"
+                "reference": "d870e37aa0828241c379543f464451af121bdc57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/abde5a9611d4939b951fdd00f70a9fec935c7b6b",
-                "reference": "abde5a9611d4939b951fdd00f70a9fec935c7b6b",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/d870e37aa0828241c379543f464451af121bdc57",
+                "reference": "d870e37aa0828241c379543f464451af121bdc57",
                 "shasum": ""
             },
             "type": "library",
@@ -481,7 +572,7 @@
                 "progress",
                 "upload"
             ],
-            "time": "2016-08-07 07:50:42"
+            "time": "2016-08-11 05:54:49"
         },
         {
             "name": "kartik-v/bootstrap-star-rating",
@@ -681,12 +772,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-grid.git",
-                "reference": "756555d4d28e59d331e9f89dc2ccc7fc02fd95d2"
+                "reference": "f03b9c7cb8276eedd865fb3cad89ff12f2dd33c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/756555d4d28e59d331e9f89dc2ccc7fc02fd95d2",
-                "reference": "756555d4d28e59d331e9f89dc2ccc7fc02fd95d2",
+                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/f03b9c7cb8276eedd865fb3cad89ff12f2dd33c2",
+                "reference": "f03b9c7cb8276eedd865fb3cad89ff12f2dd33c2",
                 "shasum": ""
             },
             "require": {
@@ -723,7 +814,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-08-04 11:44:57"
+            "time": "2016-08-16 19:21:27"
         },
         {
             "name": "kartik-v/yii2-helpers",
@@ -731,12 +822,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-helpers.git",
-                "reference": "082a199f4e95e5f32975005ff46ff3880ced8406"
+                "reference": "2b400821ef94de43cd2dca4923e665e703cf4828"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-helpers/zipball/082a199f4e95e5f32975005ff46ff3880ced8406",
-                "reference": "082a199f4e95e5f32975005ff46ff3880ced8406",
+                "url": "https://api.github.com/repos/kartik-v/yii2-helpers/zipball/2b400821ef94de43cd2dca4923e665e703cf4828",
+                "reference": "2b400821ef94de43cd2dca4923e665e703cf4828",
                 "shasum": ""
             },
             "require": {
@@ -769,7 +860,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2016-04-27 13:50:39"
+            "time": "2016-08-11 05:56:16"
         },
         {
             "name": "kartik-v/yii2-krajee-base",
@@ -1137,12 +1228,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-datepicker.git",
-                "reference": "e589d2463b2a3077e07364b48a2eb7dc399ec49b"
+                "reference": "43fab52cd8932939bd18821a664a87a2547d25db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/e589d2463b2a3077e07364b48a2eb7dc399ec49b",
-                "reference": "e589d2463b2a3077e07364b48a2eb7dc399ec49b",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/43fab52cd8932939bd18821a664a87a2547d25db",
+                "reference": "43fab52cd8932939bd18821a664a87a2547d25db",
                 "shasum": ""
             },
             "require": {
@@ -1183,7 +1274,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-07-23 15:29:51"
+            "time": "2016-08-16 18:53:36"
         },
         {
             "name": "kartik-v/yii2-widget-datetimepicker",
@@ -2272,12 +2363,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "48c6447489fe7bc785cc25beaeffb69076b6724c"
+                "reference": "3e56a83e49deacebec94cecb0ccd6d0977b20565"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/48c6447489fe7bc785cc25beaeffb69076b6724c",
-                "reference": "48c6447489fe7bc785cc25beaeffb69076b6724c",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/3e56a83e49deacebec94cecb0ccd6d0977b20565",
+                "reference": "3e56a83e49deacebec94cecb0ccd6d0977b20565",
                 "shasum": ""
             },
             "require": {
@@ -2358,7 +2449,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2016-08-05 14:33:52"
+            "time": "2016-08-17 08:58:09"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -2456,6 +2547,54 @@
                 "yii2"
             ],
             "time": "2016-06-05 20:34:32"
+        },
+        {
+            "name": "yiisoft/yii2-imagine",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-imagine.git",
+                "reference": "ac0e2f14d4c4de012eb0103c38e5b5f30a02f2a0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-imagine/zipball/ac0e2f14d4c4de012eb0103c38e5b5f30a02f2a0",
+                "reference": "ac0e2f14d4c4de012eb0103c38e5b5f30a02f2a0",
+                "shasum": ""
+            },
+            "require": {
+                "imagine/imagine": "0.5.*",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yii\\imagine\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Antonio Ramirez",
+                    "email": "amigo.cobos@gmail.com"
+                }
+            ],
+            "description": "The Imagine integration for the Yii framework",
+            "keywords": [
+                "helper",
+                "image",
+                "imagine",
+                "yii2"
+            ],
+            "time": "2016-08-13 17:38:00"
         },
         {
             "name": "yiisoft/yii2-swiftmailer",
@@ -2579,12 +2718,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "5265f16ae0ae9b6acaf7c518063d80b2383a8086"
+                "reference": "a1dd85c38f033c895f120e4b346cd737098e7c4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/5265f16ae0ae9b6acaf7c518063d80b2383a8086",
-                "reference": "5265f16ae0ae9b6acaf7c518063d80b2383a8086",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/a1dd85c38f033c895f120e4b346cd737098e7c4a",
+                "reference": "a1dd85c38f033c895f120e4b346cd737098e7c4a",
                 "shasum": ""
             },
             "require": {
@@ -2621,7 +2760,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2016-07-25 09:33:04"
+            "time": "2016-08-12 07:13:09"
         },
         {
             "name": "myclabs/deep-copy",
@@ -2848,12 +2987,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-gii.git",
-                "reference": "752f6cfc17572f32f599639770289a6e52cf3dc2"
+                "reference": "529e35ba79b6e25beb192da161ab0bf4f809cf2b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/752f6cfc17572f32f599639770289a6e52cf3dc2",
-                "reference": "752f6cfc17572f32f599639770289a6e52cf3dc2",
+                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/529e35ba79b6e25beb192da161ab0bf4f809cf2b",
+                "reference": "529e35ba79b6e25beb192da161ab0bf4f809cf2b",
                 "shasum": ""
             },
             "require": {
@@ -2893,7 +3032,7 @@
                 "gii",
                 "yii2"
             ],
-            "time": "2016-07-28 22:50:13"
+            "time": "2016-08-08 21:46:45"
         }
     ],
     "aliases": [],

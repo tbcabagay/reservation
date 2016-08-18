@@ -19,7 +19,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= Markdown::convert($model->content) ?>
 
             <hr>
-            <p><?= Html::a(Yii::t('app', 'Upload Image'), ['upload-image', 'id' => $model->id], ['class' => 'btn btn-primary btn-sm']) ?></p>
+            <p>
+                <?= Html::a(Yii::t('app', '<i class="fa fa-upload"></i> Thumbnail'), ['upload-thumbnail', 'id' => $model->id], ['class' => 'btn btn-primary btn-sm']) ?>
+                <?= Html::a(Yii::t('app', '<i class="fa fa-upload"></i> Gallery'), ['upload-gallery', 'id' => $model->id], ['class' => 'btn btn-info btn-sm']) ?>
+            </p>
         </div>
     </div>
 

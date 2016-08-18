@@ -11,9 +11,13 @@ use app\assets\AppAsset;
 use app\assets\FontAwesomeAsset;
 use app\assets\RespondAsset;
 use yii\bootstrap\Carousel;
+use app\assets\BlueImpAsset;
+use app\assets\BootstrapImageGalleryAsset;
 
 raoul2000\bootswatch\BootswatchAsset::$theme = 'yeti';
 AppAsset::register($this);
+BlueImpAsset::register($this);
+BootstrapImageGalleryAsset::register($this);
 FontAwesomeAsset::register($this);
 RespondAsset::register($this);
 ?>

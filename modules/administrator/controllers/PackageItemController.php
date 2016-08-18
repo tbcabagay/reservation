@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 
 use app\models\Package;
 use yii\web\UploadedFile;
+use yii\web\Response;
 
 /**
  * PackageItemController implements the CRUD actions for PackageItem model.
@@ -113,18 +114,36 @@ class PackageItemController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionUploadImage($id)
+    public function actionUploadThumbnail($id)
     {
         $model = $this->findModel($id);
-        $model->scenario = PackageItem::SCENARIO_UPLOAD_IMAGE;
+        $model->scenario = PackageItem::SCENARIO_UPLOAD_THUMBNAIL;
 
         if (Yii::$app->request->isAjax && Yii::$app->request->isPost) {
-            $model->photo_file = UploadedFile::getInstance($model, 'photo_file');
-            if ($model->upload()) {
+            $model->thumbnail_file = UploadedFile::getInstance($model, 'thumbnail_file');
+            if ($model->uploadThumbnail()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
-            return $this->render('upload-image', [
+            return $this->render('upload-thumbnail', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    public function actionUploadGallery($id)
+    {
+        $model = $this->findModel($id);
+        $model->scenario = PackageItem::SCENARIO_UPLOAD_GALLERY;
+
+        if (Yii::$app->request->isAjax && Yii::$app->request->isPost) {
+            $model->gallery_file = UploadedFile::getInstances($model, 'gallery_file');
+            if ($model->uploadGallery()) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                //return $this->redirect(['view', 'id' => $model->id]);
+            }
+        } else {
+            return $this->render('upload-gallery', [
                 'model' => $model,
             ]);
         }

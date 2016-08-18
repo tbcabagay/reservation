@@ -9,7 +9,7 @@ use kartik\widgets\FileInput;
 /* @var $model app\models\News */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title = Yii::t('app', 'Upload Image');
+$this->title = Yii::t('app', 'Upload Thumbnail');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Package Items'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -33,10 +33,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         'options' => ['enctype' => 'multipart/form-data']
                     ]); ?>
 
-                        <?= $form->field($model, 'photo_file')->widget(FileInput::classname(), [
+                        <?= $form->field($model, 'thumbnail_file')->widget(FileInput::classname(), [
                             'options' => ['accept' => 'image/*'],
                             'pluginOptions' => [
-                                'uploadUrl' => Url::to(['upload-image', 'id' => $model->id]),
+                                'uploadUrl' => Url::to(['upload-thumbnail', 'id' => $model->id]),
                             ],
                         ]) ?>
 
