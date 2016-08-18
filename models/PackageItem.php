@@ -176,7 +176,9 @@ class PackageItem extends \yii\db\ActiveRecord
                 if (file_exists($absolutePath) === false) {
                     BaseFileHelper::createDirectory($absolutePath, 0755, true);
                 }
-                $this->thumbnail_file->saveAs($absolutePath . DIRECTORY_SEPARATOR . $fileName);
+                $absoluteImagePath = $absolutePath . DIRECTORY_SEPARATOR . $fileName;
+                $this->thumbnail_file->saveAs($absoluteImagePath);
+                Image::thumbnail($absoluteImagePath, 360, 360)->save($absoluteImagePath, ['quality' => 100]);
                 return true;
             }
         }

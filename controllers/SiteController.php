@@ -9,6 +9,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 
+use app\models\Package;
 use app\models\PackageItem;
 use app\models\Reservation;
 use app\models\NewsSearch;
@@ -141,7 +142,7 @@ class SiteController extends Controller
 
     public function actionReservation($slug)
     {
-        $packageItem = $this->findSlug($slug);
+        $packageItem = $this->findPackageItemSlug($slug);
         $reservation = new Reservation();
         $reservation->scenario = Reservation::SCENARIO_NEW;
 
@@ -157,9 +158,22 @@ class SiteController extends Controller
         }
     }
 
+    public function actionAgreement($package_id, $slug)
+    {
+        if (Yii::$app->request->isAjax) {
+            return $this->renderAjax('agreement', [
+                'package' => $this->findPackage($package_id),
+                'packageItem' => $this->findPackageItemSlug($slug),
+            ]);
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+
+    }
+
     public function actionGallery($slug)
     {
-        $model = $this->findSlug($slug);
+        $model = $this->findPackageItemSlug($slug);
         
         return $this->render('gallery', [
             'model' => $model,
@@ -167,9 +181,18 @@ class SiteController extends Controller
         ]);
     }
 
-    protected function findSlug($slug)
+    protected function findPackageItemSlug($slug)
     {
         if (($model = PackageItem::find()->where(['slug' => $slug])->one()) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    protected function findPackage($id)
+    {
+        if (($model = Package::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

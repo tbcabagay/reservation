@@ -7,6 +7,7 @@ use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\helpers\BaseFileHelper;
+use yii\imagine\Image;
 
 /**
  * This is the model class for table "{{%news}}".
@@ -123,15 +124,17 @@ class News extends \yii\db\ActiveRecord
         if ($this->validate()) {
             $this->deleteOldPhoto();
 
-            $savePath = Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'news' . DIRECTORY_SEPARATOR . $this->id;
-            $urlPath = Yii::getAlias('@web') . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'news' . DIRECTORY_SEPARATOR . $this->id;
+            $absolutePath = Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'news' . DIRECTORY_SEPARATOR . $this->id;
+            $relativePath = Yii::getAlias('@web') . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'news' . DIRECTORY_SEPARATOR . $this->id;
             $fileName = $this->photo_file->baseName . '.' . $this->photo_file->extension;
-            $this->photo = $urlPath . DIRECTORY_SEPARATOR . $fileName;
+            $this->photo = $relativePath . DIRECTORY_SEPARATOR . $fileName;
             if ($this->save()) {
-                if (file_exists($savePath) === false) {
-                    BaseFileHelper::createDirectory($savePath, 0755, true);
+                if (file_exists($absolutePath) === false) {
+                    BaseFileHelper::createDirectory($absolutePath, 0755, true);
                 }
-                $this->photo_file->saveAs($savePath . DIRECTORY_SEPARATOR . $fileName);
+                $absoluteImagePath = $absolutePath . DIRECTORY_SEPARATOR . $fileName;
+                $this->photo_file->saveAs($absoluteImagePath);
+                Image::thumbnail($absoluteImagePath, 240, 240)->save($absoluteImagePath, ['quality' => 100]);
                 return true;
             }
         }

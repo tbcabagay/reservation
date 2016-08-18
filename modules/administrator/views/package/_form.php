@@ -22,11 +22,7 @@ use kartik\markdown\MarkdownEditor;
 
                         <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-                        <?= $form->field($model, 'header')->widget(MarkdownEditor::classname(), [
-                            'height' => 300,
-                        ]) ?>
-
-                        <?= $form->field($model, 'footer')->widget(MarkdownEditor::classname(), [
+                        <?= $form->field($model, 'agreement')->widget(MarkdownEditor::classname(), [
                             'height' => 300,
                         ]) ?>
 

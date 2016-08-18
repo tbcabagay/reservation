@@ -146,12 +146,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FortAwesome/Font-Awesome.git",
-                "reference": "42136797890295a938dc09536bb7a4ac9ba22e3d"
+                "reference": "d0811abdc3953febe7174664736f8786766b737e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/42136797890295a938dc09536bb7a4ac9ba22e3d",
-                "reference": "42136797890295a938dc09536bb7a4ac9ba22e3d",
+                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/d0811abdc3953febe7174664736f8786766b737e",
+                "reference": "d0811abdc3953febe7174664736f8786766b737e",
                 "shasum": ""
             },
             "type": "bower-asset-library",
@@ -176,7 +176,7 @@
                 "CC-BY-3.0"
             ],
             "description": "Font Awesome",
-            "time": "2016-07-08 10:37:14"
+            "time": "2016-08-04 15:32:44"
         },
         {
             "name": "bower-asset/jquery",
