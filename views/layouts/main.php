@@ -57,16 +57,24 @@ NavBar::end();
 <?= Carousel::widget([
     'items' => [
         [
-            'content' => '<div class="fill" style="background-image:url(\'http://placehold.it/1900x1080&text=Slide One\');"></div>',
-            'caption' => '<h4>Caption 1</h4>'
+            'content' => '<div class="fill" style="background-image:url(\'/carousel/1.jpg\');"></div>',
+            'caption' => '<h4>Welcome to ' . Yii::$app->params['appName'] .'</h4>'
         ],
         [
-            'content' => '<div class="fill" style="background-image:url(\'http://placehold.it/1900x1080&text=Slide Two\');"></div>',
-            'caption' => '<h4>Caption 2</h4>'
+            'content' => '<div class="fill" style="background-image:url(\'/carousel/2.jpg\');"></div>',
+            'caption' => '<h4>Our De Luxe Room</h4>'
         ],
         [
-            'content' => '<div class="fill" style="background-image:url(\'http://placehold.it/1900x1080&text=Slide Three\');"></div>',
-            'caption' => '<h4>Caption 3</h4>'
+            'content' => '<div class="fill" style="background-image:url(\'/carousel/3.jpg\');"></div>',
+            'caption' => '<h4>Our Cottage</h4>'
+        ],
+        [
+            'content' => '<div class="fill" style="background-image:url(\'/carousel/4.jpg\');"></div>',
+            'caption' => '<h4>Our Pool Side Massage Area</h4>'
+        ],
+        [
+            'content' => '<div class="fill" style="background-image:url(\'/carousel/5.jpg\');"></div>',
+            'caption' => '<h4>Our Reception Hall</h4>'
         ],
     ],
     'options' => ['id' => 'myCarousel', 'class' => 'slide'],
