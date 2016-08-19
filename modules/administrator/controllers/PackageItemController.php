@@ -71,8 +71,11 @@ class PackageItemController extends Controller
         $model = new PackageItem();
         $model->scenario = PackageItem::SCENARIO_ADD;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->thumbnail_file = UploadedFile::getInstance($model, 'thumbnail_file');
+            if ($model->add()) {
+                return $this->redirect(['index']);
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -90,9 +93,13 @@ class PackageItemController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->scenario = PackageItem::SCENARIO_EDIT;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->thumbnail_file = UploadedFile::getInstance($model, 'thumbnail_file');
+            if ($model->add()) {
+                return $this->redirect(['index']);
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -114,7 +121,7 @@ class PackageItemController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionUploadThumbnail($id)
+    /*public function actionUploadThumbnail($id)
     {
         $model = $this->findModel($id);
         $model->scenario = PackageItem::SCENARIO_UPLOAD_THUMBNAIL;
@@ -129,7 +136,7 @@ class PackageItemController extends Controller
                 'model' => $model,
             ]);
         }
-    }
+    }*/
 
     /**
      * Finds the PackageItem model based on its primary key value.

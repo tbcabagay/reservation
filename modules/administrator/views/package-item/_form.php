@@ -41,6 +41,8 @@ use kartik\widgets\TouchSpin;
                             'height' => 300,
                         ]) ?>
 
+                        <?= $form->field($model, 'thumbnail_file')->fileInput() ?>
+
                         <div class="form-group">
                             <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
                         </div>

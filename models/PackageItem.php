@@ -35,13 +35,15 @@ class PackageItem extends \yii\db\ActiveRecord
     public $gallery_file;
 
     const SCENARIO_ADD = 'add';
+    const SCENARIO_EDIT = 'edit';
     const SCENARIO_UPLOAD_THUMBNAIL = 'upload_thumbnail';
     const SCENARIO_UPLOAD_GALLERY = 'upload_gallery';
 
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIO_ADD] = ['package_id', 'title', 'content', 'quantity', 'rate'];
+        $scenarios[self::SCENARIO_ADD] = ['package_id', 'title', 'content', 'quantity', 'rate', 'photo', 'thumbnail_file'];
+        $scenarios[self::SCENARIO_EDIT] = ['package_id', 'title', 'content', 'quantity', 'rate', 'photo', 'thumbnail_file'];
         $scenarios[self::SCENARIO_UPLOAD_THUMBNAIL] = ['photo', 'thumbnail_file'];
         $scenarios[self::SCENARIO_UPLOAD_GALLERY] = ['photo', 'gallery_file'];
         return $scenarios;
@@ -68,7 +70,8 @@ class PackageItem extends \yii\db\ActiveRecord
             [['title'], 'string', 'max' => 100],
             [['slug'], 'string', 'max' => 250],
             [['photo'], 'string', 'max' => 255],
-            [['thumbnail_file'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, svg'],
+            [['thumbnail_file'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, svg', 'on' => self::SCENARIO_ADD],
+            [['thumbnail_file'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, svg', 'on' => self::SCENARIO_EDIT],
             [['gallery_file'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, svg', 'maxFiles' => 50],
             [['package_id'], 'exist', 'skipOnError' => true, 'targetClass' => Package::className(), 'targetAttribute' => ['package_id' => 'id']],
         ];
@@ -163,7 +166,7 @@ class PackageItem extends \yii\db\ActiveRecord
         }
     }
 
-    public function uploadThumbnail()
+    public function add()
     {
         if ($this->validate()) {
             $this->deleteOldPhoto();
@@ -184,6 +187,28 @@ class PackageItem extends \yii\db\ActiveRecord
         }
         return false;
     }
+
+    /*public function uploadThumbnail()
+    {
+        if ($this->validate()) {
+            $this->deleteOldPhoto();
+
+            $absolutePath = Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'package_item' . DIRECTORY_SEPARATOR . 'thumbnail' . DIRECTORY_SEPARATOR . $this->id;
+            $relativePath = Yii::getAlias('@web') . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'package_item' . DIRECTORY_SEPARATOR . 'thumbnail' . DIRECTORY_SEPARATOR . $this->id;
+            $fileName = $this->thumbnail_file->baseName . '.' . $this->thumbnail_file->extension;
+            $this->photo = $relativePath . DIRECTORY_SEPARATOR . $fileName;
+            if ($this->save(false)) {
+                if (file_exists($absolutePath) === false) {
+                    BaseFileHelper::createDirectory($absolutePath, 0755, true);
+                }
+                $absoluteImagePath = $absolutePath . DIRECTORY_SEPARATOR . $fileName;
+                $this->thumbnail_file->saveAs($absoluteImagePath);
+                Image::thumbnail($absoluteImagePath, 360, 360)->save($absoluteImagePath, ['quality' => 100]);
+                return true;
+            }
+        }
+        return false;
+    }*/
 
     public function uploadGallery()
     {

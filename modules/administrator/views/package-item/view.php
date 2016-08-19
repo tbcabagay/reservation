@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <hr>
             <p>
-                <?= Html::a(Yii::t('app', '<i class="fa fa-upload"></i> Thumbnail'), ['upload-thumbnail', 'id' => $model->id], ['class' => 'btn btn-primary btn-sm']) ?>
+                <?php // Html::a(Yii::t('app', '<i class="fa fa-upload"></i> Thumbnail'), ['upload-thumbnail', 'id' => $model->id], ['class' => 'btn btn-primary btn-sm']) ?>
                 <?= Html::a(Yii::t('app', '<i class="fa fa-upload"></i> Gallery'), ['package-item-gallery/upload-gallery', 'package_item_id' => $model->id], ['class' => 'btn btn-info btn-sm']) ?>
             </p>
         </div>
