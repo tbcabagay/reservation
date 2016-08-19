@@ -210,6 +210,7 @@ class PackageItem extends \yii\db\ActiveRecord
                     'photo' => $photo,
                 ]);
                 if ($result = $model->save(false)) {
+                    echo json_encode([]);
                     $absoluteImagePath = $absolutePath . DIRECTORY_SEPARATOR . $fileName;
                     $absoluteThumbnailPath = $thumbnailAbsolutePath . DIRECTORY_SEPARATOR . $fileName;
                     $image->saveAs($absoluteImagePath);

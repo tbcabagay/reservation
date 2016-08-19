@@ -65,7 +65,6 @@ class PackageItemGalleryController extends Controller
         if (Yii::$app->request->isAjax && Yii::$app->request->isPost) {
             $model->gallery_file = UploadedFile::getInstances($model, 'gallery_file');
             if ($model->uploadGallery()) {
-                /*Yii::$app->response->format = Response::FORMAT_JSON;*/
                 return $this->redirect(['upload-gallery', 'package_item_id' => $model->id]);
             }
         } else {

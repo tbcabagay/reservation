@@ -27,6 +27,7 @@ class ContentController extends Controller
         foreach ($packages as $package) {
             $model = new Package();
             $model->title = $package;
+            $model->agreement = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eu vulputate elit. Duis mauris eros, venenatis quis tortor vitae, pretium hendrerit dui. Sed eget fermentum dui, at iaculis lorem. Integer maximus libero nec nisi congue vestibulum. Quisque mollis diam vitae nulla gravida malesuada. Sed blandit rhoncus dictum. Suspendisse hendrerit aliquet felis et interdum. Morbi ut justo id arcu egestas cursus. Nulla fringilla iaculis elementum. Phasellus vulputate tortor nisl, vel viverra dolor fringilla a. Morbi volutpat metus quis ipsum mattis rutrum. Mauris semper ipsum est, lacinia hendrerit quam blandit a. Aliquam tempus vehicula quam, in auctor tellus.';
             $model->save();
         }
     }
