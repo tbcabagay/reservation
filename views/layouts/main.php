@@ -45,8 +45,16 @@ NavBar::begin([
 echo Nav::widget([
     'options' => ['class' => 'navbar-nav navbar-right'],
     'items' => [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'Explore', 'url' => ['/site/explore']],
+        [
+            'label' => 'Home', 'url' => ['/site/index']
+        ],
+        [
+            'label' => 'Explore', 'items' => [
+                ['label' => 'Packages', 'url' => ['/site/packages']],
+                ['label' => 'Services', 'url' => ['/site/services']],
+                ['label' => 'Menus', 'url' => ['/site/menus']],
+            ]
+        ],
         ['label' => 'Contact', 'url' => ['/site/contact']],
     ],
 ]);

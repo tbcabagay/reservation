@@ -3,20 +3,18 @@
 namespace app\modules\administrator\controllers;
 
 use Yii;
-use app\models\PackageItem;
-use app\models\PackageItemSearch;
+use app\models\Spa;
+use app\models\SpaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-use app\models\Package;
 use yii\web\UploadedFile;
-use yii\web\Response;
 
 /**
- * PackageItemController implements the CRUD actions for PackageItem model.
+ * SpaController implements the CRUD actions for Spa model.
  */
-class PackageItemController extends Controller
+class SpaController extends Controller
 {
     /**
      * @inheritdoc
@@ -34,55 +32,44 @@ class PackageItemController extends Controller
     }
 
     /**
-     * Lists all PackageItem models.
+     * Lists all Spa models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new PackageItemSearch();
+        $searchModel = new SpaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'packages' => Package::getTitleDropdownList(),
         ]);
     }
 
     /**
-     * Displays a single News model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new PackageItem model.
+     * Creates a new Spa model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new PackageItem();
-        $model->scenario = PackageItem::SCENARIO_ADD;
+        $model = new Spa();
+        $model->scenario = Spa::SCENARIO_ADD;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->photo_file = UploadedFile::getInstance($model, 'photo_file');
+            if ($model->add()) {
+                return $this->redirect(['index']);
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
-                'packages' => Package::getTitleDropdownList(),
             ]);
         }
     }
 
     /**
-     * Updates an existing PackageItem model.
+     * Updates an existing Spa model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -90,19 +77,22 @@ class PackageItemController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->scenario = Spa::SCENARIO_EDIT;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->photo_file = UploadedFile::getInstance($model, 'photo_file');
+            if ($model->add()) {
+                return $this->redirect(['index']);
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,
-                'packages' => Package::getTitleDropdownList(),
             ]);
         }
     }
 
     /**
-     * Deletes an existing PackageItem model.
+     * Deletes an existing Spa model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -114,33 +104,16 @@ class PackageItemController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionUploadThumbnail($id)
-    {
-        $model = $this->findModel($id);
-        $model->scenario = PackageItem::SCENARIO_UPLOAD_THUMBNAIL;
-
-        if (Yii::$app->request->isAjax && Yii::$app->request->isPost) {
-            $model->thumbnail_file = UploadedFile::getInstance($model, 'thumbnail_file');
-            if ($model->uploadThumbnail()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {
-            return $this->render('upload-thumbnail', [
-                'model' => $model,
-            ]);
-        }
-    }
-
     /**
-     * Finds the PackageItem model based on its primary key value.
+     * Finds the Spa model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return PackageItem the loaded model
+     * @return Spa the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = PackageItem::findOne($id)) !== null) {
+        if (($model = Spa::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

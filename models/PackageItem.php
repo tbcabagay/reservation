@@ -172,7 +172,7 @@ class PackageItem extends \yii\db\ActiveRecord
             $relativePath = Yii::getAlias('@web') . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'package_item' . DIRECTORY_SEPARATOR . 'thumbnail' . DIRECTORY_SEPARATOR . $this->id;
             $fileName = $this->thumbnail_file->baseName . '.' . $this->thumbnail_file->extension;
             $this->photo = $relativePath . DIRECTORY_SEPARATOR . $fileName;
-            if ($this->save()) {
+            if ($this->save(false)) {
                 if (file_exists($absolutePath) === false) {
                     BaseFileHelper::createDirectory($absolutePath, 0755, true);
                 }
@@ -209,7 +209,7 @@ class PackageItem extends \yii\db\ActiveRecord
                     'thumbnail' => $thumbnail,
                     'photo' => $photo,
                 ]);
-                if ($result = $model->save()) {
+                if ($result = $model->save(false)) {
                     $absoluteImagePath = $absolutePath . DIRECTORY_SEPARATOR . $fileName;
                     $absoluteThumbnailPath = $thumbnailAbsolutePath . DIRECTORY_SEPARATOR . $fileName;
                     $image->saveAs($absoluteImagePath);

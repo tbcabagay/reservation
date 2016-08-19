@@ -14,6 +14,8 @@ use app\models\PackageItem;
 use app\models\Reservation;
 use app\models\NewsSearch;
 use app\models\PackageSearch;
+use app\models\MenuPackage;
+use app\models\Spa;
 
 use yii\web\NotFoundHttpException;
 
@@ -129,12 +131,12 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionExplore()
+    public function actionPackages()
     {
         $searchModel = new PackageSearch();
         $dataProvider = $searchModel->catalog();
 
-        return $this->render('explore', [
+        return $this->render('packages', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -178,6 +180,40 @@ class SiteController extends Controller
         return $this->render('gallery', [
             'model' => $model,
             'packageItemGalleries' => $model->packageItemGalleries,
+        ]);
+    }
+
+    public function actionServices()
+    {
+        return $this->render('services', [
+            'model' => Spa::find()->all(),
+        ]);
+    }
+
+    public function actionMenus()
+    {
+        $model = MenuPackage::find()->with(['menuItems' => function($query) {
+            $query->orderBy(['menu_category_id' => SORT_ASC]);
+        }])->all();
+        $result = [];
+        if (!empty($model)) {
+            foreach ($model as $menuPackage) {
+                $result['package'][$menuPackage->id] = [
+                    'title' => $menuPackage->title,
+                    'amount' => $menuPackage->amount,
+                ];
+                foreach ($menuPackage->menuItems as $menuItem) {
+                    $result['package'][$menuPackage->id]['menu'][$menuItem->menuCategory->id]['category'] = $menuItem->menuCategory->category;
+                    $result['package'][$menuPackage->id]['menu'][$menuItem->menuCategory->id]['items'][] = [
+                        'title' => $menuItem->title,
+                        'description' => $menuItem->description,
+                        'photo' => $menuItem->photo,
+                    ];
+                }
+            }
+        }
+        return $this->render('menus', [
+            'model' =>  $result,
         ]);
     }
 

@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <div class="col-lg-12">
-            <div id="blueimp-gallery" class="blueimp-gallery" data-use-bootstrap-modal="false">
+            <div id="blueimp-gallery" class="blueimp-gallery">
                 <div class="slides"></div>
                 <h3 class="title"></h3>
                 <a class="prev">‹</a>

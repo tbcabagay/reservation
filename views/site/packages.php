@@ -6,7 +6,7 @@ use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 
-$this->title = 'Explore';
+$this->title = 'Packages';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-explore">

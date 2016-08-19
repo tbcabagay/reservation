@@ -181,6 +181,7 @@ $identity = Yii::$app->user->identity;
                             <li><?= Html::a('Items', ['menu-item/index']) ?></li>
                         </ul>
                     </li>
+                    <li><?= Html::a('<i class="fa fa-paw fa-fw"></i> Spas', ['spa/index']) ?></li>
                     <li><?= Html::a('<i class="fa fa-book fa-fw"></i> Reservations', ['reservation/index']) ?></li>
                     <li><?= Html::a('<i class="fa fa-tasks fa-fw"></i> Transactions', ['transaction/index']) ?></li>
                 </ul>
