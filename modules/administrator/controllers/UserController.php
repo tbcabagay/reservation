@@ -67,6 +67,9 @@ class UserController extends Controller
         $model->scenario = User::SCENARIO_REGISTER;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $auth = Yii::$app->authManager;
+            $role = $auth->getRole($model->role);
+            $auth->assign($role, $model->getId());
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [

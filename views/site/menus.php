@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-lg-12">
             <p>No menu to display.</p>
         </div>
-    <? else: ?>
+    <?php else: ?>
     <?php foreach ($model['package'] as $package): ?>
         <div class="col-lg-3">
             <div class="panel panel-default">

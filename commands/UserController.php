@@ -17,6 +17,9 @@ class UserController extends Controller
         $model->role = $role;
 
         if ($model->save()) {
+            $auth = Yii::$app->authManager;
+            $role = $auth->getRole($model->role);
+            $auth->assign($role, $model->getId());
             echo "User successfully created.\n";
         }
     }
