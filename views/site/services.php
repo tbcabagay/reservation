@@ -9,12 +9,24 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-services">
     
-    <div class="row">
     <?php if (empty($model)): ?>
+    <div class="row">
         <div class="col-lg-12">
             <p>No services to display.</p>
         </div>
+    </div>
     <?php else: ?>
+    <div class="row">
+        <div class="col-lg-12">
+            <p class="lead text-center">
+                The Spa has the following amenities:<br>
+                <small><em>Dry Sauna, Shower Room, Lounge, Couples Room, &amp; Scrub Room. Jacuzzi is located by the poolside.</em></small>
+            </p>
+            <p class="text-center"><strong><i class="fa fa-clock-o"></i> Operating hours 12:00 noon to 8:00PM</strong></p>
+            <hr>
+        </div>
+    </div>
+    <div class="row">
     <?php foreach ($model as $spa): ?>
         <div class="col-lg-4 spa-gallery">
             <div class="hovereffect-2">
@@ -31,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
     <?php endforeach; ?>
-    <?php endif; ?>
     </div>
+    <?php endif; ?>
 
 </div>

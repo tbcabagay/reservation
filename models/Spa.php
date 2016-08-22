@@ -24,12 +24,14 @@ class Spa extends \yii\db\ActiveRecord
 {
     public $photo_file;
 
+    const SCENARIO_COMMAND = 'command';
     const SCENARIO_ADD = 'add';
     const SCENARIO_EDIT = 'edit';
 
     public function scenarios()
     {
         $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_COMMAND] = ['title', 'amount', 'description', 'photo'];
         $scenarios[self::SCENARIO_ADD] = ['title', 'amount', 'description', 'photo_file'];
         $scenarios[self::SCENARIO_EDIT] = ['title', 'amount', 'description', 'photo', 'photo_file'];
         return $scenarios;

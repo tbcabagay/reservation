@@ -23,6 +23,9 @@ use yii\imagine\Image;
  * @property integer $updated_at
  * @property string $slug
  * @property string $photo
+ * @property integer $max_person_per_room
+ * @property string $penalty_per_excess_person
+ * @property string $penalty_per_excess_hour
  *
  * @property Package $package
  * @property PackageItemGallery[] $packageItemGalleries
@@ -63,10 +66,10 @@ class PackageItem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['package_id', 'title', 'content', 'quantity', 'rate', 'created_at', 'updated_at'], 'required'],
-            [['package_id', 'quantity', 'created_at', 'updated_at'], 'integer'],
+            [['package_id', 'title', 'content', 'quantity', 'rate', 'created_at', 'updated_at', 'max_person_per_room', 'penalty_per_excess_person', 'penalty_per_excess_hour'], 'required'],
+            [['package_id', 'quantity', 'created_at', 'updated_at', 'max_person_per_room'], 'integer'],
             [['content'], 'string'],
-            [['rate'], 'number'],
+            [['rate', 'penalty_per_excess_person', 'penalty_per_excess_hour'], 'number'],
             [['title'], 'string', 'max' => 100],
             [['slug'], 'string', 'max' => 250],
             [['photo'], 'string', 'max' => 255],
@@ -93,6 +96,9 @@ class PackageItem extends \yii\db\ActiveRecord
             'updated_at' => Yii::t('app', 'Updated At'),
             'slug' => Yii::t('app', 'Slug'),
             'photo' => Yii::t('app', 'Photo'),
+            'max_person_per_room' => Yii::t('app', 'Max Person Per Room'),
+            'penalty_per_excess_person' => Yii::t('app', 'Penalty Per Excess Person'),
+            'penalty_per_excess_hour' => Yii::t('app', 'Penalty Per Excess Hour'),
         ];
     }
 

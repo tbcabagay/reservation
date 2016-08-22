@@ -61,6 +61,7 @@ class Reservation extends \yii\db\ActiveRecord
         return [
             [['package_item_id', 'firstname', 'lastname', 'contact', 'email', 'status', 'check_in', 'quantity_of_guest', 'created_at', 'updated_at'], 'required'],
             [['package_item_id', 'status', 'quantity_of_guest', 'created_at', 'updated_at'], 'integer'],
+            [['contact'], 'match', 'pattern' => '/^[\d()\s-]+$/', 'message' => 'Contact should only contain numbers, spaces, dashes, and parentheses'],
             [['check_in'], 'safe'],
             [['check_in'], 'validateCheckIn'],
             [['email'], 'email'],

@@ -28,6 +28,11 @@ $config = [
         ],
     ],
     'params' => $params,
+    'modules' => [
+        'markdown' => [
+            'class' => 'kartik\markdown\Module',
+        ],
+    ],
     /*
     'controllerMap' => [
         'fixture' => [ // Fixture generation command line.

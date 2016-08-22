@@ -7,7 +7,7 @@ use app\models\User;
 
 class UserController extends Controller
 {
-    public function actionCreateAdministrator($username, $email, $password, $role)
+    public function actionCreate($username, $email, $password, $role)
     {
         $model = new User();
         $model->scenario = User::SCENARIO_COMMAND;
