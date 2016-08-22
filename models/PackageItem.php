@@ -128,14 +128,6 @@ class PackageItem extends \yii\db\ActiveRecord
         return $this->hasMany(Transaction::className(), ['package_item_id' => 'id']);
     }
 
-    public function beforeSave($insert)
-    {
-        if ($insert) {
-            $this->setAttribute('photo', 'http://placehold.it/1200x1200');
-        }
-        return parent::beforeSave($insert);
-    }
-
     public function behaviors()
     {
         return [
@@ -169,46 +161,31 @@ class PackageItem extends \yii\db\ActiveRecord
     public function add()
     {
         if ($this->validate()) {
-            $this->deleteOldPhoto();
+            if ($this->thumbnail_file !== null) {
+                $this->deleteOldPhoto();
+            }
 
-            $absolutePath = Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'package_item' . DIRECTORY_SEPARATOR . 'thumbnail' . DIRECTORY_SEPARATOR . $this->id;
-            $relativePath = Yii::getAlias('@web') . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'package_item' . DIRECTORY_SEPARATOR . 'thumbnail' . DIRECTORY_SEPARATOR . $this->id;
-            $fileName = $this->thumbnail_file->baseName . '.' . $this->thumbnail_file->extension;
-            $this->photo = $relativePath . DIRECTORY_SEPARATOR . $fileName;
+            $absolutePath = Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'package_item' . DIRECTORY_SEPARATOR . 'thumbnail';
+            $relativePath = Yii::getAlias('@web') . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'package_item' . DIRECTORY_SEPARATOR . 'thumbnail';
+            if ($this->thumbnail_file !== null) {
+                $fileName = $this->thumbnail_file->basename . '.' . $this->thumbnail_file->extension;
+                $this->photo = $relativePath . DIRECTORY_SEPARATOR . $fileName;
+            }
+
             if ($this->save(false)) {
                 if (file_exists($absolutePath) === false) {
                     BaseFileHelper::createDirectory($absolutePath, 0755, true);
                 }
-                $absoluteImagePath = $absolutePath . DIRECTORY_SEPARATOR . $fileName;
-                $this->thumbnail_file->saveAs($absoluteImagePath);
-                Image::thumbnail($absoluteImagePath, 360, 360)->save($absoluteImagePath, ['quality' => 100]);
+                if ($this->thumbnail_file !== null) {
+                    $absoluteImagePath = $absolutePath . DIRECTORY_SEPARATOR . $fileName;
+                    $this->thumbnail_file->saveAs($absoluteImagePath);
+                    Image::thumbnail($absoluteImagePath, 360, 360)->save($absoluteImagePath, ['quality' => 100]);
+                }
                 return true;
             }
         }
         return false;
     }
-
-    /*public function uploadThumbnail()
-    {
-        if ($this->validate()) {
-            $this->deleteOldPhoto();
-
-            $absolutePath = Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'package_item' . DIRECTORY_SEPARATOR . 'thumbnail' . DIRECTORY_SEPARATOR . $this->id;
-            $relativePath = Yii::getAlias('@web') . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'package_item' . DIRECTORY_SEPARATOR . 'thumbnail' . DIRECTORY_SEPARATOR . $this->id;
-            $fileName = $this->thumbnail_file->baseName . '.' . $this->thumbnail_file->extension;
-            $this->photo = $relativePath . DIRECTORY_SEPARATOR . $fileName;
-            if ($this->save(false)) {
-                if (file_exists($absolutePath) === false) {
-                    BaseFileHelper::createDirectory($absolutePath, 0755, true);
-                }
-                $absoluteImagePath = $absolutePath . DIRECTORY_SEPARATOR . $fileName;
-                $this->thumbnail_file->saveAs($absoluteImagePath);
-                Image::thumbnail($absoluteImagePath, 360, 360)->save($absoluteImagePath, ['quality' => 100]);
-                return true;
-            }
-        }
-        return false;
-    }*/
 
     public function uploadGallery()
     {

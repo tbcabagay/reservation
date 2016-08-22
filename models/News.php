@@ -93,7 +93,6 @@ class News extends \yii\db\ActiveRecord
     public function beforeSave($insert)
     {
         if ($insert) {
-            $this->setAttribute('photo', 'http://placehold.it/1200x1200');
             $this->setAttribute('user_id', Yii::$app->user->identity->id);
         }
         return parent::beforeSave($insert);
@@ -119,22 +118,29 @@ class News extends \yii\db\ActiveRecord
         ];
     }
 
-    public function upload()
+    public function add()
     {
         if ($this->validate()) {
-            $this->deleteOldPhoto();
+            if ($this->photo_file !== null) {
+                $this->deleteOldPhoto();
+            }
 
-            $absolutePath = Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'news' . DIRECTORY_SEPARATOR . $this->id;
-            $relativePath = Yii::getAlias('@web') . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'news' . DIRECTORY_SEPARATOR . $this->id;
-            $fileName = $this->photo_file->baseName . '.' . $this->photo_file->extension;
-            $this->photo = $relativePath . DIRECTORY_SEPARATOR . $fileName;
-            if ($this->save()) {
+            $absolutePath = Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'news';
+            $relativePath = Yii::getAlias('@web') . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'news';
+            if ($this->photo_file !== null) {
+                $fileName = $this->photo_file->basename . '.' . $this->photo_file->extension;
+                $this->photo = $relativePath . DIRECTORY_SEPARATOR . $fileName;
+            }
+
+            if ($this->save(false)) {
                 if (file_exists($absolutePath) === false) {
                     BaseFileHelper::createDirectory($absolutePath, 0755, true);
                 }
-                $absoluteImagePath = $absolutePath . DIRECTORY_SEPARATOR . $fileName;
-                $this->photo_file->saveAs($absoluteImagePath);
-                Image::thumbnail($absoluteImagePath, 240, 240)->save($absoluteImagePath, ['quality' => 100]);
+                if ($this->photo_file !== null) {
+                    $absoluteImagePath = $absolutePath . DIRECTORY_SEPARATOR . $fileName;
+                    $this->photo_file->saveAs($absoluteImagePath);
+                    Image::thumbnail($absoluteImagePath, 360, 360)->save($absoluteImagePath, ['quality' => 100]);
+                }
                 return true;
             }
         }

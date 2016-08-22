@@ -68,8 +68,11 @@ class NewsController extends Controller
         $model = new News();
         $model->scenario = News::SCENARIO_ADD;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->photo_file = UploadedFile::getInstance($model, 'photo_file');
+            if ($model->add()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,

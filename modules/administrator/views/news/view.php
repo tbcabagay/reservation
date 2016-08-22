@@ -20,9 +20,6 @@ $formatter = Yii::$app->formatter;
             <p class="text-muted"><i class="fa fa-user"></i> <em><?= Html::encode($model->user->username) ?></em> <i class="fa fa-clock-o"></i> <em><?= $formatter->asDateTime($model->created_at) ?></em></p>
             <?= Html::img($model->photo, ['class' => 'img-responsive pull-left col-lg-3']) ?>
             <?= Markdown::convert($model->content) ?>
-
-            <hr>
-            <p><?= Html::a(Yii::t('app', 'Upload Image'), ['upload-image', 'id' => $model->id], ['class' => 'btn btn-primary btn-sm']) ?></p>
         </div>
     </div>
 

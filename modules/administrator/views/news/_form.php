@@ -27,6 +27,8 @@ use kartik\markdown\MarkdownEditor;
                             'encodeLabels' => true,
                         ]) ?>
 
+                        <?= $form->field($model, 'photo_file')->fileInput() ?>
+
                         <div class="form-group">
                             <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
                         </div>
