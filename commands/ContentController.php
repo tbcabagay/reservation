@@ -21,10 +21,12 @@ class ContentController extends Controller
         $this->actionMenuCategory();
         $this->actionMenuPackage();
         $this->actionMenuItem();
+        $this->actionSpa();
     }
 
     public function actionPackage()
     {
+        $result = true;
         $premiere = '1. ALL CASITAS PREMIERE ARE **NON-SMOKING**.
 2. CHILDREN 4 YEARS OLD AND BELOW AND NOT EXCEEDING 4FT. IN HEIGHT IS FREE (ACCOMMODATION WITHOUT EXTRA BED) MAXIMUM OF 2.';
         $deLuxe = '1. ALL CASITAS DE LUXE ROOMS ARE **NON-SMOKING**.
@@ -47,20 +49,24 @@ class ContentController extends Controller
             $model->agreement = $package[1];
             $model->save();
         }
+        if ($result) {
+            echo 'Package ' . count($packages) . " records successfully saved\n";
+        }
     }
 
     public function actionPackageItem()
     {
+        $result = true;
         $packageItems = [
-            [1, 'One Bedroom Casitas', 3, 4500, '- Complimentary Breakfast for 2 Persons.
+            [1, 'One Bedroom Casitas', 3, 4500, 3, 10, 1000, 200, '- Complimentary Breakfast for 2 Persons.
 - Complimentary 1 - 1 Hour Massage.
 - 10% Off on Food &amp; Beverage and Spa services.
 - Room is good for 2 Persons.'],
-            [1, 'Two Bedroom Casitas', 2, 9000, '- Complimentary Breakfast for 4 Persons.
+            [1, 'Two Bedroom Casitas', 2, 9000, 5, 10, 1000, 200, '- Complimentary Breakfast for 4 Persons.
 - Complimentary 2 - 1 Hour Massage.
 - 10% Off on Food &amp; Beverage and Spa services.
 - Room is good for 4 Persons.'],
-            [2, 'Room Rate', 6, 8200, '- Minimum Capacity of 6 Persons.
+            [2, 'Room Rate', 6, 8200, 10, 10, 1500, 200, '- Minimum Capacity of 6 Persons.
 - Complimentary Breakfast for 4 Persons.
 - Flat Screen TV, Cable Channels &amp; Lanai.
 **ROOM LAYOUT:**
@@ -74,10 +80,17 @@ class ContentController extends Controller
                 'title' => $packageItem[1],
                 'quantity' => $packageItem[2],
                 'rate' => $packageItem[3],
-                'content' => $packageItem[4],
+                'max_person_per_room' => $packageItem[4],
+                'discount_rate' => $packageItem[5],
+                'penalty_per_excess_person' => $packageItem[6],
+                'penalty_per_excess_hour' => $packageItem[7],
+                'content' => $packageItem[8],
             ]);
-            $model->scenario = PackageItem::SCENARIO_ADD;
+            $model->scenario = PackageItem::SCENARIO_COMMAND;
             $model->save();
+        }
+        if ($result) {
+            echo 'Package Item ' . count($packageItems) . " records successfully saved\n";
         }
     }
 
@@ -91,7 +104,7 @@ class ContentController extends Controller
             $result = $result && $model->save();
         }
         if ($result) {
-            echo count($categories) . ' records successfully saved';
+            echo 'Menu Category ' . count($categories) . " records successfully saved\n";
         }
     }
 
@@ -113,7 +126,7 @@ class ContentController extends Controller
             $result = $result && $model->save();
         }
         if ($result) {
-            echo count($menuPackages) . ' records successfully saved';
+            echo 'Menu Package ' . count($menuPackages) . " records successfully saved\n";
         }
     }
 
@@ -180,7 +193,7 @@ class ContentController extends Controller
             $result = $result && $model->save(false);
         }
         if ($result) {
-            echo count($menuItems) . ' records successfully saved';
+            echo 'Menu Item ' . count($menuItems) . " records successfully saved\n";
         }
     }
 
@@ -206,7 +219,7 @@ class ContentController extends Controller
             $result = $result && $model->save();
         }
         if ($result) {
-            echo count($spas) . ' records successfully saved';
+            echo 'Spa ' . count($spas) . " records successfully saved\n";
         }
     }
 }

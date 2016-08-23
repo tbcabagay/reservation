@@ -37,6 +37,32 @@ use kartik\widgets\TouchSpin;
                             ],
                         ])->textInput(['maxlength' => true]) ?>
 
+                        <?= $form->field($model, 'max_person_per_room')->widget(TouchSpin::classname(), [
+                            'pluginOptions' => [
+                                'min' => 1,
+                            ],
+                        ]) ?>
+
+                        <?= $form->field($model, 'discount_rate', [
+                            'addon' => [
+                                'append' => ['content' => '%'],
+                            ],
+                        ])->textInput() ?>
+
+                        <?= $form->field($model, 'penalty_per_excess_person', [
+                            'addon' => [
+                                'append' => ['content' => 'per person'],
+                                'prepend' => ['content' => 'PHP'],
+                            ],
+                        ])->textInput(['maxlength' => true]) ?>
+
+                        <?= $form->field($model, 'penalty_per_excess_hour', [
+                            'addon' => [
+                                'append' => ['content' => 'per hour'],
+                                'prepend' => ['content' => 'PHP'],
+                            ],
+                        ])->textInput(['maxlength' => true]) ?>
+
                         <?= $form->field($model, 'content')->widget(MarkdownEditor::classname(), [
                             'height' => 300,
                         ]) ?>

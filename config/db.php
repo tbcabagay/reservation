@@ -1,6 +1,6 @@
 <?php
 
-$config = parse_ini_file('/home/tbcabagay/reservation.ini');
+$config = parse_ini_file('/home/tbcabagay/sql/reservation.ini');
 
 return [
     'class' => 'yii\db\Connection',

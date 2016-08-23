@@ -24,6 +24,7 @@ use yii\imagine\Image;
  * @property string $slug
  * @property string $photo
  * @property integer $max_person_per_room
+ * @property double $discount_rate
  * @property string $penalty_per_excess_person
  * @property string $penalty_per_excess_hour
  *
@@ -41,14 +42,16 @@ class PackageItem extends \yii\db\ActiveRecord
     const SCENARIO_EDIT = 'edit';
     const SCENARIO_UPLOAD_THUMBNAIL = 'upload_thumbnail';
     const SCENARIO_UPLOAD_GALLERY = 'upload_gallery';
+    const SCENARIO_COMMAND = 'command';
 
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIO_ADD] = ['package_id', 'title', 'content', 'quantity', 'rate', 'photo', 'thumbnail_file'];
-        $scenarios[self::SCENARIO_EDIT] = ['package_id', 'title', 'content', 'quantity', 'rate', 'photo', 'thumbnail_file'];
+        $scenarios[self::SCENARIO_ADD] = ['package_id', 'title', 'content', 'quantity', 'rate', 'max_person_per_room', 'discount_rate', 'penalty_per_excess_person', 'penalty_per_excess_hour', 'photo', 'thumbnail_file'];
+        $scenarios[self::SCENARIO_EDIT] = ['package_id', 'title', 'content', 'quantity', 'rate', 'max_person_per_room', 'discount_rate', 'penalty_per_excess_person', 'penalty_per_excess_hour', 'photo', 'thumbnail_file'];
         $scenarios[self::SCENARIO_UPLOAD_THUMBNAIL] = ['photo', 'thumbnail_file'];
         $scenarios[self::SCENARIO_UPLOAD_GALLERY] = ['photo', 'gallery_file'];
+        $scenarios[self::SCENARIO_COMMAND] = ['package_id', 'title', 'content', 'quantity', 'rate', 'max_person_per_room', 'discount_rate', 'penalty_per_excess_person', 'penalty_per_excess_hour'];
         return $scenarios;
     }
 
@@ -66,10 +69,10 @@ class PackageItem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['package_id', 'title', 'content', 'quantity', 'rate', 'created_at', 'updated_at', 'max_person_per_room', 'penalty_per_excess_person', 'penalty_per_excess_hour'], 'required'],
+            [['package_id', 'title', 'content', 'quantity', 'rate', 'created_at', 'updated_at', 'max_person_per_room', 'discount_rate', 'penalty_per_excess_person', 'penalty_per_excess_hour'], 'required'],
             [['package_id', 'quantity', 'created_at', 'updated_at', 'max_person_per_room'], 'integer'],
             [['content'], 'string'],
-            [['rate', 'penalty_per_excess_person', 'penalty_per_excess_hour'], 'number'],
+            [['rate', 'discount_rate', 'penalty_per_excess_person', 'penalty_per_excess_hour'], 'number'],
             [['title'], 'string', 'max' => 100],
             [['slug'], 'string', 'max' => 250],
             [['photo'], 'string', 'max' => 255],
@@ -97,6 +100,7 @@ class PackageItem extends \yii\db\ActiveRecord
             'slug' => Yii::t('app', 'Slug'),
             'photo' => Yii::t('app', 'Photo'),
             'max_person_per_room' => Yii::t('app', 'Max Person Per Room'),
+            'discount_rate' => Yii::t('app', 'Discount Rate'),
             'penalty_per_excess_person' => Yii::t('app', 'Penalty Per Excess Person'),
             'penalty_per_excess_hour' => Yii::t('app', 'Penalty Per Excess Hour'),
         ];
