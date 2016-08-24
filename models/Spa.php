@@ -19,6 +19,8 @@ use yii\imagine\Image;
  * @property string $photo
  * @property integer $created_at
  * @property integer $updated_at
+ *
+ * @property Service[] $services
  */
 class Spa extends \yii\db\ActiveRecord
 {
@@ -76,6 +78,14 @@ class Spa extends \yii\db\ActiveRecord
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getServices()
+    {
+        return $this->hasMany(Service::className(), ['spa_id' => 'id']);
     }
 
     public function behaviors()

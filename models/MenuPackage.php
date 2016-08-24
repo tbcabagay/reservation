@@ -14,6 +14,7 @@ use yii\helpers\ArrayHelper;
  * @property string $unit
  *
  * @property MenuItem[] $menuItems
+ * @property Order[] $orders
  */
 class MenuPackage extends \yii\db\ActiveRecord
 {
@@ -57,6 +58,14 @@ class MenuPackage extends \yii\db\ActiveRecord
     public function getMenuItems()
     {
         return $this->hasMany(MenuItem::className(), ['menu_package_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrders()
+    {
+        return $this->hasMany(Order::className(), ['menu_package_id' => 'id']);
     }
 
     public static function getTitleDropdownList()

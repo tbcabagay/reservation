@@ -25,9 +25,10 @@ use yii\behaviors\BlameableBehavior;
  * @property integer $updated_at
  *
  * @property Order[] $orders
- * @property User $updatedBy
+ * @property Service[] $services
  * @property User $createdBy
  * @property PackageItem $packageItem
+ * @property User $updatedBy
  */
 class Transaction extends \yii\db\ActiveRecord
 {
@@ -72,9 +73,9 @@ class Transaction extends \yii\db\ActiveRecord
             [['toggle_date_time'], 'string', 'max' => 6],
             [['firstname', 'lastname'], 'string', 'max' => 25],
             [['contact'], 'string', 'max' => 50],
-            [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
             [['package_item_id'], 'exist', 'skipOnError' => true, 'targetClass' => PackageItem::className(), 'targetAttribute' => ['package_item_id' => 'id']],
+            [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
         ];
     }
 
@@ -113,9 +114,9 @@ class Transaction extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUpdatedBy()
+    public function getServices()
     {
-        return $this->hasOne(User::className(), ['id' => 'updated_by']);
+        return $this->hasMany(Service::className(), ['transaction_id' => 'id']);
     }
 
     /**
@@ -132,6 +133,14 @@ class Transaction extends \yii\db\ActiveRecord
     public function getPackageItem()
     {
         return $this->hasOne(PackageItem::className(), ['id' => 'package_item_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUpdatedBy()
+    {
+        return $this->hasOne(User::className(), ['id' => 'updated_by']);
     }
 
     public function behaviors()

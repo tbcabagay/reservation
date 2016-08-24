@@ -20,6 +20,10 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $updated_at
  *
  * @property News[] $news
+ * @property Order[] $orders
+ * @property Order[] $orders0
+ * @property Service[] $services
+ * @property Service[] $services0
  * @property Transaction[] $transactions
  * @property Transaction[] $transactions0
  */
@@ -104,9 +108,41 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getOrders()
+    {
+        return $this->hasMany(Order::className(), ['created_by' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrders0()
+    {
+        return $this->hasMany(Order::className(), ['updated_by' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getServices()
+    {
+        return $this->hasMany(Service::className(), ['updated_by' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getServices0()
+    {
+        return $this->hasMany(Service::className(), ['created_by' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getTransactions()
     {
-        return $this->hasMany(Transaction::className(), ['updated_by' => 'id']);
+        return $this->hasMany(Transaction::className(), ['created_by' => 'id']);
     }
 
     /**
@@ -114,7 +150,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function getTransactions0()
     {
-        return $this->hasMany(Transaction::className(), ['created_by' => 'id']);
+        return $this->hasMany(Transaction::className(), ['updated_by' => 'id']);
     }
 
     /**

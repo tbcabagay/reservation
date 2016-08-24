@@ -20,10 +20,10 @@ use yii\behaviors\BlameableBehavior;
  * @property integer $created_at
  * @property integer $updated_at
  *
- * @property User $updatedBy
  * @property User $createdBy
  * @property MenuPackage $menuPackage
  * @property Transaction $transaction
+ * @property User $updatedBy
  */
 class Order extends \yii\db\ActiveRecord
 {
@@ -53,10 +53,10 @@ class Order extends \yii\db\ActiveRecord
             [['transaction_id', 'menu_package_id', 'quantity', 'amount', 'total', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'required'],
             [['transaction_id', 'menu_package_id', 'quantity', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
             [['amount', 'total'], 'number'],
-            [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
             [['menu_package_id'], 'exist', 'skipOnError' => true, 'targetClass' => MenuPackage::className(), 'targetAttribute' => ['menu_package_id' => 'id']],
             [['transaction_id'], 'exist', 'skipOnError' => true, 'targetClass' => Transaction::className(), 'targetAttribute' => ['transaction_id' => 'id']],
+            [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
         ];
     }
 
