@@ -61,18 +61,18 @@ class ContentController extends Controller
             [1, 'One Bedroom Casitas', 3, 4500, 3, 10, 1000, 200, '- Complimentary Breakfast for 2 Persons.
 - Complimentary 1 - 1 Hour Massage.
 - 10% Off on Food &amp; Beverage and Spa services.
-- Room is good for 2 Persons.'],
+- Room is good for 2 Persons.', 'http://placehold.it/360x360'],
             [1, 'Two Bedroom Casitas', 2, 9000, 5, 10, 1000, 200, '- Complimentary Breakfast for 4 Persons.
 - Complimentary 2 - 1 Hour Massage.
 - 10% Off on Food &amp; Beverage and Spa services.
-- Room is good for 4 Persons.'],
+- Room is good for 4 Persons.', 'http://placehold.it/360x360'],
             [2, 'Room Rate', 6, 8200, 10, 10, 1500, 200, '- Minimum Capacity of 6 Persons.
 - Complimentary Breakfast for 4 Persons.
 - Flat Screen TV, Cable Channels &amp; Lanai.
 **ROOM LAYOUT:**
 - Casitas F &amp; G - Ground Floor. 1 Queen Bed &amp; 1 Single Bed with One Toilet &amp; Bath.
 - Casitas H, I, J &amp; K - Ground Floor. 3 Singles Beds Two Toilet &amp; Bath.
-- All Casitas De Luxe has a Loft that can accommodate 6-8 Persons.'],
+- All Casitas De Luxe has a Loft that can accommodate 6-8 Persons.', 'http://placehold.it/360x360'],
         ];
         foreach ($packageItems as $packageItem) {
             $model = new PackageItem([
@@ -85,6 +85,7 @@ class ContentController extends Controller
                 'penalty_per_excess_person' => $packageItem[6],
                 'penalty_per_excess_hour' => $packageItem[7],
                 'content' => $packageItem[8],
+                'photo' => $packageItem[9]
             ]);
             $model->scenario = PackageItem::SCENARIO_COMMAND;
             $model->save();

@@ -51,7 +51,7 @@ class PackageItem extends \yii\db\ActiveRecord
         $scenarios[self::SCENARIO_EDIT] = ['package_id', 'title', 'content', 'quantity', 'rate', 'max_person_per_room', 'discount_rate', 'penalty_per_excess_person', 'penalty_per_excess_hour', 'photo', 'thumbnail_file'];
         $scenarios[self::SCENARIO_UPLOAD_THUMBNAIL] = ['photo', 'thumbnail_file'];
         $scenarios[self::SCENARIO_UPLOAD_GALLERY] = ['photo', 'gallery_file'];
-        $scenarios[self::SCENARIO_COMMAND] = ['package_id', 'title', 'content', 'quantity', 'rate', 'max_person_per_room', 'discount_rate', 'penalty_per_excess_person', 'penalty_per_excess_hour'];
+        $scenarios[self::SCENARIO_COMMAND] = ['package_id', 'title', 'content', 'quantity', 'rate', 'max_person_per_room', 'discount_rate', 'penalty_per_excess_person', 'penalty_per_excess_hour', 'photo'];
         return $scenarios;
     }
 
