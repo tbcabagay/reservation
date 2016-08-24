@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "{{%reservation}}".
@@ -29,9 +30,10 @@ class Reservation extends \yii\db\ActiveRecord
 {
     public $verifyCode;
 
-    const STATUS_NEW = 5;
-    const STATUS_CHECK_IN = 10;
-    const STATUS_CHECK_OUT = 15;
+    const STATUS_FOR_VERIFICATION = 5;
+    const STATUS_NEW = 10;
+    const STATUS_CHECK_IN = 15;
+    const STATUS_CHECK_OUT = 20;
     const STATUS_CANCEL = 50;
 
     const SCENARIO_NEW = 'new';
@@ -119,17 +121,35 @@ class Reservation extends \yii\db\ActiveRecord
         ];
     }
 
-    public function beforeSave($insert)
+    /*public function beforeSave($insert)
     {
         if ($insert) {
             $this->setAttribute('status', self::STATUS_NEW);
         }
         return parent::beforeSave($insert);
-    }
+    }*/
 
     public function placeReservation($packageItem)
     {
         $this->setAttribute('package_item_id', $packageItem->id);
+        $this->setAttribute('status', self::STATUS_FOR_VERIFICATION);
+        if ($this->save()) {
+            $message = '<p>You just placed a reservation to our resort using this email. In order for us to process this request, please click the link below to activate it.</p><p><a href="' . Url::to(['site/confirm-reservation', 'id' => $this->id], true) .'">Confirm reservation</a></p>';
+            Yii::$app->mailer->compose()
+                ->setFrom(Yii::$app->user->identity->email)
+                ->setTo($this->email)
+                ->setSubject(Yii::$app->params['appName'] . ' - Confirm Your Reservation')
+                ->setHtmlBody($message)
+                ->send();
+            return true;
+        }
+        return false;
+    }
+
+    public function confirmReservation()
+    {
+        $this->setAttribute('status', self::STATUS_NEW);
+        $this->scenario = self::SCENARIO_CHANGE_STATUS;
         return $this->save();
     }
 
@@ -137,14 +157,14 @@ class Reservation extends \yii\db\ActiveRecord
     {
         $this->scenario = self::SCENARIO_CHANGE_STATUS;
         $this->setAttribute('status', self::STATUS_CANCEL);
-        $this->save();
+        return $this->save();
     }
 
     public function checkIn()
     {
         $this->scenario = self::SCENARIO_CHANGE_STATUS;
         $this->setAttribute('status', self::STATUS_CHECK_IN);
-        $this->save();
+        return $this->save();
     }
 
     public static function getStatusDropdownList($template = 'raw')
@@ -182,5 +202,10 @@ class Reservation extends \yii\db\ActiveRecord
         if (strtotime($dateToCompare) < strtotime($now)) {
             $this->addError($attribute, 'The check-in date should not set to period earlier than today.');
         }
+    }
+
+    public static function getReservationCount($status)
+    {
+        return self::find()->where(['status' => $status])->count();
     }
 }

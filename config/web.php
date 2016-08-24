@@ -26,11 +26,14 @@ $config = [
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             'useFileTransport' => false,
-            'host' => 'smtp.gmail.com',
-            'username' => $config['mailer_username'],
-            'password' => $config['mailer_password'],
-            'port' => '465',
-            'encryption' => 'tls',
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.gmail.com',
+                'username' => $config['mailer_username'],
+                'password' => $config['mailer_password'],
+                'port' => '465',
+                'encryption' => 'ssl',
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -52,6 +55,7 @@ $config = [
                 'explore' => 'site/explore',
                 'services' => 'site/services',
                 'menus' => 'site/menus',
+                'confirm-reservation/<id:\d+>' => 'site/confirm-reservation',
                 'agreement/<package_id:\d+>/<slug>' => 'site/agreement',
                 'administrator/transaction/check-in/<reservation_id:\d+>' => 'administrator/transaction/check-in',
                 'administrator/order/create/<transaction_id:\d+>' => 'administrator/order/create',

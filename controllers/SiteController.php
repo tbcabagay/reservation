@@ -173,6 +173,16 @@ class SiteController extends Controller
 
     }
 
+    public function actionConfirmReservation($id)
+    {
+        $model = $this->findReservation($id);
+        $model->confirmReservation();
+
+        return $this->render('confirm-reservation', [
+            'model' => $model,
+        ]);
+    }
+
     public function actionGallery($slug)
     {
         $model = $this->findPackageItemSlug($slug);
@@ -220,6 +230,18 @@ class SiteController extends Controller
     protected function findPackageItemSlug($slug)
     {
         if (($model = PackageItem::find()->where(['slug' => $slug])->one()) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    protected function findReservation($id)
+    {
+        if (($model = Reservation::find()->where([
+            'id' => $id,
+            'status' => Reservation::STATUS_FOR_VERIFICATION,
+        ])->limit(1)->one()) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
