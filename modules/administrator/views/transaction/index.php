@@ -5,6 +5,7 @@ use kartik\grid\GridView;
 use yii\widgets\Pjax;
 use yii\bootstrap\Modal;
 use yii\helpers\Url;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\TransactionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -108,12 +109,26 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php
 $this->registerJs('
 (function($) {
+    var orderFormMessage = "#order-form-message";
     $(".transaction-gridview-button").click(function(e) {
+        modalLink = this.href;
         $("#modal-transaction").modal("show")
             .find("#modal-transaction-content")
-            .load(this.href);
+            .load(modalLink);
         e.preventDefault();
     });
+    $(document).on("beforeSubmit", "#order-menu-form", function(e) {
+        $.post(
+            $(this).attr("action"),
+            $(this).serialize()
+        ).done(function(result) {
+            if (result.success) {
+                $(orderFormMessage).html(result.message);
+                $(orderFormMessage).show();
+            }
+        });
+        return false;
+    })
 })(jQuery);
 ');
 ?>

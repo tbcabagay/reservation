@@ -25,7 +25,7 @@ use yii\bootstrap\Alert;
             ]); ?>
 
             <?php $form = ActiveForm::begin([
-                'id' => $order->formName(),
+                'id' => 'order-menu-form',
                 'enableClientValidation' => false,
                 'enableAjaxValidation' => true,
                 'validationUrl' => ['ajax-validate'],
@@ -55,20 +55,7 @@ use yii\bootstrap\Alert;
 <?php
 $this->registerJs('
 (function($) {
-    var orderFormMessage = "#order-form-message";
-    $(orderFormMessage).hide();
-    $("form#' . $order->formName() . '").on("beforeSubmit", function(e) {
-        $.post(
-            $(this).attr("action"),
-            $(this).serialize()
-        ).done(function(result) {
-            if (result.success) {
-                $(orderFormMessage).html(result.message);
-                $(orderFormMessage).show();
-            }
-        });
-        return false;
-    });
+    $("#order-form-message").hide();
 })(jQuery);
 ');
 ?>

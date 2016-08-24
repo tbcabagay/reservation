@@ -1,12 +1,9 @@
 <?php
-
 use yii\helpers\Html;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
-
 /* @var $this yii\web\View */
 /* @var $model app\models\Order */
-
 $this->title = Yii::t('app', 'Menu Order');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Orders'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -41,7 +38,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             'dataProvider' => $dataProvider,
                             'columns' => [
                                 ['class' => 'yii\grid\SerialColumn'],
-
                                 [
                                     'attribute' => 'menu_package_id',
                                     'value' => 'menuPackage.title',

@@ -73,7 +73,11 @@ class MenuPackage extends \yii\db\ActiveRecord
     {
         $model = self::find()->asArray()->all();
         if (!empty($model)) {
-            return ArrayHelper::map($model, 'id', 'title');
+            return ArrayHelper::map($model,
+                'id',
+                function($model, $defaultValue) {
+                    return $model['title'] . ' (' . Yii::$app->formatter->asCurrency($model['amount']) . ')';
+                });
         } else {
             return [];
         }
