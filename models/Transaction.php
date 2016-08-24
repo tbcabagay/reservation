@@ -35,6 +35,9 @@ class Transaction extends \yii\db\ActiveRecord
     public $toggle_discount;
     public $discount;
 
+    const STATUS_CHECK_IN = 5;
+    const STATUS_CHECK_OUT = 10;
+
     const SCENARIO_CHECK_IN = 'check_in';
     const SCENARIO_CHECK_OUT = 'check_out';
 
@@ -152,10 +155,11 @@ class Transaction extends \yii\db\ActiveRecord
     {
         if ($this->isNewRecord) {
             if ($this->toggle_date_time === 'system') {
-                $this->check_in = date('Y-m-d H:i:s');
+                $this->setAttribute('check_in', date('Y-m-d H:i:s'));
             } else if ($this->toggle_date_time === 'manual') {
-                $this->check_in = date('Y-m-d H:i:s', (strtotime($this->check_in . ' Asia/Manila')));
+                $this->setAttribute('check_in', date('Y-m-d H:i:s', (strtotime($this->check_in . ' Asia/Manila'))));
             }
+            $this->setAttribute('status', self::STATUS_CHECK_IN);
             return $this->save();
         }
         return false;

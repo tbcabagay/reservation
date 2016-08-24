@@ -67,10 +67,15 @@ class ReservationController extends Controller
         ]);
     }
 
+    public function actionConfirm($id)
+    {
+        $this->findModel($id)->changeStatus(Reservation::STATUS_CONFIRM);
+        return $this->redirect(['index']);
+    }
+
     public function actionCancel($id)
     {
-        $this->findModel($id)->cancel();
-
+        $this->findModel($id)->changeStatus(Reservation::STATUS_CANCEL);
         return $this->redirect(['index']);
     }
 

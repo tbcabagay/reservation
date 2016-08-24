@@ -20,9 +20,20 @@ $formatter = Yii::$app->formatter;
         <div class="col-lg-12">
             <h1><?= Html::encode($this->title) ?></h1>
 
-        <?php if ($model->status === Reservation::STATUS_NEW): ?>
+        <?php if ($model->status === Reservation::STATUS_CONFIRM): ?>
             <p>
-                <?= Html::a(Yii::t('app', 'Check In'), ['transaction/check-in', 'reservation_id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                <?= Html::a(Yii::t('app', 'Check In'), ['transaction/check-in', 'reservation_id' => $model->id], ['class' => 'btn btn-success']) ?>
+                <?= Html::a(Yii::t('app', 'Cancel'), ['cancel', 'id' => $model->id], [
+                    'class' => 'btn btn-danger',
+                    'data' => [
+                        'confirm' => Yii::t('app', 'Are you sure you want to cancel this item?'),
+                        'method' => 'post',
+                    ],
+                ]) ?>
+            </p>
+        <?php elseif ($model->status === Reservation::STATUS_NEW): ?>
+            <p>
+                <?= Html::a(Yii::t('app', 'Confirm'), ['confirm', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
                 <?= Html::a(Yii::t('app', 'Cancel'), ['cancel', 'id' => $model->id], [
                     'class' => 'btn btn-danger',
                     'data' => [

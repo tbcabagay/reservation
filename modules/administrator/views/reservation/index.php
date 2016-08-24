@@ -61,7 +61,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                 return Reservation::getStatusValue($model->status);
                             },
                             'format' => 'html',
-                            'hAlign' => GridView::ALIGN_CENTER,
                         ],
                         'id',
 

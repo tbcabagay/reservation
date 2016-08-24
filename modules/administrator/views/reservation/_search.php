@@ -37,14 +37,6 @@ use kartik\widgets\DatePicker;
         <?= $form->field($model, 'status')->dropdownList($status, ['prompt' => '- Select -']) ?>
 
         <div class="form-group">
-            <small>
-                <ul class="list-inline">
-                    <li><strong>NEW</strong> - New</li>
-                    <li><strong>CIN</strong> - Checked In</li>
-                    <li><strong>OUT</strong> - Checked Out</li>
-                    <li><strong>CAN</strong> - Cancelled</li>
-                </ul>
-            </small>
             <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
             <?= Html::a(Yii::t('app', 'Reset'), ['index'], ['class' => 'btn btn-default']) ?>
         </div>

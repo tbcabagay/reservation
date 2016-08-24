@@ -50,7 +50,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         'status',
                         'check_in:datetime',
                         'check_out:datetime',
-                        'total_amount',
                         'id',
 
                         [

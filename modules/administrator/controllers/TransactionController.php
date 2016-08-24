@@ -97,7 +97,7 @@ class TransactionController extends Controller
         $reservation = null;
 
         if (($reservation_id !== null) && ($reservation = Reservation::find()->where([
-            'id' => $reservation_id, 'status' => Reservation::STATUS_NEW
+            'id' => $reservation_id, 'status' => Reservation::STATUS_CONFIRM
         ])->one()) !== null) {
             $transaction->setAttribute('package_item_id', $reservation->getAttribute('package_item_id'));
             $transaction->setAttribute('quantity_of_guest', $reservation->getAttribute('quantity_of_guest'));
@@ -108,7 +108,7 @@ class TransactionController extends Controller
 
         if ($transaction->load(Yii::$app->request->post()) && $transaction->checkIn()) {
             if ($reservation !== null) {
-                $reservation->checkIn();
+                $reservation->changeStatus(Reservation::STATUS_DONE);
             }
             return $this->redirect(['index']);
         } else {

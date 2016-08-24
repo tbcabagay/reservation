@@ -184,7 +184,7 @@ $identity = Yii::$app->user->identity;
                         </ul>
                     </li>
                     <li><?= Html::a('<i class="fa fa-paw fa-fw"></i> Spas', ['spa/index']) ?></li>
-                    <li><?= Html::a('<i class="fa fa-book fa-fw"></i> Reservations <span class="badge">' . Reservation::getReservationCount(Reservation::STATUS_NEW) . '</span>', ['reservation/index']) ?></li>
+                    <li><?= Html::a('<i class="fa fa-book fa-fw"></i> Reservations <span class="badge">' . Reservation::getReservationCount() . '</span>', ['reservation/index']) ?></li>
                     <li><?= Html::a('<i class="fa fa-tasks fa-fw"></i> Transactions', ['transaction/index']) ?></li>
                 </ul>
             </div>

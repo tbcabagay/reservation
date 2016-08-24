@@ -176,7 +176,7 @@ class SiteController extends Controller
     public function actionConfirmReservation($id)
     {
         $model = $this->findReservation($id);
-        $model->confirmReservation();
+        $model->changeStatus(Reservation::STATUS_NEW);
 
         return $this->render('confirm-reservation', [
             'model' => $model,

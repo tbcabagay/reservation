@@ -32,8 +32,8 @@ class Reservation extends \yii\db\ActiveRecord
 
     const STATUS_FOR_VERIFICATION = 5;
     const STATUS_NEW = 10;
-    const STATUS_CHECK_IN = 15;
-    const STATUS_CHECK_OUT = 20;
+    const STATUS_CONFIRM = 15;
+    const STATUS_DONE = 20;
     const STATUS_CANCEL = 50;
 
     const SCENARIO_NEW = 'new';
@@ -146,7 +146,14 @@ class Reservation extends \yii\db\ActiveRecord
         return false;
     }
 
-    public function confirmReservation()
+    public function changeStatus($status)
+    {
+        $this->setAttribute('status', $status);
+        $this->scenario = self::SCENARIO_CHANGE_STATUS;
+        return $this->save();
+    }
+
+    /*public function confirmReservation()
     {
         $this->setAttribute('status', self::STATUS_NEW);
         $this->scenario = self::SCENARIO_CHANGE_STATUS;
@@ -165,23 +172,25 @@ class Reservation extends \yii\db\ActiveRecord
         $this->scenario = self::SCENARIO_CHANGE_STATUS;
         $this->setAttribute('status', self::STATUS_CHECK_IN);
         return $this->save();
-    }
+    }*/
 
     public static function getStatusDropdownList($template = 'raw')
     {
         if ($template === 'raw') {
             $model = [
-                self::STATUS_NEW => 'NEW',
-                self::STATUS_CHECK_IN => 'CIN',
-                self::STATUS_CHECK_OUT => 'OUT',
-                self::STATUS_CANCEL => 'CAN',
+                self::STATUS_FOR_VERIFICATION => 'For email verification',
+                self::STATUS_NEW => 'New',
+                self::STATUS_CONFIRM => 'Confirmed',
+                self::STATUS_DONE => 'Done',
+                self::STATUS_CANCEL => 'Cancelled'
             ];
         } else if ($template === 'html') {
             $model = [
-                self::STATUS_NEW => '<span class="label label-primary">NEW</span>',
-                self::STATUS_CHECK_IN => '<span class="label label-success">CIN</span>',
-                self::STATUS_CHECK_OUT => '<span class="label label-warning">OUT</span>',
-                self::STATUS_CANCEL => '<span class="label label-danger">CAN</span>',
+                self::STATUS_FOR_VERIFICATION => '<span class="label label-warning">For email verification</span>',
+                self::STATUS_NEW => '<span class="label label-primary">New</span>',
+                self::STATUS_CONFIRM => '<span class="label label-success">Confirmed</span>',
+                self::STATUS_DONE => '<span class="label label-info">Done</span>',
+                self::STATUS_CANCEL => '<span class="label label-danger">Cancelled</span>',
             ];
         }
         return $model;
@@ -204,8 +213,11 @@ class Reservation extends \yii\db\ActiveRecord
         }
     }
 
-    public static function getReservationCount($status)
+    public static function getReservationCount()
     {
-        return self::find()->where(['status' => $status])->count();
+        return self::find()
+            ->where(['status' => self::STATUS_FOR_VERIFICATION])
+            ->orWhere(['status' => self::STATUS_NEW])
+            ->count();
     }
 }
