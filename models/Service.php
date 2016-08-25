@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
 
 /**
  * This is the model class for table "{{%service}}".
@@ -25,6 +27,15 @@ use Yii;
  */
 class Service extends \yii\db\ActiveRecord
 {
+    const SCENARIO_TRANSACTION_SERVICE = 'transaction_service';
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_TRANSACTION_SERVICE] = ['spa_id', 'quantity'];
+        return $scenarios;
+    }
+
     /**
      * @inheritdoc
      */
@@ -56,8 +67,8 @@ class Service extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'transaction_id' => Yii::t('app', 'Transaction ID'),
-            'spa_id' => Yii::t('app', 'Spa ID'),
+            'transaction_id' => Yii::t('app', 'Transaction'),
+            'spa_id' => Yii::t('app', 'Spa'),
             'quantity' => Yii::t('app', 'Quantity'),
             'amount' => Yii::t('app', 'Amount'),
             'total' => Yii::t('app', 'Total'),
@@ -98,5 +109,22 @@ class Service extends \yii\db\ActiveRecord
     public function getTransaction()
     {
         return $this->hasOne(Transaction::className(), ['id' => 'transaction_id']);
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+                'value' => time(),
+            ],
+            [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'created_by',
+                'updatedByAttribute' => 'updated_by',
+            ],
+        ];
     }
 }

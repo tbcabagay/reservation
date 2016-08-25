@@ -55,10 +55,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         [
                             'class' => 'yii\grid\ActionColumn',
-                            'template' => '{menu} {checkout}',
+                            'template' => '{menu} {spa} {checkout}',
                             'buttons' => [
                                 'menu' => function ($url, $model, $key) {
                                     return Html::a('<i class="fa fa-cutlery"></i>', ['order/create', 'transaction_id' => $model->id], ['title' => 'Menu', 'aria-label' => 'Menu', 'data-pjax' => 0, 'class' => 'transaction-gridview-button']);
+                                },
+                                'spa' => function ($url, $model, $key) {
+                                    return Html::a('<i class="fa fa-paw"></i>', ['service/create', 'transaction_id' => $model->id], ['title' => 'Spa', 'aria-label' => 'Menu', 'data-pjax' => 0, 'class' => 'transaction-gridview-button']);
                                 },
                                 'checkout' => function ($url, $model, $key) {
                                     return Html::a('<i class="fa fa-shopping-cart"></i>', ['check-out', 'id' => $model->id], ['title' => 'Check Out', 'aria-label' => 'Menu', 'data-pjax' => 0, 'class' => 'transaction-gridview-button']);

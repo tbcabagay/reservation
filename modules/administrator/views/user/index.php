@@ -70,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         [
                             'content' =>
                             Html::a('<i class="fa fa-plus"></i>', ['create'], [
-                                'title' => Yii::t('app', 'Add Library'), 
+                                'title' => Yii::t('app', 'Add User'), 
                                 'class' => 'btn btn-success',
                                 'data-pjax' => 0,
                             ]) . ' ' .

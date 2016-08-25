@@ -59,6 +59,7 @@ $config = [
                 'agreement/<package_id:\d+>/<slug>' => 'site/agreement',
                 'administrator/transaction/check-in/<reservation_id:\d+>' => 'administrator/transaction/check-in',
                 'administrator/order/create/<transaction_id:\d+>' => 'administrator/order/create',
+                'administrator/service/create/<transaction_id:\d+>' => 'administrator/service/create',
                 /*'package' => 'package/index',
                 'package/index' => 'package/index',
                 'package/create' => 'package/create',

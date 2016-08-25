@@ -9,6 +9,8 @@ use yii\web\UploadedFile;
 use yii\helpers\BaseFileHelper;
 use yii\imagine\Image;
 
+use yii\helpers\ArrayHelper;
+
 /**
  * This is the model class for table "{{%spa}}".
  *
@@ -135,6 +137,20 @@ class Spa extends \yii\db\ActiveRecord
     {
         if ((file_exists(Yii::getAlias('@webroot') . $this->photo)) && ($this->photo !== null)) {
             unlink(Yii::getAlias('@webroot') . $this->photo);
+        }
+    }
+
+    public static function getRadioList()
+    {
+        $model = self::find()->asArray()->all();
+        if (!empty($model)) {
+            return ArrayHelper::map($model,
+                'id',
+                function($model, $defaultValue) {
+                    return $model['title'] . ' (' . Yii::$app->formatter->asCurrency($model['amount']) . ')';
+                });
+        } else {
+            return [];
         }
     }
 }
