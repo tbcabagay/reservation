@@ -213,11 +213,10 @@ class Reservation extends \yii\db\ActiveRecord
         }
     }
 
-    public static function getReservationCount()
+    public static function getReservationStatusCount($status)
     {
         return self::find()
-            ->where(['status' => self::STATUS_FOR_VERIFICATION])
-            ->orWhere(['status' => self::STATUS_NEW])
+            ->where(['status' => $status])
             ->count();
     }
 }
