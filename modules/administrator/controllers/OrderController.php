@@ -85,9 +85,6 @@ class OrderController extends Controller
                 $order = new Order();
                 $order->scenario = Order::SCENARIO_TRANSACTION_ORDER;
 
-                $searchModel = new OrderSearch();
-                $dataProvider = $searchModel->transactionOrder($transaction_id, Yii::$app->request->queryParams);
-
                 if ($order->load(Yii::$app->request->post())) {
                     Yii::$app->response->format = Response::FORMAT_JSON;
                     if ($order->add()) {
@@ -104,8 +101,6 @@ class OrderController extends Controller
                 } else {
                     return $this->renderAjax('create', [
                         'order' => $order,
-                        'searchModel' => $searchModel,
-                        'dataProvider' => $dataProvider,
                         'transaction' => $transaction,
                         'menuPackage' => MenuPackage::getRadioList(),
                     ]);
