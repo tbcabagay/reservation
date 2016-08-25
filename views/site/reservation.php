@@ -60,6 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'pluginOptions' => [
                                 'step' => 1,
                                 'min' => 1,
+                                'max' => $packageItem->max_person_per_room,
                             ],
                         ]) ?>
 
