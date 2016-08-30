@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9dd97c8a691bd65c1c2ddc2ddc94cdd2",
-    "content-hash": "f51a9745876c352198311a4eba4c28d1",
+    "hash": "b5ac85e3bf00e3a1c55dcbf7f48e91a1",
+    "content-hash": "282784c1cb54189591c0e0402fa9daae",
     "packages": [
         {
             "name": "bower-asset/Bootstrap-Image-Gallery",
@@ -2150,6 +2150,93 @@
             "time": "2016-05-10 07:10:19"
         },
         {
+            "name": "paypal/rest-api-sdk-php",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paypal/PayPal-PHP-SDK.git",
+                "reference": "6a718c4ad5b8b669a48afcba204705a6ceb9a8d5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paypal/PayPal-PHP-SDK/zipball/6a718c4ad5b8b669a48afcba204705a6ceb9a8d5",
+                "reference": "6a718c4ad5b8b669a48afcba204705a6ceb9a8d5",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=5.3.0",
+                "psr/log": "1.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PayPal": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache2"
+            ],
+            "authors": [
+                {
+                    "name": "PayPal",
+                    "homepage": "https://github.com/paypal/rest-api-sdk-php/contributors"
+                }
+            ],
+            "description": "PayPal's PHP SDK for REST APIs",
+            "homepage": "http://paypal.github.io/PayPal-PHP-SDK/",
+            "keywords": [
+                "payments",
+                "paypal",
+                "rest",
+                "sdk"
+            ],
+            "time": "2016-08-18 19:24:32"
+        },
+        {
+            "name": "psr/log",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/fe0936ee26643249e916849d48e3a51d5f5e278b",
+                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Psr\\Log\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "time": "2012-12-21 11:40:51"
+        },
+        {
             "name": "raoul2000/yii2-bootswatch-asset",
             "version": "dev-master",
             "source": {
@@ -2363,12 +2450,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "9f8a110b1290af67fbf84bfe3ea1b47505f4b9fd"
+                "reference": "2f1e451ab57a36389dfe8d964e2a7ff8faf91c21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/9f8a110b1290af67fbf84bfe3ea1b47505f4b9fd",
-                "reference": "9f8a110b1290af67fbf84bfe3ea1b47505f4b9fd",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/2f1e451ab57a36389dfe8d964e2a7ff8faf91c21",
+                "reference": "2f1e451ab57a36389dfe8d964e2a7ff8faf91c21",
                 "shasum": ""
             },
             "require": {
@@ -2449,7 +2536,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2016-08-23 08:00:01"
+            "time": "2016-08-28 15:14:14"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -2987,12 +3074,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-gii.git",
-                "reference": "529e35ba79b6e25beb192da161ab0bf4f809cf2b"
+                "reference": "fb52694ec523bb82ca73e0173f1b96c5c2ff3d5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/529e35ba79b6e25beb192da161ab0bf4f809cf2b",
-                "reference": "529e35ba79b6e25beb192da161ab0bf4f809cf2b",
+                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/fb52694ec523bb82ca73e0173f1b96c5c2ff3d5d",
+                "reference": "fb52694ec523bb82ca73e0173f1b96c5c2ff3d5d",
                 "shasum": ""
             },
             "require": {
@@ -3032,7 +3119,7 @@
                 "gii",
                 "yii2"
             ],
-            "time": "2016-08-08 21:46:45"
+            "time": "2016-08-26 15:10:34"
         }
     ],
     "aliases": [],

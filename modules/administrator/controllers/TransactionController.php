@@ -12,6 +12,8 @@ use yii\filters\AccessControl;
 
 use app\models\Reservation;
 use app\models\PackageItem;
+use app\models\OrderSearch;
+use app\models\ServiceSearch;
 
 /**
  * TransactionController implements the CRUD actions for Transaction model.
@@ -65,8 +67,18 @@ class TransactionController extends Controller
      */
     public function actionView($id)
     {
-        return $this->renderAjax('view', [
+        $orderSearchModel = new OrderSearch();
+        $orderDataProvider = $orderSearchModel->search(Yii::$app->request->queryParams);
+
+        $serviceSearchModel = new ServiceSearch();
+        $serviceDataProvider = $serviceSearchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('view', [
             'model' => $this->findModel($id),
+            'orderSearchModel' => $orderSearchModel,
+            'orderDataProvider' => $orderDataProvider,
+            'serviceSearchModel' => $serviceSearchModel,
+            'serviceDataProvider' => $serviceDataProvider,
         ]);
     }
 

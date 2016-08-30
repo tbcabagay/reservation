@@ -68,7 +68,7 @@ class Service extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'transaction_id' => Yii::t('app', 'Transaction'),
-            'spa_id' => Yii::t('app', 'Spa'),
+            'spa_id' => Yii::t('app', 'Spa Service'),
             'quantity' => Yii::t('app', 'Quantity'),
             'amount' => Yii::t('app', 'Amount'),
             'total' => Yii::t('app', 'Total'),
@@ -126,5 +126,22 @@ class Service extends \yii\db\ActiveRecord
                 'updatedByAttribute' => 'updated_by',
             ],
         ];
+    }
+
+    public function add()
+    {
+        if ($this->isNewRecord) {
+            $this->transaction_id = Yii::$app->request->get('transaction_id');
+
+            $spa = Spa::findOne($this->spa_id);
+            if ($spa === null) {
+                return false;
+            } else {
+                $this->amount = $spa->amount;
+                $this->total = $this->quantity * $this->amount;
+                return $this->save();
+            }
+        }
+        return false;
     }
 }

@@ -6,6 +6,8 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\Url;
+use PayPal\Api\CreditCard;
+use PayPal\Exception\PayPalConnectionException;
 
 /**
  * This is the model class for table "{{%reservation}}".
@@ -135,15 +137,30 @@ class Reservation extends \yii\db\ActiveRecord
         $this->setAttribute('status', self::STATUS_FOR_VERIFICATION);
         if ($this->save()) {
             $message = '<p>You just placed a reservation to our resort using this email. In order for us to process this request, please click the link below to activate it.</p><p><a href="' . Url::to(['site/confirm-reservation', 'id' => $this->id], true) .'">Confirm reservation</a></p>';
-            Yii::$app->mailer->compose()
+            /*Yii::$app->mailer->compose()
                 ->setFrom(Yii::$app->user->identity->email)
                 ->setTo($this->email)
                 ->setSubject(Yii::$app->params['appName'] . ' - Confirm Your Reservation')
                 ->setHtmlBody($message)
-                ->send();
-            return true;
+                ->send();*/
+
+            $card = new CreditCard();
+            $card->setType('visa')
+                ->setNumber('4032039971881372')
+                ->setExpireMonth('09')
+                ->setExpireYear('2021')
+                ->setFirstName('Tomas')
+                ->setLastName('Cabagay');
+            try {
+                $card->create(Yii::$app->myPaypalPayment->getContext());
+                echo $card;
+            } catch (PayPalConnectionException $e) {
+                echo $e->getData();
+            }
+
+            //return true;
         }
-        return false;
+        //return false;
     }
 
     public function changeStatus($status)

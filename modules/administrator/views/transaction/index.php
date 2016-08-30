@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         [
                             'class' => 'yii\grid\ActionColumn',
-                            'template' => '{menu} {spa} {checkout}',
+                            'template' => '{view} {menu} {spa} {checkout}',
                             'buttons' => [
                                 'menu' => function ($url, $model, $key) {
                                     return Html::a('<i class="fa fa-cutlery"></i>', ['order/create', 'transaction_id' => $model->id], ['title' => 'Menu', 'aria-label' => 'Menu', 'data-pjax' => 0, 'class' => 'transaction-gridview-button']);
@@ -113,6 +113,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->registerJs('
 (function($) {
     var orderFormMessage = "#order-form-message";
+    var serviceFormMessage = "#service-form-message";
     $(".transaction-gridview-button").click(function(e) {
         modalLink = this.href;
         $("#modal-transaction").modal("show")
@@ -131,7 +132,19 @@ $this->registerJs('
             }
         });
         return false;
-    })
+    });
+    $(document).on("beforeSubmit", "#service-spa-form", function(e) {
+        $.post(
+            $(this).attr("action"),
+            $(this).serialize()
+        ).done(function(result) {
+            if (result.success) {
+                $(serviceFormMessage).html(result.message);
+                $(serviceFormMessage).show();
+            }
+        });
+        return false;
+    });
 })(jQuery);
 ');
 ?>

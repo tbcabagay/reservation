@@ -12,6 +12,8 @@ use app\models\Order;
  */
 class OrderSearch extends Order
 {
+    public $menu;
+
     /**
      * @inheritdoc
      */
@@ -56,6 +58,11 @@ class OrderSearch extends Order
             // $query->where('0=1');
             return $dataProvider;
         }
+
+        $dataProvider->sort->attributes['menu'] = [
+            'asc' => ['{{%menu_item}}.title' => SORT_ASC],
+            'desc' => ['{{%menu_item}}.title' => SORT_DESC],
+        ];
 
         // grid filtering conditions
         $query->andFilterWhere([

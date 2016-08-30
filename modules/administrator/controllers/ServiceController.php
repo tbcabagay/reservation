@@ -76,7 +76,18 @@ class ServiceController extends Controller
                 $service->scenario = Service::SCENARIO_TRANSACTION_SERVICE;
 
                 if ($service->load(Yii::$app->request->post())) {
-
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    if ($service->add()) {
+                        return [
+                            'success' => true,
+                            'message' => 'The order has been successfully placed. The total amount is ' . Yii::$app->formatter->asCurrency($service->total) . '.',
+                        ];
+                    } else {
+                        return [
+                            'success' => false,
+                            'message' => 'Something nasty happened!',
+                        ];
+                    }
                 } else {
                     return $this->renderAjax('create', [
                         'service' => $service,

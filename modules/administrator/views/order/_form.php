@@ -31,10 +31,7 @@ use yii\bootstrap\Alert;
                 'validationUrl' => ['ajax-validate'],
             ]); ?>
 
-                <?= $form->field($order, 'menu_package_id')->radioButtonGroup($menuPackage, [
-                    'class' => 'btn-group-md',
-                    'itemOptions' => ['labelOptions' => ['class' => 'btn btn-primary']],
-                ]) ?>
+                <?= $form->field($order, 'menu_package_id')->radioList($menuPackage) ?>
 
                 <?= $form->field($order, 'quantity')->widget(TouchSpin::classname(), [
                     'pluginOptions' => [

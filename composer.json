@@ -29,7 +29,8 @@
         "kartik-v/yii2-detail-view": "*",
         "bower-asset/Bootstrap-Image-Gallery": ">=3.4.2",
         "bower-asset/blueimp-gallery": ">=2.21.3",
-        "yiisoft/yii2-imagine": "*"
+        "yiisoft/yii2-imagine": "*",
+        "paypal/rest-api-sdk-php": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

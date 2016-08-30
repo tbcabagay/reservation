@@ -12,6 +12,8 @@ use app\models\Service;
  */
 class ServiceSearch extends Service
 {
+    public $spa;
+
     /**
      * @inheritdoc
      */
@@ -41,7 +43,7 @@ class ServiceSearch extends Service
      */
     public function search($params)
     {
-        $query = Service::find();
+        $query = Service::find()->joinWith(['spa']);
 
         // add conditions that should always apply here
 
@@ -57,11 +59,16 @@ class ServiceSearch extends Service
             return $dataProvider;
         }
 
+        $dataProvider->sort->attributes['spa'] = [
+            'asc' => ['{{%spa}}.title' => SORT_ASC],
+            'desc' => ['{{%spa}}.title' => SORT_DESC],
+        ];
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             'transaction_id' => $this->transaction_id,
-            'spa_id' => $this->spa_id,
+            '{{%spa}}.title' => $this->spa,
             'quantity' => $this->quantity,
             'amount' => $this->amount,
             'total' => $this->total,

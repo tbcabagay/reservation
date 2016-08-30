@@ -76,6 +76,11 @@ $config = [
             'timeZone' => 'Asia/Manila',
             'currencyCode' => 'PHP',
         ],
+        'myPaypalPayment' => [
+            'class' => 'app\components\MyPayPalPayment',
+            'client_id' => $config['paypal_client_id'],
+            'client_secret' => $config['paypal_client_secret'],
+        ],
     ],
     'modules' => [
         'gridview' => [

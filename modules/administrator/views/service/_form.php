@@ -25,18 +25,19 @@ use yii\bootstrap\Alert;
             ]); ?>
 
             <?php $form = ActiveForm::begin([
-                'id' => 'order-menu-form',
+                'id' => 'service-spa-form',
                         'enableClientValidation' => false,
                         'enableAjaxValidation' => true,
                         'validationUrl' => ['ajax-validate'],
             ]); ?>
 
-                <?= $form->field($service, 'spa_id')->radioButtonGroup($spa, [
-                    'class' => 'btn-group-md',
-                    'itemOptions' => ['labelOptions' => ['class' => 'btn btn-primary']],
-                ]) ?>
+                <?= $form->field($service, 'spa_id')->radioList($spa)->label(false) ?>
 
-                <?= $form->field($service, 'quantity')->textInput() ?>
+                <?= $form->field($service, 'quantity')->widget(TouchSpin::classname(), [
+                    'pluginOptions' => [
+                        'min' => 1,
+                    ],
+                ]) ?>
 
                 <div class="form-group">
                     <?= Html::submitButton(Yii::t('app', 'Place'), ['class' => 'btn btn-success']) ?>
