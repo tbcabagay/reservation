@@ -6,6 +6,7 @@ use yii\console\Controller;
 use app\models\User;
 use app\models\Package;
 use app\models\PackageItem;
+use app\models\PackageItemGallery;
 use app\models\MenuCategory;
 use app\models\MenuPackage;
 use app\models\MenuItem;
@@ -18,6 +19,7 @@ class ContentController extends Controller
     {
         $this->actionPackage();
         $this->actionPackageItem();
+        $this->actionPackageItemGallery();
         $this->actionMenuCategory();
         $this->actionMenuPackage();
         $this->actionMenuItem();
@@ -61,18 +63,18 @@ class ContentController extends Controller
             [1, 'One Bedroom Casitas', 3, 4500, 3, 10, 1000, 200, '- Complimentary Breakfast for 2 Persons.
 - Complimentary 1 - 1 Hour Massage.
 - 10% Off on Food &amp; Beverage and Spa services.
-- Room is good for 2 Persons.', 'http://placehold.it/360x360'],
+- Room is good for 2 Persons.', '/img/media/package_item/thumbnail/10252176_790188207667449_8229874329565772851_n.jpg'],
             [1, 'Two Bedroom Casitas', 2, 9000, 5, 10, 1000, 200, '- Complimentary Breakfast for 4 Persons.
 - Complimentary 2 - 1 Hour Massage.
 - 10% Off on Food &amp; Beverage and Spa services.
-- Room is good for 4 Persons.', 'http://placehold.it/360x360'],
+- Room is good for 4 Persons.', '/img/media/package_item/thumbnail/10291255_790188127667457_6753195756288152835_n.jpg'],
             [2, 'Room Rate', 6, 8200, 10, 10, 1500, 200, '- Minimum Capacity of 6 Persons.
 - Complimentary Breakfast for 4 Persons.
 - Flat Screen TV, Cable Channels &amp; Lanai.
 **ROOM LAYOUT:**
 - Casitas F &amp; G - Ground Floor. 1 Queen Bed &amp; 1 Single Bed with One Toilet &amp; Bath.
 - Casitas H, I, J &amp; K - Ground Floor. 3 Singles Beds Two Toilet &amp; Bath.
-- All Casitas De Luxe has a Loft that can accommodate 6-8 Persons.', 'http://placehold.it/360x360'],
+- All Casitas De Luxe has a Loft that can accommodate 6-8 Persons.', '/img/media/package_item/thumbnail/32024_123568670996076_4682688_n.jpg'],
         ];
         foreach ($packageItems as $packageItem) {
             $model = new PackageItem([
@@ -88,10 +90,36 @@ class ContentController extends Controller
                 'photo' => $packageItem[9]
             ]);
             $model->scenario = PackageItem::SCENARIO_COMMAND;
-            $model->save();
+            $result = $result && $model->save();
         }
         if ($result) {
             echo 'Package Item ' . count($packageItems) . " records successfully saved\n";
+        }
+    }
+
+    public function actionPackageItemGallery()
+    {
+        $result = true;
+        $packageItemGalleries = [
+            [1, '/img/media/package_item/gallery/1/thumbnail/premium back view 1.jpg', '/img/media/package_item/gallery/1/premium back view 1.jpg'],
+            [1, '/img/media/package_item/gallery/1/thumbnail/premium front view Room 4.jpg', '/img/media/package_item/gallery/1/premium front view Room 4.jpg'],
+            [1, '/img/media/package_item/gallery/1/thumbnail/premium front view Room 2.jpg', '/img/media/package_item/gallery/1/premium front view Room 2.jpg'],
+            [1, '/img/media/package_item/gallery/1/thumbnail/premium back view 3.jpg', '/img/media/package_item/gallery/1/premium back view 3.jpg'],
+            [2, '/img/media/package_item/gallery/2/thumbnail/premium back view 4.jpg', '/img/media/package_item/gallery/2/premium back view 4.jpg'],
+            [2, '/img/media/package_item/gallery/2/thumbnail/premium front view Room 3.jpg', '/img/media/package_item/gallery/2/premium front view Room 3.jpg'],
+            [2, '/img/media/package_item/gallery/2/thumbnail/premium back view 2.jpg', '/img/media/package_item/gallery/2/premium back view 2.jpg'],
+            [2, '/img/media/package_item/gallery/2/thumbnail/premium front view Room 1.jpg', '/img/media/package_item/gallery/2/premium front view Room 1.jpg'],
+        ];
+        foreach ($packageItemGalleries as $packageItemGallery) {
+            $model = new PackageItemGallery([
+                'package_item_id' => $packageItemGallery[0],
+                'thumbnail' => $packageItemGallery[1],
+                'photo' => $packageItemGallery[2]
+            ]);
+            $result = $result && $model->save();
+        }
+        if ($result) {
+            echo 'Package Item ' . count($packageItemGalleries) . " records successfully saved\n";
         }
     }
 
@@ -202,19 +230,19 @@ class ContentController extends Controller
     {
         $result = true;
         $spas = [
-            ['Body Massage', 450, 'Choices are: Swedish and Shiatsu'],
-            ['Body Scrub', 750],
-            ['Foot Reflexology', 300],
-            ['Manicure/Pedicure', 300],
-            ['Foot Spa', 300],
-            ['Spa Pedicure', 400],
+            ['Body Massage', 450, 'Choices are: Swedish and Shiatsu', '/img/media/spa/Massage room.jpg'],
+            ['Body Scrub', 750, null, '/img/media/spa/Scrub room.jpg'],
+            ['Foot Reflexology', 300, null, '/img/media/spa/P_20160812_160702.jpg'],
+            ['Manicure/Pedicure', 300, null, '/img/media/spa/women bathroom.jpg'],
+            ['Foot Spa', 300, null, '/img/media/spa/Sauna.jpg'],
+            ['Spa Pedicure', 400, null, '/img/media/spa/Mens bathroom 1.jpg'],
         ];
         foreach ($spas as $spa) {
             $model = new Spa([
                 'title' => $spa[0],
                 'amount' => $spa[1],
-                'description' => isset($spa[2]) ? $spa[2] : null,
-                'photo' => 'http://placehold.it/360x360',
+                'description' => $spa[2],
+                'photo' => $spa[3],
             ]);
             $model->scenario = Spa::SCENARIO_COMMAND;
             $result = $result && $model->save();
