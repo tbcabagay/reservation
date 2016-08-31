@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <div class="col-lg-12">
-            <div class="alert alert-info">An email has been sent to your inbox. Please check and follow the instructions provided. The administrator will respond to you after.</div>
+            <div class="alert alert-success">Thank you. We received your payment. The owner will contact you as soon as possible.</div>
         </div>
     </div>
 
