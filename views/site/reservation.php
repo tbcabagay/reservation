@@ -70,6 +70,40 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <div class="panel panel-default">
                     <div class="panel-body">
+                        <legend>Credit Card Details</legend>
+
+                        <?= $form->field($reservation, 'cc_type')->radioList([
+                            'visa' => '<i class="fa fa-cc-visa fa-4x" aria-hidden="true"></i>',
+                            'mastercard' => '<i class="fa fa-cc-mastercard fa-4x" aria-hidden="true"></i>',
+                            'discover' => '<i class="fa fa-cc-discover fa-4x" aria-hidden="true"></i>',
+                            'amex' =>  '<i class="fa fa-cc-amex fa-4x" aria-hidden="true"></i>',
+                        ]) ?>
+
+                        <?= $form->field($reservation, 'cc_number')->textInput(['maxlength' => true]) ?>
+
+                        <?= $form->field($reservation, 'cc_cvv')->textInput(['maxlength' => true]) ?>
+
+                        <?= $form->field($reservation, 'cc_expiry_month')->widget(TouchSpin::classname(), [
+                            'pluginOptions' => [
+                                'step' => 1,
+                                'min' => 1,
+                                'max' => 12,
+                            ],
+                        ]) ?>
+
+                        <?= $form->field($reservation, 'cc_expiry_year')->widget(TouchSpin::classname(), [
+                            'pluginOptions' => [
+                                'step' => 1,
+                                'initval' => 2016,
+                                'min' => 2016,
+                                'max' => 2030,
+                            ],
+                        ]) ?>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
                         <?= $form->field($reservation, 'verifyCode')->widget(Captcha::className()) ?>
                     </div>
                 </div>

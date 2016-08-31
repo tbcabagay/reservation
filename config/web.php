@@ -77,9 +77,10 @@ $config = [
             'currencyCode' => 'PHP',
         ],
         'myPaypalPayment' => [
-            'class' => 'app\components\MyPayPalPayment',
+            'class' => 'app\components\MyPaypalPayment',
             'client_id' => $config['paypal_client_id'],
             'client_secret' => $config['paypal_client_secret'],
+            'currency' => 'USD',
         ],
     ],
     'modules' => [
@@ -88,28 +89,6 @@ $config = [
         ],
         'markdown' => [
             'class' => 'kartik\markdown\Module',
-        ],
-        'filemanager' => [
-            'class' => 'pendalf89\filemanager\Module',
-            'routes' => [
-                'baseUrl' => '',
-                'basePath' => '@app/web',
-                'uploadPath' => 'uploads',
-            ],
-            'thumbs' => [
-                'small' => [
-                    'name' => 'Мелкий',
-                    'size' => [100, 100],
-                ],
-                'medium' => [
-                    'name' => 'Средний',
-                    'size' => [300, 200],
-                ],
-                'large' => [
-                    'name' => 'Большой',
-                    'size' => [500, 400],
-                ],
-            ],
         ],
         'administrator' => [
             'class' => 'app\modules\administrator\Module',

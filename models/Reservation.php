@@ -6,7 +6,17 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\Url;
+use yii\base\UserException;
+use yii\helpers\Json;
+
 use PayPal\Api\CreditCard;
+use PayPal\Api\CreditCardToken;
+use PayPal\Api\FundingInstrument;
+use PayPal\Api\Payer;
+use PayPal\Api\Payment;
+use PayPal\Api\Transaction;
+use PayPal\Api\Amount;
+use PayPal\Exception\PPConnectionException;
 use PayPal\Exception\PayPalConnectionException;
 
 /**
@@ -25,12 +35,18 @@ use PayPal\Exception\PayPalConnectionException;
  * @property string $address
  * @property integer $created_at
  * @property integer $updated_at
+ * @property string $creditcard_id
  *
  * @property PackageItem $packageItem
  */
 class Reservation extends \yii\db\ActiveRecord
 {
     public $verifyCode;
+    public $cc_type;
+    public $cc_number;
+    public $cc_cvv;
+    public $cc_expiry_month;
+    public $cc_expiry_year;
 
     const STATUS_FOR_VERIFICATION = 5;
     const STATUS_NEW = 10;
@@ -45,7 +61,7 @@ class Reservation extends \yii\db\ActiveRecord
     {
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_CHANGE_STATUS] = ['status'];
-        $scenarios[self::SCENARIO_NEW] = ['firstname', 'lastname', 'contact', 'check_in', 'quantity_of_guest', 'email', 'address', 'remark', 'verifyCode'];
+        $scenarios[self::SCENARIO_NEW] = ['firstname', 'lastname', 'contact', 'check_in', 'quantity_of_guest', 'email', 'address', 'remark', 'verifyCode', 'cc_type', 'cc_number', 'cc_cvv', 'cc_expiry_month', 'cc_expiry_year'];
         return $scenarios;
     }
 
@@ -63,8 +79,8 @@ class Reservation extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['package_item_id', 'firstname', 'lastname', 'contact', 'email', 'status', 'check_in', 'quantity_of_guest', 'created_at', 'updated_at'], 'required'],
-            [['package_item_id', 'status', 'quantity_of_guest', 'created_at', 'updated_at'], 'integer'],
+            [['package_item_id', 'firstname', 'lastname', 'contact', 'email', 'status', 'check_in', 'quantity_of_guest', 'created_at', 'updated_at', 'cc_type', 'cc_number', 'cc_cvv', 'cc_expiry_month', 'cc_expiry_year'], 'required'],
+            [['package_item_id', 'status', 'quantity_of_guest', 'created_at', 'updated_at', 'cc_cvv', 'cc_expiry_month', 'cc_expiry_year'], 'integer'],
             [['contact'], 'match', 'pattern' => '/^[\d()\s-]+$/', 'message' => 'Contact should only contain numbers, spaces, dashes, and parentheses'],
             [['check_in'], 'safe'],
             [['check_in'], 'validateCheckIn'],
@@ -74,6 +90,7 @@ class Reservation extends \yii\db\ActiveRecord
             [['firstname', 'lastname'], 'string', 'max' => 25],
             [['contact'], 'string', 'max' => 50],
             [['email', 'address'], 'string', 'max' => 150],
+            [['creditcard_id', 'cc_number'], 'string', 'max' => 40],
             [['package_item_id'], 'exist', 'skipOnError' => true, 'targetClass' => PackageItem::className(), 'targetAttribute' => ['package_item_id' => 'id']],
         ];
     }
@@ -98,6 +115,12 @@ class Reservation extends \yii\db\ActiveRecord
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'verifyCode' => Yii::t('app', 'Verification Code'),
+            'creditcard_id' => Yii::t('app', 'Creditcard ID'),
+            'cc_type' => Yii::t('app', 'Type'),
+            'cc_number' => Yii::t('app', 'Number'),
+            'cc_cvv' => Yii::t('app', 'Cvv2'),
+            'cc_expiry_month' => Yii::t('app', 'Expiry Month'),
+            'cc_expiry_year' => Yii::t('app', 'Expiry Year'),
         ];
     }
 
@@ -123,44 +146,69 @@ class Reservation extends \yii\db\ActiveRecord
         ];
     }
 
-    /*public function beforeSave($insert)
-    {
-        if ($insert) {
-            $this->setAttribute('status', self::STATUS_NEW);
-        }
-        return parent::beforeSave($insert);
-    }*/
-
     public function placeReservation($packageItem)
     {
+        $paypalContext = Yii::$app->myPaypalPayment->getContext();
+
+        try {
+            $card = new CreditCard();
+            $card->setType($this->cc_type);
+            $card->setNumber($this->cc_number);
+            $card->setExpireMonth($this->cc_expiry_month);
+            $card->setExpireYear($this->cc_expiry_year);
+            $card->setCvv2($this->cc_cvv);
+            $card->create($paypalContext);
+        } catch (PayPalConnectionException $ex) {
+            $exception = Json::decode($ex->getData());
+            throw new UserException($exception['details'][0]['issue']);
+        }
+
         $this->setAttribute('package_item_id', $packageItem->id);
         $this->setAttribute('status', self::STATUS_FOR_VERIFICATION);
-        if ($this->save()) {
-            $message = '<p>You just placed a reservation to our resort using this email. In order for us to process this request, please click the link below to activate it.</p><p><a href="' . Url::to(['site/confirm-reservation', 'id' => $this->id], true) .'">Confirm reservation</a></p>';
-            /*Yii::$app->mailer->compose()
-                ->setFrom(Yii::$app->user->identity->email)
-                ->setTo($this->email)
-                ->setSubject(Yii::$app->params['appName'] . ' - Confirm Your Reservation')
-                ->setHtmlBody($message)
-                ->send();*/
+        $this->setAttribute('creditcard_id', $card->getId());
 
-            $card = new CreditCard();
-            $card->setType('visa')
-                ->setNumber('4032039971881372')
-                ->setExpireMonth('09')
-                ->setExpireYear('2021')
-                ->setFirstName('Tomas')
-                ->setLastName('Cabagay');
+
+
+        if ($this->save()) {
+            $this->refresh();
+
             try {
-                $card->create(Yii::$app->myPaypalPayment->getContext());
-                echo $card;
-            } catch (PayPalConnectionException $e) {
-                echo $e->getData();
+                $ccToken = new CreditCardToken();
+                $ccToken->setCreditCardId($this->getAttribute('creditcard_id'));
+
+                $fi = new FundingInstrument();
+                $fi->setCreditCardToken($ccToken);
+
+                $payer = new Payer();
+                $payer->setPaymentMethod("credit_card");
+                $payer->setFundingInstruments([$fi]);
+
+                $amount = new Amount();
+                $amount->setCurrency(Yii::$app->myPaypalPayment->getCurrency());
+                $amount->setTotal(($this->packageItem->rate * 0.5) / 46.52);
+
+                $transaction = new Transaction();
+                $transaction->setAmount($amount);
+                $transaction->setDescription('Hotel Reservation Fee - ' . $this->getAttribute(Yii::$app->formatter->asDateTime($this->getAttribute('check_in'))));
+
+                $payment = new Payment();
+                $payment->setIntent("sale");
+                $payment->setPayer($payer);
+                $payment->setTransactions(array($transaction));
+
+                $payment->create($paypalContext);
+            } catch (PPConnectionException $ex) {
+                throw new UserException($ex->getData());
+            } catch (\Exception $ex) {
+                throw new UserException($ex->getMessage());
             }
 
-            //return true;
+            $this->setAttribute('status', self::STATUS_NEW);
+            $this->update(false);
+
+            return true;
         }
-        //return false;
+        return false;
     }
 
     public function changeStatus($status)

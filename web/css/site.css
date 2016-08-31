@@ -254,3 +254,19 @@ a.desc:after {
 .spa-gallery {
     margin-bottom: 28px;
 }
+
+.fa.fa-cc-visa {
+  color: #0157a2;
+}
+
+.fa.fa-cc-mastercard {
+  color: #0a3a82;
+}
+
+.fa.fa-cc-discover {
+  color: #f68121;
+}
+
+.fa.fa-cc-amex {
+  color: #007bc1;
+}

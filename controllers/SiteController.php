@@ -148,6 +148,20 @@ class SiteController extends Controller
         $reservation = new Reservation();
         $reservation->scenario = Reservation::SCENARIO_NEW;
 
+        /*$reservation->firstname = 'Tomas';
+        $reservation->lastname = 'Cabagay';
+        $reservation->contact = '09268147785';
+        $reservation->email = 'tomas.cabagay@gmail.com';
+        $reservation->check_in = '2016-08-31';
+        $reservation->quantity_of_guest = 2;
+
+        $reservation->cc_number = 5110927139772347;
+        $reservation->cc_type = 'visa';
+        $reservation->cc_expiry_month = 9;
+        $reservation->cc_expiry_year = 2021;*/
+
+        $reservation->cc_cvv = '012';
+
         if ($reservation->load(Yii::$app->request->post()) && $reservation->placeReservation($packageItem)) {
             Yii::$app->session->setFlash('reservationFormSubmitted');
 
