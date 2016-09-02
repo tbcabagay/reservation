@@ -114,7 +114,7 @@ $this->registerJs('
 (function($) {
     var orderFormMessage = "#order-form-message";
     var serviceFormMessage = "#service-form-message";
-    $(".transaction-gridview-button").click(function(e) {
+    $(document).on("click", ".transaction-gridview-button", function(e) {
         modalLink = this.href;
         $("#modal-transaction").modal("show")
             .find("#modal-transaction-content")

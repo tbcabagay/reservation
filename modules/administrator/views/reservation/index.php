@@ -64,10 +64,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         'id',
 
-                        /*[
+                        [
                             'class' => 'yii\grid\ActionColumn',
                             'template' => '{view}',
-                        ],*/
+                            'buttons' => [
+                                'view' => function ($url, $model, $key) {
+                                    return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['view', 'id' => $model->id], ['title' => 'View', 'aria-label' => 'View', 'data-pjax' => 0, 'class' => 'reservation-gridview-button']);
+                                },
+                            ],
+                        ],
                     ],
                     'panel'=>[
                         'type' => GridView::TYPE_DEFAULT,
@@ -107,18 +112,13 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php
 $this->registerJs('
     (function($) {
-        $("td").click(function (e) {
-            var id = $(this).closest("tr").data("id");
-            if (e.target == this) {
-                var url = "' . Url::to(['view']) . '?id=" + id;
-                $("#modal-reservation").modal("show")
-                    .find("#modal-reservation-content")
-                    .load(url);
-            }
-        });/*
-        $("#reservation-search-form").change(function() {
-            $(this).submit();
-        });*/
+        $(document).on("click", ".reservation-gridview-button", function(e) {
+            modalLink = this.href;
+            $("#modal-reservation").modal("show")
+                .find("#modal-reservation-content")
+                .load(modalLink);
+            e.preventDefault();
+        });
     })(jQuery);
 ');
 ?>

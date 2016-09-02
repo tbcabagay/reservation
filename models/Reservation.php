@@ -8,6 +8,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\helpers\Url;
 use yii\base\UserException;
 use yii\helpers\Json;
+use yii\db\Expression;
 
 use PayPal\Api\CreditCard;
 use PayPal\Api\CreditCardToken;
@@ -53,6 +54,7 @@ class Reservation extends \yii\db\ActiveRecord
     const STATUS_CONFIRM = 15;
     const STATUS_DONE = 20;
     const STATUS_CANCEL = 50;
+    const STATUS_DELETE = 60;
 
     const SCENARIO_NEW = 'new';
     const SCENARIO_CHANGE_STATUS = 'change_status';
@@ -283,5 +285,10 @@ class Reservation extends \yii\db\ActiveRecord
         return self::find()
             ->where(['status' => $status])
             ->count();
+    }
+
+    public static function deleteOldReservation()
+    {
+        self::updateAll(['status' => self::STATUS_DELETE], ['and', ['=', 'status', self::STATUS_NEW], ['<', 'check_in', date('Y-m-d')]]);
     }
 }

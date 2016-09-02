@@ -41,7 +41,7 @@ class ReservationSearch extends Reservation
      */
     public function search($params)
     {
-        $query = Reservation::find()/*->orderBy('status ASC, created_at DESC')*/;
+        $query = Reservation::find()->where(['!=', 'status', Reservation::STATUS_DELETE]);
 
         // add conditions that should always apply here
 

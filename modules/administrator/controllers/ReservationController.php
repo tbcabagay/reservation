@@ -44,6 +44,7 @@ class ReservationController extends Controller
      */
     public function actionIndex()
     {
+        Reservation::deleteOldReservation();
         $searchModel = new ReservationSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
