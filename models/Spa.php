@@ -21,6 +21,7 @@ use yii\helpers\ArrayHelper;
  * @property string $photo
  * @property integer $created_at
  * @property integer $updated_at
+ * @property integer $status
  *
  * @property Service[] $services
  */
@@ -55,12 +56,12 @@ class Spa extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'amount', 'created_at', 'updated_at'], 'required'],
+            [['title', 'amount', 'created_at', 'updated_at', 'status'], 'required'],
             [['amount'], 'number'],
             [['description'], 'string'],
             [['photo_file'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, svg', 'on' => self::SCENARIO_ADD],
             [['photo_file'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, svg', 'on' => self::SCENARIO_EDIT],
-            [['created_at', 'updated_at'], 'integer'],
+            [['created_at', 'updated_at', 'status'], 'integer'],
             [['title'], 'string', 'max' => 100],
             [['photo'], 'string', 'max' => 255],
         ];
@@ -79,6 +80,7 @@ class Spa extends \yii\db\ActiveRecord
             'photo' => Yii::t('app', 'Photo'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
+            'status' => Yii::t('app', 'Status'),
         ];
     }
 

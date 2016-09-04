@@ -17,11 +17,24 @@ use yii\behaviors\SluggableBehavior;
  * @property integer $updated_at
  * @property string $slug
  * @property string $agreement
+ * @property integer $status
  *
  * @property PackageItem[] $packageItems
  */
 class Package extends \yii\db\ActiveRecord
 {
+    const STATUS_ACTIVE = 5;
+    const STATUS_DELETE = 10;
+
+    const SCENARIO_TOGGLE_STATUS = 'status';
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_TOGGLE_STATUS] = ['status'];
+        return $scenarios;
+    }
+
     /**
      * @inheritdoc
      */
@@ -36,8 +49,8 @@ class Package extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'agreement'], 'required'],
-            [['created_at', 'updated_at'], 'integer'],
+            [['title', 'created_at', 'updated_at', 'slug', 'agreement', 'status'], 'required'],
+            [['created_at', 'updated_at', 'status'], 'integer'],
             [['agreement'], 'string'],
             [['title'], 'string', 'max' => 100],
             [['slug'], 'string', 'max' => 250],
@@ -56,6 +69,7 @@ class Package extends \yii\db\ActiveRecord
             'updated_at' => Yii::t('app', 'Updated At'),
             'slug' => Yii::t('app', 'Slug'),
             'agreement' => Yii::t('app', 'Agreement'),
+            'status' => Yii::t('app', 'Status'),
         ];
     }
 
@@ -101,7 +115,8 @@ class Package extends \yii\db\ActiveRecord
     {
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
-                $this->title = ucwords(strtolower($this->title));
+                $this->setAttribute('title', ucwords(strtolower($this->title)));
+                $this->setAttribute('status', self::STATUS_ACTIVE);
             }
             return true;
         }

@@ -28,7 +28,7 @@ class NewsController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['administrator'],
                     ],
                 ],
             ],
@@ -118,7 +118,10 @@ class NewsController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->scenario = News::SCENARIO_TOGGLE_STATUS;
+        $model->setAttribute('status', News::STATUS_DELETE);
+        $model->save();
 
         return $this->redirect(['index']);
     }

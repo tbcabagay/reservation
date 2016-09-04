@@ -26,7 +26,7 @@ class PackageController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['administrator'],
                     ],
                 ],
             ],
@@ -99,7 +99,10 @@ class PackageController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->scenario = Package::SCENARIO_TOGGLE_STATUS;
+        $model->setAttribute('status', Package::STATUS_DELETE);
+        $model->save();
 
         return $this->redirect(['index']);
     }

@@ -20,6 +20,7 @@ use yii\imagine\Image;
  * @property integer $updated_at
  * @property string $slug
  * @property string $photo
+ * @property integer $status
  *
  * @property User $user
  */
@@ -27,8 +28,12 @@ class News extends \yii\db\ActiveRecord
 {
     public $photo_file;
 
+    const STATUS_ACTIVE = 5;
+    const STATUS_DELETE = 10;
+
     const SCENARIO_ADD = 'add';
     const SCENARIO_EDIT = 'edit';
+    const SCENARIO_TOGGLE_STATUS = 'status';
     const SCENARIO_UPLOAD_IMAGE = 'upload_image';
 
     public function scenarios()
@@ -36,6 +41,7 @@ class News extends \yii\db\ActiveRecord
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_ADD] = ['title', 'content'];
         $scenarios[self::SCENARIO_EDIT] = ['title', 'content'];
+        $scenarios[self::SCENARIO_TOGGLE_STATUS] = ['status'];
         $scenarios[self::SCENARIO_UPLOAD_IMAGE] = ['photo', 'photo_file'];
         return $scenarios;
     }
@@ -54,8 +60,8 @@ class News extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'title', 'content', 'created_at', 'updated_at', 'slug'], 'required'],
-            [['user_id', 'created_at', 'updated_at'], 'integer'],
+            [['user_id', 'title', 'content', 'created_at', 'updated_at', 'slug', 'status'], 'required'],
+            [['user_id', 'created_at', 'updated_at', 'status'], 'integer'],
             [['content'], 'string'],
             [['title'], 'string', 'max' => 100],
             [['slug'], 'string', 'max' => 250],
@@ -79,6 +85,7 @@ class News extends \yii\db\ActiveRecord
             'updated_at' => Yii::t('app', 'Updated At'),
             'slug' => Yii::t('app', 'Slug'),
             'photo' => Yii::t('app', 'Photo'),
+            'status' => Yii::t('app', 'Status'),
         ];
     }
 
@@ -131,6 +138,8 @@ class News extends \yii\db\ActiveRecord
                 $fileName = $this->photo_file->basename . '.' . $this->photo_file->extension;
                 $this->photo = $relativePath . DIRECTORY_SEPARATOR . $fileName;
             }
+
+            $this->setAttribute('status', self::STATUS_ACTIVE);
 
             if ($this->save(false)) {
                 if (file_exists($absolutePath) === false) {

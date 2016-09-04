@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
                     'columns' => [
-                        ['class' => 'yii\grid\SerialColumn'],
+                        ['class' => 'kartik\grid\SerialColumn'],
 
                         'title',
                         [
@@ -36,10 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'updated_at:datetime',
                         'id',
 
-                        [
-                            'class' => 'yii\grid\ActionColumn',
-                            'template' => '{view} {update}',
-                        ],
+                        ['class' => 'kartik\grid\ActionColumn'],
                     ],
                     'panel'=>[
                         'type' => GridView::TYPE_DEFAULT,

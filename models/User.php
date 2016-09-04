@@ -250,9 +250,11 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function beforeSave($insert)
     {
         if ($insert) {
-            $roles = $this->findByRole('administrator');
-            if (!empty($roles)) {
-                throw new UserException('Administrator account already exists.');
+            if ($this->role === 'administrator') {
+                $roles = $this->findByRole('administrator');
+                if (!empty($roles)) {
+                    throw new UserException('Administrator account already exists.');
+                }
             }
 
             $this->setAttribute('auth_key', \Yii::$app->security->generateRandomString());

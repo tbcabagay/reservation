@@ -12,6 +12,7 @@ use yii\helpers\ArrayHelper;
  * @property string $title
  * @property string $amount
  * @property string $unit
+ * @property integer $status
  *
  * @property MenuItem[] $menuItems
  * @property Order[] $orders
@@ -32,8 +33,9 @@ class MenuPackage extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'amount', 'unit'], 'required'],
+            [['title', 'amount', 'unit', 'status'], 'required'],
             [['amount'], 'number'],
+            [['status'], 'integer'],
             [['title'], 'string', 'max' => 50],
             [['unit'], 'string', 'max' => 20],
         ];
@@ -49,6 +51,7 @@ class MenuPackage extends \yii\db\ActiveRecord
             'title' => Yii::t('app', 'Title'),
             'amount' => Yii::t('app', 'Amount'),
             'unit' => Yii::t('app', 'Unit'),
+            'status' => Yii::t('app', 'Status'),
         ];
     }
 

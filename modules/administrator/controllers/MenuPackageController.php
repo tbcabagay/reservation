@@ -26,7 +26,7 @@ class MenuPackageController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['administrator'],
                     ],
                 ],
             ],

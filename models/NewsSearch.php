@@ -41,7 +41,7 @@ class NewsSearch extends News
      */
     public function search($params)
     {
-        $query = News::find();
+        $query = News::find()->where(['status' => News::STATUS_ACTIVE]);
 
         // add conditions that should always apply here
 

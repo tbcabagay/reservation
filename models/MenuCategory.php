@@ -10,6 +10,7 @@ use yii\helpers\ArrayHelper;
  *
  * @property integer $id
  * @property string $category
+ * @property integer $status
  *
  * @property MenuItem[] $menuItems
  */
@@ -29,7 +30,8 @@ class MenuCategory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category'], 'required'],
+            [['category', 'status'], 'required'],
+            [['status'], 'integer'],
             [['category'], 'string', 'max' => 30],
         ];
     }
@@ -42,6 +44,7 @@ class MenuCategory extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'category' => Yii::t('app', 'Category'),
+            'status' => Yii::t('app', 'Status'),
         ];
     }
 

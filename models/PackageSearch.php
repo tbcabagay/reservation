@@ -40,7 +40,7 @@ class PackageSearch extends Package
      */
     public function search($params)
     {
-        $query = Package::find();
+        $query = Package::find()->where(['status' => Package::STATUS_ACTIVE]);
 
         // add conditions that should always apply here
 
