@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
+use yii\base\UserException;
 
 /**
  * This is the model class for table "{{%user}}".
@@ -249,6 +250,11 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function beforeSave($insert)
     {
         if ($insert) {
+            $roles = $this->findByRole('administrator');
+            if (!empty($roles)) {
+                throw new UserException('Administrator account already exists.');
+            }
+
             $this->setAttribute('auth_key', \Yii::$app->security->generateRandomString());
             $this->setAttribute('status', self::STATUS_ACTIVE);
             if (\Yii::$app instanceof WebApplication) {
@@ -259,6 +265,14 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             $this->setAttribute('password_hash', Yii::$app->getSecurity()->generatePasswordHash($this->password));
         }
         return parent::beforeSave($insert);
+    }
+
+    public function findByRole($role)
+    {
+        return self::find()
+            ->join('LEFT JOIN','{{%auth_assignment}}', '{{%auth_assignment}}.user_id = id')
+            ->where(['{{%auth_assignment}}.item_name' => $role])
+            ->all();
     }
 
 }
