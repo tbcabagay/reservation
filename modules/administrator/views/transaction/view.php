@@ -18,6 +18,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-lg-12">
             <h1 class="page-header"><?= Html::encode($this->title) ?></h1>
         </div>
+        <div class="col-lg-12">
+            <p>
+                <?= Html::a('Go Back', ['index'], ['class' => 'btn btn-primary']) ?>
+                <?= Html::a('Check Out', ['check-out', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
+                </p>
+        </div>
     </div>
 
     <div class="row">
@@ -49,65 +55,115 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Avail of Services</h3>
-                </div>
-                <div class="panel-body">
-                    <?php Pjax::begin(); ?>
-                        <?= GridView::widget([
-                            'dataProvider' => $serviceDataProvider,
-                            /*'filterModel' => $serviceSearchModel,*/
-                            'columns' => [
-                                /*['class' => 'yii\grid\SerialColumn'],*/
-                                ['class' => 'yii\grid\CheckboxColumn'],
+            <?php Pjax::begin(); ?>
+                <?= GridView::widget([
+                    'dataProvider' => $serviceDataProvider,
+                    'columns' => [
+                        ['class' => 'kartik\grid\SerialColumn'],
 
-                                [
-                                    'attribute' => 'spa',
-                                    'value' => 'spa.title',
-                                ],
-                                'quantity',
-                                'amount',
-                                'id',
+                        [
+                            'attribute' => 'spa',
+                            'value' => 'spa.title',
+                            'width' => '200px;',
+                            'pageSummary' => 'Total',
+                        ],
+                        [
+                            'attribute' => 'quantity',
+                            'pageSummary' => true,
+                            'pageSummaryFunc'=>GridView::F_SUM,
+                        ],
+                        [
+                            'attribute' => 'amount',
+                            'format' => 'currency',
+                            'pageSummary' => true,
+                            'pageSummaryFunc'=>GridView::F_SUM,
+                        ],
+                        [
+                            'attribute' => 'total',
+                            'format' => 'currency',
+                            'pageSummary' => true,
+                            'pageSummaryFunc'=>GridView::F_SUM,
+                        ],
+                        'created_at:datetime',
+                        'id',
 
-                                ['class' => 'yii\grid\ActionColumn'],
+                        [
+                            'class' => 'kartik\grid\ActionColumn',
+                            'template' => '{delete}',
+                            'buttons' => [
+                                'delete' => function ($url, $model, $key) {
+                                    return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['service/delete', 'id' => $model->id, 'transaction_id' => $model->transaction_id], ['title' => 'Delete', 'aria-label' => 'Delete', 'data-pjax' => 0, 'data-method' => 'post']);
+                                },
                             ],
-                        ]); ?>
-                    <?php Pjax::end(); ?>
-                </div>
-            </div>
+                        ],
+                    ],
+                    'showPageSummary' => true,
+                    'panel'=>[
+                        'type' => GridView::TYPE_DEFAULT,
+                        'heading' => 'Service Grid',
+                    ],
+                    'toolbar' => [
+                        '{toggleData}',
+                    ],
+                ]); ?>
+            <?php Pjax::end(); ?>
         </div>
     </div>
 
     <div class="row">
         <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Order Menu</h3>
-                </div>
-                <div class="panel-body">
-                    <?php Pjax::begin(); ?>
-                        <?= GridView::widget([
-                            'dataProvider' => $orderDataProvider,
-                            /*'filterModel' => $serviceSearchModel,*/
-                            'columns' => [
-                                /*['class' => 'yii\grid\SerialColumn'],*/
-                                ['class' => 'yii\grid\CheckboxColumn'],
+            <?php Pjax::begin(); ?>
+                <?= GridView::widget([
+                    'dataProvider' => $orderDataProvider,
+                    'columns' => [
+                        ['class' => 'kartik\grid\SerialColumn'],
 
-                                [
-                                    'attribute' => 'menu',
-                                    'value' => 'menu.title',
-                                ],
-                                'quantity',
-                                'amount',
-                                'id',
+                        [
+                            'attribute' => 'menuPackage',
+                            'value' => 'menuPackage.title',
+                            'width' => '200px;',
+                            'pageSummary' => 'Total',
+                        ],
+                        [
+                            'attribute' => 'quantity',
+                            'pageSummary' => true,
+                            'pageSummaryFunc'=>GridView::F_SUM,
+                        ],
+                        [
+                            'attribute' => 'amount',
+                            'format' => 'currency',
+                            'pageSummary' => true,
+                            'pageSummaryFunc'=>GridView::F_SUM,
+                        ],
+                        [
+                            'attribute' => 'total',
+                            'format' => 'currency',
+                            'pageSummary' => true,
+                            'pageSummaryFunc'=>GridView::F_SUM,
+                        ],
+                        'created_at:datetime',
+                        'id',
 
-                                ['class' => 'yii\grid\ActionColumn'],
+                        [
+                            'class' => 'kartik\grid\ActionColumn',
+                            'template' => '{delete}',
+                            'buttons' => [
+                                'delete' => function ($url, $model, $key) {
+                                    return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['order/delete', 'id' => $model->id, 'transaction_id' => $model->transaction_id], ['title' => 'Delete', 'aria-label' => 'Delete', 'data-pjax' => 0, 'data-method' => 'post']);
+                                },
                             ],
-                        ]); ?>
-                    <?php Pjax::end(); ?>
-                </div>
-            </div>
+                        ],
+                    ],
+                    'showPageSummary' => true,
+                    'panel'=>[
+                        'type' => GridView::TYPE_DEFAULT,
+                        'heading' => 'Order Grid',
+                    ],
+                    'toolbar' => [
+                        '{toggleData}',
+                    ],
+                ]); ?>
+            <?php Pjax::end(); ?>
         </div>
     </div>
 

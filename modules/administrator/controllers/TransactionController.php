@@ -68,10 +68,10 @@ class TransactionController extends Controller
     public function actionView($id)
     {
         $orderSearchModel = new OrderSearch();
-        $orderDataProvider = $orderSearchModel->search(Yii::$app->request->queryParams);
+        $orderDataProvider = $orderSearchModel->searchCheckOut($id);
 
         $serviceSearchModel = new ServiceSearch();
-        $serviceDataProvider = $serviceSearchModel->search(Yii::$app->request->queryParams);
+        $serviceDataProvider = $serviceSearchModel->searchCheckOut($id);
 
         return $this->render('view', [
             'model' => $this->findModel($id),

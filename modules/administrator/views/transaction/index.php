@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         'firstname',
                         'lastname',
-                        'status',
+                        /*'status',*/
                         'check_in:datetime',
                         'check_out:datetime',
                         'id',
@@ -63,9 +63,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'spa' => function ($url, $model, $key) {
                                     return Html::a('<i class="fa fa-paw"></i>', ['service/create', 'transaction_id' => $model->id], ['title' => 'Spa', 'aria-label' => 'Menu', 'data-pjax' => 0, 'class' => 'transaction-gridview-button']);
                                 },
-                                'checkout' => function ($url, $model, $key) {
+                                /*'checkout' => function ($url, $model, $key) {
                                     return Html::a('<i class="fa fa-shopping-cart"></i>', ['check-out', 'id' => $model->id], ['title' => 'Check Out', 'aria-label' => 'Menu', 'data-pjax' => 0, 'class' => 'transaction-gridview-button']);
-                                },
+                                },*/
                             ],
                         ],
                     ],

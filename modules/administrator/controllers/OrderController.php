@@ -146,11 +146,11 @@ class OrderController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete($id, $transaction_id)
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['transaction/view', 'id' => $transaction_id]);
     }
 
     /**

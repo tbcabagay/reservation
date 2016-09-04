@@ -12,7 +12,7 @@ use app\models\Order;
  */
 class OrderSearch extends Order
 {
-    public $menu;
+    public $menuPackage;
 
     /**
      * @inheritdoc
@@ -20,8 +20,9 @@ class OrderSearch extends Order
     public function rules()
     {
         return [
-            [['id', 'transaction_id', 'menu_package_id', 'quantity', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'transaction_id', 'menuPackage_id', 'quantity', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
             [['amount', 'total'], 'number'],
+            [['menuPackage'], 'safe'],
         ];
     }
 
@@ -59,16 +60,11 @@ class OrderSearch extends Order
             return $dataProvider;
         }
 
-        $dataProvider->sort->attributes['menu'] = [
-            'asc' => ['{{%menu_item}}.title' => SORT_ASC],
-            'desc' => ['{{%menu_item}}.title' => SORT_DESC],
-        ];
-
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             'transaction_id' => $this->transaction_id,
-            'menu_package_id' => $this->menu_package_id,
+            'menuPackage_id' => $this->menuPackage_id,
             'quantity' => $this->quantity,
             'amount' => $this->amount,
             'total' => $this->total,
@@ -77,6 +73,22 @@ class OrderSearch extends Order
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
+
+        return $dataProvider;
+    }
+
+    public function searchCheckOut($transaction_id)
+    {
+        $query = Order::find()->where(['transaction_id' => $transaction_id])->joinWith(['menuPackage']);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $dataProvider->sort->attributes['menuPackage'] = [
+            'asc' => ['{{%menu_package}}.title' => SORT_ASC],
+            'desc' => ['{{%menu_package}}.title' => SORT_DESC],
+        ];
 
         return $dataProvider;
     }

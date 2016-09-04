@@ -22,6 +22,7 @@ class ServiceSearch extends Service
         return [
             [['id', 'transaction_id', 'spa_id', 'quantity', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
             [['amount', 'total'], 'number'],
+            [['spa'], 'safe'],
         ];
     }
 
@@ -77,6 +78,23 @@ class ServiceSearch extends Service
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
+
+        return $dataProvider;
+    }
+
+    public function searchCheckOut($transaction_id)
+    {
+        $query = Service::find()->where(['transaction_id' => $transaction_id])->joinWith(['spa']);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+
+        $dataProvider->sort->attributes['spa'] = [
+            'asc' => ['{{%spa}}.title' => SORT_ASC],
+            'desc' => ['{{%spa}}.title' => SORT_DESC],
+        ];
 
         return $dataProvider;
     }
