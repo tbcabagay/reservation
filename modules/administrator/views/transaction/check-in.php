@@ -35,6 +35,7 @@ $transaction->toggle_date_time = ($transaction->toggle_date_time === null) ? 'sy
                             'pluginOptions' => [
                                 'step' => 1,
                                 'min' => 1,
+                                'max' => $transaction->packageItem->max_person_per_room,
                             ],
                         ]) ?>
 

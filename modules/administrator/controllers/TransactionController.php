@@ -9,6 +9,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use kartik\form\ActiveForm;
+use yii\web\Response;
 
 use app\models\Reservation;
 use app\models\PackageItem;
@@ -134,15 +136,29 @@ class TransactionController extends Controller
 
     public function actionCheckOut($id)
     {
-        $model = $this->findModel($id);
-        $model->scenario = Transaction::SCENARIO_CHECK_OUT;
+        if (Yii::$app->request->isAjax) {
+            $model = $this->findCheckOutModel($id);
+            $model->scenario = Transaction::SCENARIO_CHECK_OUT;
 
-        if ($model->load(Yii::$app->request->post()) && $model->checkOut()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load(Yii::$app->request->post()) && $model->checkOut()) {
+                //return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->renderAjax('check-out', [
+                    'model' => $model,
+                ]);
+            }
         } else {
-            return $this->renderAjax('check-out', [
-                'model' => $model,
-            ]);
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    public function actionAjaxCheckOutValidate($id)
+    {
+        $model = $this->findCheckOutModel($id);
+        $model->scenario = Transaction::SCENARIO_CHECK_OUT;
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
         }
     }
 
@@ -169,6 +185,17 @@ class TransactionController extends Controller
     protected function findModel($id)
     {
         if (($model = Transaction::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    protected function findCheckOutModel($id)
+    {
+        if (($model = Transaction::find()->where([
+            'id' => $id, 'status' => Transaction::STATUS_CHECK_IN
+        ])->one()) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

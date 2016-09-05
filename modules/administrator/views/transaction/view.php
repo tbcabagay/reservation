@@ -4,6 +4,8 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
+use yii\bootstrap\Modal;
+use app\models\Transaction;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Transaction */
@@ -20,8 +22,10 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <div class="col-lg-12">
             <p>
-                <?= Html::a('Go Back', ['index'], ['class' => 'btn btn-primary']) ?>
-                <?= Html::a('Check Out', ['check-out', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
+                <?= Html::a('<i class="fa fa-arrow-left"></i> Go Back', ['index'], ['class' => 'btn btn-primary']) ?>
+                <?php if ($model->status === Transaction::STATUS_CHECK_IN): ?>
+                <?= Html::a(' <i class="fa fa-shopping-cart"></i> Check Out', ['check-out', 'id' => $model->id], ['class' => 'btn btn-success check-out-button']) ?>
+                <?php endif; ?>
                 </p>
         </div>
     </div>
@@ -168,3 +172,39 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
 </div>
+
+<?php
+    Modal::begin([
+        'header' => '<h4>Check Out Window</h4>',
+        'id' => 'modal-check-out',
+        'size' => Modal::SIZE_LARGE,
+    ]);
+    echo '<div id="modal-check-out-content"></div>';
+    Modal::end ();
+?>
+
+<?php
+$this->registerJs('
+(function($) {
+    $(document).on("click", ".check-out-button", function(e) {
+        modalLink = this.href;
+        $("#modal-check-out").modal("show")
+            .find("#modal-check-out-content")
+            .load(modalLink);
+        e.preventDefault();
+    });
+    $(document).on("beforeSubmit", "#check-out-form", function(e) {
+        $.post(
+            $(this).attr("action"),
+            $(this).serialize()
+        ).done(function(result) {
+            if (result.success) {
+                $(orderFormMessage).html(result.message);
+                $(orderFormMessage).show();
+            }
+        });
+        return false;
+    });
+})(jQuery);
+');
+?>

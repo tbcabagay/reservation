@@ -23,6 +23,7 @@ use yii\behaviors\BlameableBehavior;
  * @property integer $updated_by
  * @property integer $created_at
  * @property integer $updated_at
+ * @property string $penalty_from_excess_hour
  *
  * @property Order[] $orders
  * @property Service[] $services
@@ -33,8 +34,6 @@ use yii\behaviors\BlameableBehavior;
 class Transaction extends \yii\db\ActiveRecord
 {
     public $toggle_date_time;
-    public $toggle_discount;
-    public $discount;
 
     const STATUS_CHECK_IN = 5;
     const STATUS_CHECK_OUT = 10;
@@ -45,7 +44,7 @@ class Transaction extends \yii\db\ActiveRecord
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIO_CHECK_OUT] = ['check_out', 'discount', 'toggle_discount'];
+        $scenarios[self::SCENARIO_CHECK_OUT] = ['toggle_date_time', 'check_out'];
         $scenarios[self::SCENARIO_CHECK_IN] = ['package_item_id', 'quantity_of_guest', 'check_in', 'firstname', 'lastname', 'contact', 'toggle_date_time'];
         return $scenarios;
     }
@@ -65,11 +64,13 @@ class Transaction extends \yii\db\ActiveRecord
     {
         return [
             [['package_item_id', 'firstname', 'lastname', 'contact', 'status', 'quantity_of_guest', 'check_in', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'required'],
-            [['package_item_id', 'status', 'quantity_of_guest', 'created_by', 'updated_by', 'created_at', 'updated_at', 'discount'], 'integer'],
-            [['total_amount'], 'number'],
-            [['check_in', 'check_out'], 'date', 'format' => 'php:Y-m-d H:i:s'],
-            [['check_in', 'check_out'], 'validateTransactionDate'],
-            [['toggle_discount'], 'boolean'],
+            [['package_item_id', 'status', 'quantity_of_guest', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
+            [['check_out'], 'required', 'on' => self::SCENARIO_CHECK_OUT],
+            [['check_out'], 'validateTransactionDate', 'on' => self::SCENARIO_CHECK_OUT],
+            [['check_in'], 'date', 'format' => 'php:Y-m-d H:i:s', 'on' => self::SCENARIO_CHECK_OUT],
+            [['total_amount', 'penalty_from_excess_hour'], 'number'],
+            [['check_in'], 'date', 'format' => 'php:Y-m-d H:i:s'],
+            [['check_in'], 'validateTransactionDate'],
             [['toggle_date_time'], 'string', 'max' => 6],
             [['firstname', 'lastname'], 'string', 'max' => 25],
             [['contact'], 'string', 'max' => 50],
@@ -99,7 +100,7 @@ class Transaction extends \yii\db\ActiveRecord
             'updated_by' => Yii::t('app', 'Updated By'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
-            'toggle_discount' => Yii::t('app', 'Apply Discount'),
+            'penalty_from_excess_hour' => Yii::t('app', 'Penalty From Excess Hour'),
         ];
     }
 
@@ -176,19 +177,38 @@ class Transaction extends \yii\db\ActiveRecord
 
     public function checkOut()
     {
-        $total = 0;
-        $orders = $this->orders;
-        if (empty($orders) !== false) {
-            foreach ($orders as $order) {
-                $total += $order->total;
-            }
-        }
+        $result = true;
         if ($this->toggle_date_time === 'system') {
-            $this->check_out = date('Y-m-d H:i:s');
+            $this->setAttribute('check_out', date('Y-m-d H:i:s'));
         } else if ($this->toggle_date_time === 'manual') {
-            $this->check_out = date('Y-m-d H:i:s', (strtotime($this->check_out . ' Asia/Manila')));
+            $this->setAttribute('check_out', date('Y-m-d H:i:s', (strtotime($this->check_out . ' Asia/Manila'))));
         }
-        return $this->save();
+
+        $this->setAttribute('status', self::STATUS_CHECK_OUT);
+        $this->_computeTotalAmount();
+
+        if ($result = $result && $this->save()) {
+            $this->refresh();
+            $properCheckOutTime = date('Y-m-d') . ' 13:00:00';
+            $checkOut = Yii::$app->formatter->asDateTime($this->check_out, 'php:Y-m-d H:i:s');
+            $penalty = floor((strtotime($checkOut) - strtotime($properCheckOutTime)) / 3600);
+            $this->setAttribute('penalty_from_excess_hour', ($penalty * $this->packageItem->penalty_per_excess_hour));
+            $result = $result && $this->save();
+
+            return $result;
+        }
+    }
+
+    private function _computeTotalAmount()
+    {
+        $order = Order::find()->where(['transaction_id' => $this->id])->sum('total');
+        $service = Service::find()->where(['transaction_id' => $this->id])->sum('total');
+
+        $order = is_null($order) ? 0 : $order;
+        $service = is_null($service) ? 0 : $service;
+
+        $total_amount = $order + $service;
+        $this->setAttribute('total_amount', $total_amount);
     }
 
     public function validateTransactionDate($attribute, $params)
@@ -196,7 +216,7 @@ class Transaction extends \yii\db\ActiveRecord
         $dateToCompare = $this->$attribute;
         $now = date('Y-m-d H:i:s');
         if (strtotime($dateToCompare) < strtotime($now)) {
-            $this->addError($attribute, 'The check-in date should not set to period earlier than today.');
+            $this->addError($attribute, 'The date should not be set to earlier period.');
         }
     }
 }

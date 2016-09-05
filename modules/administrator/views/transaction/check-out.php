@@ -12,19 +12,17 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Transactions'), 'url
 $this->params['breadcrumbs'][] = $this->title;
 
 $model->toggle_date_time = ($model->toggle_date_time === null) ? 'system' : $model->toggle_date_time;
-$model->toggle_discount = ($model->toggle_discount === null) ? false : $model->toggle_discount;
 ?>
 <div class="transaction-check-out">
 
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header"><?= Html::encode($this->title) ?></h1>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-12">
-            <?php $form = ActiveForm::begin(); ?>
+            <?php $form = ActiveForm::begin([
+                'id' => 'check-out-form',
+                'enableClientValidation' => false,
+                'enableAjaxValidation' => true,
+                'validationUrl' => ['ajax-check-out-validate', 'id' => $model->id],
+            ]); ?>
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <legend>Customer Information</legend>
@@ -37,12 +35,6 @@ $model->toggle_discount = ($model->toggle_discount === null) ? false : $model->t
                         ]) ?>
 
                         <?= $form->field($model, 'toggle_date_time')->radioList(['system' => 'Use System Clock', 'manual' => 'Set Manually'], ['inline' => true])->label(false) ?>
-
-                        <?= $form->field($model, 'discount', [
-                            'addon' => ['append' => ['content' => '%']]
-                        ])->textInput(['maxlength' => true]) ?>
-
-                        <?= $form->field($model, 'toggle_discount')->checkBox() ?>
 
                         <div class="form-group">
                             <?= Html::submitButton(Yii::t('app', 'Check Out'), ['class' => 'btn btn-success']) ?>
@@ -59,10 +51,7 @@ $model->toggle_discount = ($model->toggle_discount === null) ? false : $model->t
 $this->registerJs('
 (function($) {
     var checkOut = "#' . Html::getInputId($model, 'check_out') . '";
-    var discount = "#' . Html::getInputId($model, 'discount') .'";
     var toggleDateTimeValue = $(\'input:radio[name="' . Html::getInputName($model, 'toggle_date_time') . '"]:checked\').val();
-    var toggleDiscount = "#' . Html::getInputId($model, 'toggle_discount') .'";
-    $(discount).prop("disabled", true);
     if (toggleDateTimeValue == "manual") {
         $(checkOut).prop("disabled", false);
     } else if (toggleDateTimeValue == "system") {
@@ -74,9 +63,6 @@ $this->registerJs('
         } else if (this.value == "system") {
             $(checkOut).prop("disabled", true);
         }
-    });
-    $(toggleDiscount).change(function() {
-        $(discount).prop("disabled", !$(this).is(":checked"));
     });
 })(jQuery);
 ');

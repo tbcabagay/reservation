@@ -26,9 +26,9 @@ use yii\bootstrap\Alert;
 
             <?php $form = ActiveForm::begin([
                 'id' => 'service-spa-form',
-                        'enableClientValidation' => false,
-                        'enableAjaxValidation' => true,
-                        'validationUrl' => ['ajax-validate'],
+                'enableClientValidation' => false,
+                'enableAjaxValidation' => true,
+                'validationUrl' => ['ajax-validate'],
             ]); ?>
 
                 <?= $form->field($service, 'spa_id')->radioList($spa)->label(false) ?>
