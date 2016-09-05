@@ -20,6 +20,20 @@ use Yii;
  */
 class MenuItem extends \yii\db\ActiveRecord
 {
+    const STATUS_ACTIVE = 5;
+    const STATUS_DELETE = 10;
+
+    const SCENARIO_ADD = 'add';
+    const SCENARIO_TOGGLE_STATUS = 'toggle_status';
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_ADD] = ['menu_category_id', 'menu_package_id', 'title', 'description'];
+        $scenarios[self::SCENARIO_TOGGLE_STATUS] = ['status'];
+        return $scenarios;
+    }
+
     /**
      * @inheritdoc
      */
@@ -74,5 +88,13 @@ class MenuItem extends \yii\db\ActiveRecord
     public function getMenuPackage()
     {
         return $this->hasOne(MenuPackage::className(), ['id' => 'menu_package_id']);
+    }
+
+    public function beforeSave($insert)
+    {
+        if ($insert) {
+            $this->setAttribute('status', self::STATUS_ACTIVE);
+        }
+        return parent::beforeSave($insert);
     }
 }

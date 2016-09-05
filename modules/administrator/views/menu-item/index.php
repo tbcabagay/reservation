@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
                     'columns' => [
-                        ['class' => 'yii\grid\SerialColumn'],
+                        ['class' => 'kartik\grid\SerialColumn'],
 
                         [
                             'attribute' => 'menu_package_id',
@@ -43,8 +43,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         'id',
 
                         [
-                            'class' => 'yii\grid\ActionColumn',
-                            'template' => '{update}',
+                            'class' => 'kartik\grid\ActionColumn',
+                            'template' => '{update} {delete}',
                         ],
                     ],
                     'panel'=>[

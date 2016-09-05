@@ -41,7 +41,7 @@ class MenuPackageSearch extends MenuPackage
      */
     public function search($params)
     {
-        $query = MenuPackage::find();
+        $query = MenuPackage::find()->where(['status' => MenuPackage::STATUS_ACTIVE]);
 
         // add conditions that should always apply here
 

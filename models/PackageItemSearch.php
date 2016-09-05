@@ -41,7 +41,7 @@ class PackageItemSearch extends PackageItem
      */
     public function search($params)
     {
-        $query = PackageItem::find();
+        $query = PackageItem::find()->where(['status' => PackageItem::STATUS_ACTIVE]);
 
         // add conditions that should always apply here
 

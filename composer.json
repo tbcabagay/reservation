@@ -19,6 +19,7 @@
         "yiisoft/yii2": ">=2.0.5",
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
+        "michelf/php-smartypants": "dev-lib",
         "bower-asset/font-awesome": ">=4.6.3",
         "kartik-v/yii2-widget-activeform": "@dev",
         "bower-asset/nprogress": ">=0.2.0",

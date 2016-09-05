@@ -47,9 +47,10 @@ class ContentController extends Controller
         ];
         foreach ($packages as $package) {
             $model = new Package();
+            $model->scenario = Package::SCENARIO_ADD;
             $model->title = $package[0];
             $model->agreement = $package[1];
-            $model->save();
+            $result = $result && $model->save();
         }
         if ($result) {
             echo 'Package ' . count($packages) . " records successfully saved\n";
@@ -87,7 +88,8 @@ class ContentController extends Controller
                 'penalty_per_excess_person' => $packageItem[6],
                 'penalty_per_excess_hour' => $packageItem[7],
                 'content' => $packageItem[8],
-                'photo' => $packageItem[9]
+                'photo' => $packageItem[9],
+                'status' => PackageItem::STATUS_ACTIVE
             ]);
             $model->scenario = PackageItem::SCENARIO_COMMAND;
             $result = $result && $model->save();
@@ -129,6 +131,7 @@ class ContentController extends Controller
         $categories = ['Appetizer', 'Salad', 'Soup', 'Main Course', 'Pasta', 'Dessert', 'Beverage'];
         foreach ($categories as $category) {
             $model = new MenuCategory();
+            $model->scenario = MenuCategory::SCENARIO_ADD;
             $model->setAttribute('category', $category);
             $result = $result && $model->save();
         }
@@ -152,6 +155,7 @@ class ContentController extends Controller
                 'amount' => $menuPackage[1],
                 'unit' => $menuPackage[2],
             ]);
+            $model->scenario = MenuPackage::SCENARIO_ADD;
             $result = $result && $model->save();
         }
         if ($result) {
@@ -219,6 +223,7 @@ class ContentController extends Controller
                 'title' => $menuItem[2],
                 'description' => isset($menuItem[3]) ? $menuItem[3] : null,
             ]);
+            $model->scenario = menuItem::SCENARIO_ADD;
             $result = $result && $model->save(false);
         }
         if ($result) {
@@ -243,6 +248,7 @@ class ContentController extends Controller
                 'amount' => $spa[1],
                 'description' => $spa[2],
                 'photo' => $spa[3],
+                'status' => Spa::STATUS_ACTIVE,
             ]);
             $model->scenario = Spa::SCENARIO_COMMAND;
             $result = $result && $model->save();

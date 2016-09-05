@@ -29,9 +29,13 @@ class Spa extends \yii\db\ActiveRecord
 {
     public $photo_file;
 
+    const STATUS_ACTIVE = 5;
+    const STATUS_DELETE = 10;
+
     const SCENARIO_COMMAND = 'command';
     const SCENARIO_ADD = 'add';
     const SCENARIO_EDIT = 'edit';
+    const SCENARIO_TOGGLE_STATUS = 'toggle_status';
 
     public function scenarios()
     {
@@ -39,6 +43,7 @@ class Spa extends \yii\db\ActiveRecord
         $scenarios[self::SCENARIO_COMMAND] = ['title', 'amount', 'description', 'photo'];
         $scenarios[self::SCENARIO_ADD] = ['title', 'amount', 'description', 'photo_file'];
         $scenarios[self::SCENARIO_EDIT] = ['title', 'amount', 'description', 'photo', 'photo_file'];
+        $scenarios[self::SCENARIO_TOGGLE_STATUS] = ['status'];
         return $scenarios;
     }
 
@@ -119,6 +124,8 @@ class Spa extends \yii\db\ActiveRecord
                 $fileName = $this->photo_file->basename . '.' . $this->photo_file->extension;
                 $this->photo = $relativePath . DIRECTORY_SEPARATOR . $fileName;
             }
+
+            $this->setAttribute('status', self::STATUS_ACTIVE);
 
             if ($this->save(false)) {
                 if (file_exists($absolutePath) === false) {

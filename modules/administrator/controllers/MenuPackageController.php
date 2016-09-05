@@ -62,6 +62,7 @@ class MenuPackageController extends Controller
     public function actionCreate()
     {
         $model = new MenuPackage();
+        $model->scenario = MenuPackage::SCENARIO_ADD;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
@@ -99,7 +100,10 @@ class MenuPackageController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->scenario = MenuPackage::SCENARIO_TOGGLE_STATUS;
+        $model->setAttribute('status', MenuPackage::STATUS_DELETE);
+        $model->save();
 
         return $this->redirect(['index']);
     }

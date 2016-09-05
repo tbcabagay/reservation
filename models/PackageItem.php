@@ -39,11 +39,15 @@ class PackageItem extends \yii\db\ActiveRecord
     public $thumbnail_file;
     public $gallery_file;
 
+    const STATUS_ACTIVE = 5;
+    const STATUS_DELETE = 10;
+
     const SCENARIO_ADD = 'add';
     const SCENARIO_EDIT = 'edit';
     const SCENARIO_UPLOAD_THUMBNAIL = 'upload_thumbnail';
     const SCENARIO_UPLOAD_GALLERY = 'upload_gallery';
     const SCENARIO_COMMAND = 'command';
+    const SCENARIO_TOGGLE_STATUS = 'toggle_status';
 
     public function scenarios()
     {
@@ -53,6 +57,7 @@ class PackageItem extends \yii\db\ActiveRecord
         $scenarios[self::SCENARIO_UPLOAD_THUMBNAIL] = ['photo', 'thumbnail_file'];
         $scenarios[self::SCENARIO_UPLOAD_GALLERY] = ['photo', 'gallery_file'];
         $scenarios[self::SCENARIO_COMMAND] = ['package_id', 'title', 'content', 'quantity', 'rate', 'max_person_per_room', 'discount_rate', 'penalty_per_excess_person', 'penalty_per_excess_hour', 'photo'];
+        $scenarios[self::SCENARIO_TOGGLE_STATUS] = ['status'];
         return $scenarios;
     }
 
@@ -183,6 +188,8 @@ class PackageItem extends \yii\db\ActiveRecord
                 $fileName = $this->thumbnail_file->basename . '.' . $this->thumbnail_file->extension;
                 $this->photo = $relativePath . DIRECTORY_SEPARATOR . $fileName;
             }
+
+            $this->setAttribute('status', self::STATUS_ACTIVE);
 
             if ($this->save(false)) {
                 if (file_exists($absolutePath) === false) {

@@ -37,10 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'rate:currency',
                         'id',
 
-                        [
-                            'class' => 'yii\grid\ActionColumn',
-                            'template' => '{view} {update}',
-                        ],
+                        ['class' => 'yii\grid\ActionColumn'],
                     ],
                     'panel'=>[
                         'type' => GridView::TYPE_DEFAULT,

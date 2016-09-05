@@ -40,7 +40,7 @@ class MenuCategorySearch extends MenuCategory
      */
     public function search($params)
     {
-        $query = MenuCategory::find();
+        $query = MenuCategory::find()->where(['status' => MenuCategory::STATUS_ACTIVE]);
 
         // add conditions that should always apply here
 

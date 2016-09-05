@@ -16,6 +16,20 @@ use yii\helpers\ArrayHelper;
  */
 class MenuCategory extends \yii\db\ActiveRecord
 {
+    const STATUS_ACTIVE = 5;
+    const STATUS_DELETE = 10;
+
+    const SCENARIO_ADD = 'add';
+    const SCENARIO_TOGGLE_STATUS = 'toggle_status';
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_ADD] = ['category'];
+        $scenarios[self::SCENARIO_TOGGLE_STATUS] = ['status'];
+        return $scenarios;
+    }
+
     /**
      * @inheritdoc
      */
@@ -64,5 +78,13 @@ class MenuCategory extends \yii\db\ActiveRecord
         } else {
             return [];
         }
+    }
+
+    public function beforeSave($insert)
+    {
+        if ($insert) {
+            $this->setAttribute('status', self::STATUS_ACTIVE);
+        }
+        return parent::beforeSave($insert);
     }
 }

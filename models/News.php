@@ -33,7 +33,7 @@ class News extends \yii\db\ActiveRecord
 
     const SCENARIO_ADD = 'add';
     const SCENARIO_EDIT = 'edit';
-    const SCENARIO_TOGGLE_STATUS = 'status';
+    const SCENARIO_TOGGLE_STATUS = 'toggle_status';
     const SCENARIO_UPLOAD_IMAGE = 'upload_image';
 
     public function scenarios()

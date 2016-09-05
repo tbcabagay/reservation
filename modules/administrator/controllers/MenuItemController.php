@@ -67,6 +67,7 @@ class MenuItemController extends Controller
     public function actionCreate()
     {
         $model = new MenuItem();
+        $model->scenario = menuItem::SCENARIO_ADD;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
@@ -106,7 +107,10 @@ class MenuItemController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->scenario = MenuItem::SCENARIO_TOGGLE_STATUS;
+        $model->setAttribute('status', MenuItem::STATUS_DELETE);
+        $model->save();
 
         return $this->redirect(['index']);
     }

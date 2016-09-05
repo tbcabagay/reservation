@@ -41,7 +41,7 @@ class MenuItemSearch extends MenuItem
      */
     public function search($params)
     {
-        $query = MenuItem::find();
+        $query = MenuItem::find()->where(['status' => MenuItem::STATUS_ACTIVE]);
 
         // add conditions that should always apply here
 

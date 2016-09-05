@@ -41,7 +41,7 @@ class SpaSearch extends Spa
      */
     public function search($params)
     {
-        $query = Spa::find();
+        $query = Spa::find()->where(['status' => Spa::STATUS_ACTIVE]);
 
         // add conditions that should always apply here
 

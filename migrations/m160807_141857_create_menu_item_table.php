@@ -27,7 +27,7 @@ class m160807_141857_create_menu_item_table extends Migration
             'menu_package_id',
             '{{%menu_package}}',
             'id',
-            'RESTRICT'
+            'RESTRICT',
         );
 
         $this->addForeignKey(
@@ -36,7 +36,7 @@ class m160807_141857_create_menu_item_table extends Migration
             'menu_category_id',
             '{{%menu_category}}',
             'id',
-            'RESTRICT'
+            'RESTRICT',
         );
     }
 

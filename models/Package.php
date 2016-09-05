@@ -26,11 +26,13 @@ class Package extends \yii\db\ActiveRecord
     const STATUS_ACTIVE = 5;
     const STATUS_DELETE = 10;
 
-    const SCENARIO_TOGGLE_STATUS = 'status';
+    const SCENARIO_TOGGLE_STATUS = 'toggle_status';
+    const SCENARIO_ADD = 'add';
 
     public function scenarios()
     {
         $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_ADD] = ['title', 'agreement'];
         $scenarios[self::SCENARIO_TOGGLE_STATUS] = ['status'];
         return $scenarios;
     }

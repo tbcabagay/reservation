@@ -109,7 +109,10 @@ class SpaController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->scenario = Spa::SCENARIO_TOGGLE_STATUS;
+        $model->setAttribute('status', Spa::STATUS_DELETE);
+        $model->save();
 
         return $this->redirect(['index']);
     }

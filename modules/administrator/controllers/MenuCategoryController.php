@@ -55,18 +55,6 @@ class MenuCategoryController extends Controller
     }
 
     /**
-     * Displays a single MenuCategory model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
      * Creates a new MenuCategory model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -74,9 +62,10 @@ class MenuCategoryController extends Controller
     public function actionCreate()
     {
         $model = new MenuCategory();
+        $model->scenario = MenuCategory::SCENARIO_ADD;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -95,7 +84,7 @@ class MenuCategoryController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -111,7 +100,10 @@ class MenuCategoryController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->scenario = MenuCategory::SCENARIO_TOGGLE_STATUS;
+        $model->setAttribute('status', MenuCategory::STATUS_DELETE);
+        $model->save();
 
         return $this->redirect(['index']);
     }

@@ -62,6 +62,7 @@ class PackageController extends Controller
     public function actionCreate()
     {
         $model = new Package();
+        $model->scenario = Package::SCENARIO_ADD;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);

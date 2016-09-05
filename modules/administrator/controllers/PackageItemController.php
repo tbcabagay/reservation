@@ -126,7 +126,10 @@ class PackageItemController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->scenario = PackageItem::SCENARIO_TOGGLE_STATUS;
+        $model->setAttribute('status', PackageItem::STATUS_DELETE);
+        $model->save();
 
         return $this->redirect(['index']);
     }
