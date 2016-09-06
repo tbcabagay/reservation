@@ -189,10 +189,13 @@ class Transaction extends \yii\db\ActiveRecord
 
         if ($result = $result && $this->save()) {
             $this->refresh();
-            $properCheckOutTime = date('Y-m-d') . ' 13:00:00';
+            $checkInPlusOneDay = date('Y-m-d', strtotime($this->check_in . ' +1 day'));
+            $properCheckOutTime = $checkInPlusOneDay . ' 13:00:00';
             $checkOut = Yii::$app->formatter->asDateTime($this->check_out, 'php:Y-m-d H:i:s');
-            $penalty = floor((strtotime($checkOut) - strtotime($properCheckOutTime)) / 3600);
-            $this->setAttribute('penalty_from_excess_hour', ($penalty * $this->packageItem->penalty_per_excess_hour));
+            echo $penaltyHour = floor((strtotime($checkOut) - strtotime($properCheckOutTime)) / 3600);
+            $penalty = ($penaltyHour > 0) ? ($penaltyHour * $this->packageItem->penalty_per_excess_hour) : 0;
+            
+            $this->setAttribute('penalty_from_excess_hour', $penalty);
             $result = $result && $this->save();
 
             return $result;

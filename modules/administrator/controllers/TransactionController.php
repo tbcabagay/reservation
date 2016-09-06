@@ -141,7 +141,7 @@ class TransactionController extends Controller
             $model->scenario = Transaction::SCENARIO_CHECK_OUT;
 
             if ($model->load(Yii::$app->request->post()) && $model->checkOut()) {
-                //return $this->redirect(['view', 'id' => $model->id]);
+                //return $this->redirect(['receipt', 'id' => $model->id]);
             } else {
                 return $this->renderAjax('check-out', [
                     'model' => $model,
@@ -160,6 +160,11 @@ class TransactionController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($model);
         }
+    }
+
+    public function actionReceipt($id)
+    {
+        echo 'Hello World';
     }
 
     /**
