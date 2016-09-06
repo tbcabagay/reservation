@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use kartik\form\ActiveForm;
 use yii\web\Response;
+use kartik\mpdf\Pdf;
 
 use app\models\Reservation;
 use app\models\PackageItem;
@@ -141,7 +142,7 @@ class TransactionController extends Controller
             $model->scenario = Transaction::SCENARIO_CHECK_OUT;
 
             if ($model->load(Yii::$app->request->post()) && $model->checkOut()) {
-                //return $this->redirect(['receipt', 'id' => $model->id]);
+                return $this->redirect(['receipt', 'id' => $model->id]);
             } else {
                 return $this->renderAjax('check-out', [
                     'model' => $model,
@@ -164,7 +165,25 @@ class TransactionController extends Controller
 
     public function actionReceipt($id)
     {
-        echo 'Hello World';
+        $content = $this->renderPartial('receipt', [
+            'model' => $this->findModel($id)
+        ]);
+
+        $pdf = new Pdf([
+            'mode' => Pdf::MODE_CORE,
+            'format' => [76, 100],
+            'defaultFontSize' => 8.0,
+            'defaultFont' => 'Courier',
+            'cssFile' => false,
+            'filename' => 'receipt_' . time() . '.pdf',
+            'destination' => Pdf::DEST_DOWNLOAD,
+            'marginLeft' => 8.0,
+            'marginRight' => 8.0,
+            'marginTop' => 8.0,
+            'marginBottom' => 8.0,
+            'content' => $content,
+        ]);
+        return $pdf->render();
     }
 
     /**

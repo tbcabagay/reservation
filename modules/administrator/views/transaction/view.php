@@ -51,7 +51,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     'check_in:datetime',
                     'check_out:datetime',
-                    'total_amount:currency',
+                    'order_total:currency',
+                    'service_total:currency',
+                    'penalty_from_excess_hour:currency',
                 ],
             ]) ?>
         </div>

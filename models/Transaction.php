@@ -18,12 +18,13 @@ use yii\behaviors\BlameableBehavior;
  * @property integer $quantity_of_guest
  * @property string $check_in
  * @property string $check_out
- * @property string $total_amount
- * @property integer $created_by
+  * @property integer $created_by
  * @property integer $updated_by
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $penalty_from_excess_hour
+ * @property string $order_total
+ * @property string $service_total
  *
  * @property Order[] $orders
  * @property Service[] $services
@@ -68,7 +69,7 @@ class Transaction extends \yii\db\ActiveRecord
             [['check_out'], 'required', 'on' => self::SCENARIO_CHECK_OUT],
             [['check_out'], 'validateTransactionDate', 'on' => self::SCENARIO_CHECK_OUT],
             [['check_in'], 'date', 'format' => 'php:Y-m-d H:i:s', 'on' => self::SCENARIO_CHECK_OUT],
-            [['total_amount', 'penalty_from_excess_hour'], 'number'],
+            [['penalty_from_excess_hour', 'order_total', 'service_total'], 'number'],
             [['check_in'], 'date', 'format' => 'php:Y-m-d H:i:s'],
             [['check_in'], 'validateTransactionDate'],
             [['toggle_date_time'], 'string', 'max' => 6],
@@ -95,12 +96,13 @@ class Transaction extends \yii\db\ActiveRecord
             'quantity_of_guest' => Yii::t('app', '# Of Guest'),
             'check_in' => Yii::t('app', 'Check In'),
             'check_out' => Yii::t('app', 'Check Out'),
-            'total_amount' => Yii::t('app', 'Total Amount'),
             'created_by' => Yii::t('app', 'Created By'),
             'updated_by' => Yii::t('app', 'Updated By'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'penalty_from_excess_hour' => Yii::t('app', 'Penalty From Excess Hour'),
+            'order_total' => Yii::t('app', 'Order Total'),
+            'service_total' => Yii::t('app', 'Service Total'),
         ];
     }
 
@@ -210,8 +212,8 @@ class Transaction extends \yii\db\ActiveRecord
         $order = is_null($order) ? 0 : $order;
         $service = is_null($service) ? 0 : $service;
 
-        $total_amount = $order + $service;
-        $this->setAttribute('total_amount', $total_amount);
+        $this->setAttribute('order_total', $order);
+        $this->setAttribute('service_total', $service);
     }
 
     public function validateTransactionDate($attribute, $params)
