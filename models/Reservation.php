@@ -265,7 +265,7 @@ class Reservation extends \yii\db\ActiveRecord
 
     public static function getStatusValue($id)
     {
-        $status = self::getStatusDropdownList('html');
+        $status = static::getStatusDropdownList('html');
         if (isset($status[$id])) {
             return $status[$id];
         }
@@ -280,11 +280,13 @@ class Reservation extends \yii\db\ActiveRecord
         }
     }
 
-    public static function getReservationStatusCount($status)
+    public static function getReservationStatusCount($status = null)
     {
-        return self::find()
-            ->where(['status' => $status])
-            ->count();
+        $model = self::find();
+        if ($status !== null) {
+            $model->where(['status' => $status]);
+        }
+        return $model->count();
     }
 
     public static function deleteOldReservation()

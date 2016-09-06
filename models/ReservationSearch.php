@@ -47,6 +47,11 @@ class ReservationSearch extends Reservation
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'status' => SORT_ASC,
+                ],
+            ],
         ]);
 
         $this->load($params);

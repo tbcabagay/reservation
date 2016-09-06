@@ -32,7 +32,8 @@
         "bower-asset/Bootstrap-Image-Gallery": ">=3.4.2",
         "bower-asset/blueimp-gallery": ">=2.21.3",
         "yiisoft/yii2-imagine": "*",
-        "paypal/rest-api-sdk-php": "*"
+        "paypal/rest-api-sdk-php": "*",
+        "2amigos/yii2-highcharts-widget" : "~1.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

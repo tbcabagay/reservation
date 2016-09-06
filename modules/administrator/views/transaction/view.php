@@ -25,6 +25,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= Html::a('<i class="fa fa-arrow-left"></i> Go Back', ['index'], ['class' => 'btn btn-primary']) ?>
                 <?php if ($model->status === Transaction::STATUS_CHECK_IN): ?>
                 <?= Html::a(' <i class="fa fa-shopping-cart"></i> Check Out', ['check-out', 'id' => $model->id], ['class' => 'btn btn-success check-out-button']) ?>
+                <?php else: ?>
+                <?= Html::a(' <i class="fa fa-print"></i> Print Receipt', ['receipt', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
                 <?php endif; ?>
                 </p>
         </div>

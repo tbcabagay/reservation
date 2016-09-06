@@ -224,4 +224,13 @@ class Transaction extends \yii\db\ActiveRecord
             $this->addError($attribute, 'The date should not be set to earlier period.');
         }
     }
+
+    public static function getReservationStatusCount($status = null)
+    {
+        $model = self::find();
+        if ($status !== null) {
+            $model->where(['status' => $status]);
+        }
+        return $model->count();
+    }
 }

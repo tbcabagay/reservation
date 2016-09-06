@@ -47,6 +47,12 @@ class TransactionSearch extends Transaction
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'status' => SORT_ASC,
+                    'check_in' => SORT_ASC,
+                ],
+            ],
         ]);
 
         $this->load($params);
