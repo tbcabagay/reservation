@@ -220,32 +220,11 @@ class Reservation extends \yii\db\ActiveRecord
         return $this->save();
     }
 
-    /*public function confirmReservation()
-    {
-        $this->setAttribute('status', self::STATUS_NEW);
-        $this->scenario = self::SCENARIO_CHANGE_STATUS;
-        return $this->save();
-    }
-
-    public function cancel()
-    {
-        $this->scenario = self::SCENARIO_CHANGE_STATUS;
-        $this->setAttribute('status', self::STATUS_CANCEL);
-        return $this->save();
-    }
-
-    public function checkIn()
-    {
-        $this->scenario = self::SCENARIO_CHANGE_STATUS;
-        $this->setAttribute('status', self::STATUS_CHECK_IN);
-        return $this->save();
-    }*/
-
     public static function getStatusDropdownList($template = 'raw')
     {
         if ($template === 'raw') {
             $model = [
-                self::STATUS_FOR_VERIFICATION => 'For email verification',
+                self::STATUS_FOR_VERIFICATION => 'For verification',
                 self::STATUS_NEW => 'New',
                 self::STATUS_CONFIRM => 'Confirmed',
                 self::STATUS_DONE => 'Done',
@@ -253,7 +232,7 @@ class Reservation extends \yii\db\ActiveRecord
             ];
         } else if ($template === 'html') {
             $model = [
-                self::STATUS_FOR_VERIFICATION => '<span class="label label-warning">For email verification</span>',
+                self::STATUS_FOR_VERIFICATION => '<span class="label label-warning">For verification</span>',
                 self::STATUS_NEW => '<span class="label label-primary">New</span>',
                 self::STATUS_CONFIRM => '<span class="label label-success">Confirmed</span>',
                 self::STATUS_DONE => '<span class="label label-info">Done</span>',
@@ -292,5 +271,33 @@ class Reservation extends \yii\db\ActiveRecord
     public static function deleteOldReservation()
     {
         self::updateAll(['status' => self::STATUS_DELETE], ['and', ['=', 'status', self::STATUS_NEW], ['<', 'check_in', date('Y-m-d')]]);
+    }
+
+    public static function getStatusColumnGraph()
+    {
+        /*$data = [
+            ['name' => 'Tokyo', 'data' => [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]],
+        ];*/
+
+        $data = [
+            ['name' => '', 'data' => array_fill(0, 12, 0)],
+        ];
+        $reservations = Yii::$app->db->createCommand('SELECT status, MONTH(check_in) AS month, COUNT(*) AS count FROM {{%reservation}} WHERE YEAR(check_in) = :year GROUP BY status')
+            ->bindValue(':year', date('Y'))
+            ->queryAll();
+        if (!empty($reservations)) {
+            for ($i = 0; $i < count($reservations); $i++) {
+                $months = array_fill(0, 12, 0.0);
+                $months[($reservations[$i]['month'] - 1)] = (float)$reservations[$i]['count'];
+                $data[$i] = [
+                    'name' => static::getStatusValue($reservations[$i]['status']),
+                    'data' => $months,
+                ];
+            }
+        }
+        /*echo '<pre/>';
+        var_dump($data);
+        die();*/
+        return $data;
     }
 }

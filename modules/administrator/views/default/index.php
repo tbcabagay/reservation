@@ -63,27 +63,35 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= HighCharts::widget([
                         'clientOptions' => [
                             'chart' => [
-                                    'type' => 'bar'
+                                    'type' => 'column'
                             ],
                             'title' => [
                                  'text' => 'Reservation Status'
                                  ],
                             'xAxis' => [
                                 'categories' => [
-                                    'Confirmed',
-                                    'Completed',
-                                    'Cancelled'
-                                ]
+                                    'Jan',
+                                    'Feb',
+                                    'Mar',
+                                    'Apr',
+                                    'May',
+                                    'Jun',
+                                    'Jul',
+                                    'Aug',
+                                    'Sep',
+                                    'Oct',
+                                    'Nov',
+                                    'Dec',
+                                ],
+                                'crosshair' => true,
                             ],
                             'yAxis' => [
+                                'min' => 0,
                                 'title' => [
-                                    'text' => 'Fruit eaten'
+                                    'text' => '# of Reservations',
                                 ]
                             ],
-                            'series' => [
-                                ['name' => 'Jane', 'data' => [1, 0, 4]],
-                                ['name' => 'John', 'data' => [5, 7, 3]]
-                            ]
+                            'series' => Reservation::getStatusColumnGraph(),
                         ]
                     ]) ?>
                 </div>

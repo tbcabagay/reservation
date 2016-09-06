@@ -18,7 +18,7 @@ class DefaultController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['administrator'],
+                        'roles' => ['manager'],
                     ],
                 ],
             ],
@@ -31,6 +31,7 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
+        \app\models\Reservation::getStatusColumnGraph();
         return $this->render('index');
     }
 }
