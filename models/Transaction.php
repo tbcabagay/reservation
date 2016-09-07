@@ -233,4 +233,50 @@ class Transaction extends \yii\db\ActiveRecord
         }
         return $model->count();
     }
+
+    public static function getStatusLineGraph()
+    {
+        $data = [
+            ['name' => '', 'data' => array_fill(0, 12, 0)],
+        ];
+        $transactions = Yii::$app->db->createCommand('SELECT status, MONTH(check_out) AS month, COUNT(*) AS count FROM {{%transaction}} WHERE YEAR(check_out) = :year AND status=:status GROUP BY status')
+            ->bindValue(':year', date('Y'))
+            ->bindValue(':status', self::STATUS_CHECK_OUT)
+            ->queryAll();
+        if (!empty($transactions)) {
+            for ($i = 0; $i < count($transactions); $i++) {
+                $months = array_fill(0, 12, 0.0);
+                $months[($transactions[$i]['month'] - 1)] = (float)$transactions[$i]['count'];
+                $data[$i] = [
+                    'name' => 'Count',
+                    'data' => $months,
+                ];
+            }
+        }
+        return $data;
+    }
+
+    public static function getStatusDropdownList($template = 'raw')
+    {
+        if ($template === 'raw') {
+            $model = [
+                self::STATUS_CHECK_IN => 'Check In',
+                self::STATUS_CHECK_OUT => 'Check Out',
+            ];
+        } else if ($template === 'html') {
+            $model = [
+                self::STATUS_CHECK_IN => '<span class="label label-primary">Check In</span>',
+                self::STATUS_CHECK_OUT => '<span class="label label-success">Check Out</span>',
+            ];
+        }
+        return $model;
+    }
+
+    public static function getStatusValue($id, $template = 'html')
+    {
+        $status = static::getStatusDropdownList($template);
+        if (isset($status[$id])) {
+            return $status[$id];
+        }
+    }
 }

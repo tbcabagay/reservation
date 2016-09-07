@@ -224,27 +224,29 @@ class Reservation extends \yii\db\ActiveRecord
     {
         if ($template === 'raw') {
             $model = [
-                self::STATUS_FOR_VERIFICATION => 'For verification',
+                self::STATUS_FOR_VERIFICATION => 'Pending',
                 self::STATUS_NEW => 'New',
                 self::STATUS_CONFIRM => 'Confirmed',
                 self::STATUS_DONE => 'Done',
-                self::STATUS_CANCEL => 'Cancelled'
+                self::STATUS_CANCEL => 'Cancelled',
+                self::STATUS_DELETE => 'Deleted',
             ];
         } else if ($template === 'html') {
             $model = [
-                self::STATUS_FOR_VERIFICATION => '<span class="label label-warning">For verification</span>',
+                self::STATUS_FOR_VERIFICATION => '<span class="label label-warning">Pending</span>',
                 self::STATUS_NEW => '<span class="label label-primary">New</span>',
                 self::STATUS_CONFIRM => '<span class="label label-success">Confirmed</span>',
                 self::STATUS_DONE => '<span class="label label-info">Done</span>',
                 self::STATUS_CANCEL => '<span class="label label-danger">Cancelled</span>',
+                self::STATUS_DELETE => '<span class="label label-default">Deleted</span>',
             ];
         }
         return $model;
     }
 
-    public static function getStatusValue($id)
+    public static function getStatusValue($id, $template = 'html')
     {
-        $status = static::getStatusDropdownList('html');
+        $status = static::getStatusDropdownList($template);
         if (isset($status[$id])) {
             return $status[$id];
         }
@@ -275,10 +277,6 @@ class Reservation extends \yii\db\ActiveRecord
 
     public static function getStatusColumnGraph()
     {
-        /*$data = [
-            ['name' => 'Tokyo', 'data' => [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]],
-        ];*/
-
         $data = [
             ['name' => '', 'data' => array_fill(0, 12, 0)],
         ];
@@ -295,9 +293,6 @@ class Reservation extends \yii\db\ActiveRecord
                 ];
             }
         }
-        /*echo '<pre/>';
-        var_dump($data);
-        die();*/
         return $data;
     }
 }
