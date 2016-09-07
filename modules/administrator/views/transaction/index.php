@@ -6,6 +6,8 @@ use yii\widgets\Pjax;
 use yii\bootstrap\Modal;
 use yii\helpers\Url;
 
+use app\models\Transaction;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\TransactionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -27,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $this->render('_search', [
                     'model' => $searchModel,
                     'packageItems' => $packageItems,
+                    'status' => $status,
                 ]); ?>
             </div>
         </div>
@@ -37,9 +40,8 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php Pjax::begin(); ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
-                    /*'filterModel' => $searchModel,*/
                     'columns' => [
-                        ['class' => 'yii\grid\SerialColumn'],
+                        ['class' => 'kartik\grid\SerialColumn'],
 
                         [
                             'attribute' => 'package_item_id',
@@ -48,13 +50,19 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         'firstname',
                         'lastname',
-                        /*'status',*/
+                        [
+                            'attribute' => 'status',
+                            'value' => function ($model, $key, $index, $column) {
+                                return Transaction::getStatusValue($model->status);
+                            },
+                            'format' => 'html',
+                        ],
                         'check_in:datetime',
                         'check_out:datetime',
                         'id',
 
                         [
-                            'class' => 'yii\grid\ActionColumn',
+                            'class' => 'kartik\grid\ActionColumn',
                             'template' => '{view} {menu} {spa} {checkout}',
                             'buttons' => [
                                 'menu' => function ($url, $model, $key) {
@@ -63,9 +71,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'spa' => function ($url, $model, $key) {
                                     return Html::a('<i class="fa fa-paw"></i>', ['service/create', 'transaction_id' => $model->id], ['title' => 'Spa', 'aria-label' => 'Menu', 'data-pjax' => 0, 'class' => 'transaction-gridview-button']);
                                 },
-                                /*'checkout' => function ($url, $model, $key) {
-                                    return Html::a('<i class="fa fa-shopping-cart"></i>', ['check-out', 'id' => $model->id], ['title' => 'Check Out', 'aria-label' => 'Menu', 'data-pjax' => 0, 'class' => 'transaction-gridview-button']);
-                                },*/
                             ],
                         ],
                     ],

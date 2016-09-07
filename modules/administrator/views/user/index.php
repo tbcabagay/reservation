@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
                     'columns' => [
-                        ['class' => 'yii\grid\SerialColumn'],
+                        ['class' => 'kartik\grid\SerialColumn'],
 
                         'username',
                         'email:email',
@@ -41,6 +41,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                     $status = '<span class="label label-success">STATUS_ACTIVE</span>';
                                 } else if ($model->status === User::STATUS_INACTIVE) {
                                     $status = '<span class="label label-warning">STATUS_INACTIVE</span>';
+                                } else if ($model->status === User::STATUS_DELETE) {
+                                    $status = '<span class="label label-danger">STATUS_DELETE</span>';
                                 }
                                 return $status;
                             },
@@ -60,7 +62,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         'id',
 
-                        ['class' => 'yii\grid\ActionColumn'],
+                        [
+                            'class' => 'kartik\grid\ActionColumn',
+                            'template' => '{update} {delete}',
+                        ],
                     ],
                     'panel'=>[
                         'type' => GridView::TYPE_DEFAULT,

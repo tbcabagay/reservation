@@ -25,7 +25,7 @@ use kartik\widgets\DatePicker;
     </div>
 
     <div class="col-lg-6">
-        <?= $form->field($model, 'status') ?>
+        <?= $form->field($model, 'status')->dropdownList($status, ['prompt' => ' - Select -']) ?>
 
         <?= $form->field($model, 'check_in')->widget(DatePicker::classname(), [
             'pluginOptions' => [

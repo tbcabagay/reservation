@@ -60,6 +60,7 @@ class TransactionController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'packageItems' => PackageItem::getTitleDropdownList(),
+            'status' => $searchModel->getStatusDropdownList(),
         ]);
     }
 

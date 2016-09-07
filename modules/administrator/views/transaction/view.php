@@ -46,7 +46,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         'value' => $model->lastname . ', ' . $model->firstname,
                     ],
                     'contact',
-                    'status',
+                    [
+                        'label' => 'Status',
+                        'value' => Transaction::getStatusValue($model->status),
+                        'format' => 'html',
+                    ],
                     [
                         'label' => '# of Guest',
                         'value' => $model->quantity_of_guest,

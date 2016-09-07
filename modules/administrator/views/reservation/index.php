@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'columns' => [
-                        ['class' => 'yii\grid\SerialColumn'],
+                        ['class' => 'kartik\grid\SerialColumn'],
 
                         [
                             'attribute' => 'package_item_id',
@@ -65,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'id',
 
                         [
-                            'class' => 'yii\grid\ActionColumn',
+                            'class' => 'kartik\grid\ActionColumn',
                             'template' => '{view}',
                             'buttons' => [
                                 'view' => function ($url, $model, $key) {

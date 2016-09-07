@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
                     'columns' => [
-                        ['class' => 'yii\grid\SerialColumn'],
+                        ['class' => 'kartik\grid\SerialColumn'],
 
                         'title',
                         [
@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'rate:currency',
                         'id',
 
-                        ['class' => 'yii\grid\ActionColumn'],
+                        ['class' => 'kartik\grid\ActionColumn'],
                     ],
                     'panel'=>[
                         'type' => GridView::TYPE_DEFAULT,

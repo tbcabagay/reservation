@@ -37,10 +37,11 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     const SCENARIO_REGISTER = 'register';
     const SCENARIO_COMMAND = 'command';
     const SCENARIO_LOGIN = 'login';
+    const SCENARIO_TOGGLE_STATUS = 'toggle_status';
 
     const STATUS_ACTIVE = 10;
     const STATUS_INACTIVE = 15;
-    const STATUS_DELETED = 20;
+    const STATUS_DELETE = 20;
 
     public function scenarios()
     {
@@ -48,6 +49,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         $scenarios[self::SCENARIO_LOGIN] = ['username', 'password'];
         $scenarios[self::SCENARIO_COMMAND] = ['username', 'email', 'password', 'role'];
         $scenarios[self::SCENARIO_REGISTER] = ['username', 'email', 'password', 'confirm_password', 'role'];
+        $scenarios[self::SCENARIO_TOGGLE_STATUS] = ['status'];
         return $scenarios;
     }
 
@@ -244,6 +246,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return [
             self::STATUS_ACTIVE => 'STATUS_ACTIVE',
             self::STATUS_INACTIVE => 'STATUS_INACTIVE',
+            self::STATUS_DELETE => 'STATUS_DELETE',
         ];
     }
 
