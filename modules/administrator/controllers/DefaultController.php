@@ -5,6 +5,8 @@ namespace app\modules\administrator\controllers;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 
+use app\models\PackageItem;
+
 /**
  * Default controller for the `administrator` module
  */
@@ -31,7 +33,8 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        \app\models\Reservation::getStatusColumnGraph();
-        return $this->render('index');
+        return $this->render('index', [
+            'packageItems' => PackageItem::find()->asArray()->all(),
+        ]);
     }
 }

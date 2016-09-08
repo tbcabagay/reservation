@@ -172,11 +172,11 @@ class TransactionController extends Controller
 
         $pdf = new Pdf([
             'mode' => Pdf::MODE_CORE,
-            'format' => [76, 100],
+            'format' => [76, 120],
             'defaultFontSize' => 8.0,
             'defaultFont' => 'Courier',
             'cssFile' => false,
-            'filename' => 'receipt_' . time() . '.pdf',
+            'filename' => 'receipt_' . md5(time()) . '.pdf',
             'destination' => Pdf::DEST_DOWNLOAD,
             'marginLeft' => 8.0,
             'marginRight' => 8.0,

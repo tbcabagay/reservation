@@ -249,4 +249,19 @@ class PackageItem extends \yii\db\ActiveRecord
             unlink(Yii::getAlias('@webroot') . $this->photo);
         }
     }
+
+    public static function getVacancyCount($id)
+    {
+        $quantity = 0;
+        $reservation = 0;
+        $transaction = 0;
+        $packageItem = static::findOne($id);
+        if ($packageItem !== null) {
+            $quantity = $packageItem->quantity;
+            $reservation = Reservation::getStatusCount(Reservation::STATUS_CONFIRM, ['package_item_id' => $id]);
+            $transaction = Transaction::getStatusCount(Transaction::STATUS_CHECK_IN, ['package_item_id' => $id]);
+            return $quantity - ($reservation + $transaction);
+        }
+        return 0;
+    }
 }

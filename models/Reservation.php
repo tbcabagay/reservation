@@ -261,11 +261,14 @@ class Reservation extends \yii\db\ActiveRecord
         }
     }
 
-    public static function getReservationStatusCount($status = null)
+    public static function getStatusCount($status = null, $package_item_id = null)
     {
         $model = self::find();
         if ($status !== null) {
             $model->where(['status' => $status]);
+        }
+        if ($package_item_id !== null) {
+            $model->andWhere(['package_item_id' => $package_item_id]);
         }
         return $model->count();
     }

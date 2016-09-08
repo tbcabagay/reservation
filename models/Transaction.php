@@ -18,13 +18,14 @@ use yii\behaviors\BlameableBehavior;
  * @property integer $quantity_of_guest
  * @property string $check_in
  * @property string $check_out
-  * @property integer $created_by
+ * @property integer $created_by
  * @property integer $updated_by
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $penalty_from_excess_hour
  * @property string $order_total
  * @property string $service_total
+ * @property string $package_fee
  *
  * @property Order[] $orders
  * @property Service[] $services
@@ -69,7 +70,8 @@ class Transaction extends \yii\db\ActiveRecord
             [['check_out'], 'required', 'on' => self::SCENARIO_CHECK_OUT],
             [['check_out'], 'validateTransactionDate', 'on' => self::SCENARIO_CHECK_OUT],
             [['check_in'], 'date', 'format' => 'php:Y-m-d H:i:s', 'on' => self::SCENARIO_CHECK_OUT],
-            [['penalty_from_excess_hour', 'order_total', 'service_total'], 'number'],
+            [['penalty_from_excess_hour', 'order_total', 'service_total', 'package_fee'], 'number'],
+            [['package_item_id'], 'checkVacancy'],
             [['check_in'], 'date', 'format' => 'php:Y-m-d H:i:s'],
             [['check_in'], 'validateTransactionDate'],
             [['toggle_date_time'], 'string', 'max' => 6],
@@ -103,6 +105,7 @@ class Transaction extends \yii\db\ActiveRecord
             'penalty_from_excess_hour' => Yii::t('app', 'Penalty From Excess Hour'),
             'order_total' => Yii::t('app', 'Order Total'),
             'service_total' => Yii::t('app', 'Service Total'),
+            'package_fee' => Yii::t('app', 'Package Fee'),
         ];
     }
 
@@ -211,9 +214,11 @@ class Transaction extends \yii\db\ActiveRecord
 
         $order = is_null($order) ? 0 : $order;
         $service = is_null($service) ? 0 : $service;
+        $package = $this->packageItem->rate / 2;
 
         $this->setAttribute('order_total', $order);
         $this->setAttribute('service_total', $service);
+        $this->setAttribute('package_fee', $package);
     }
 
     public function validateTransactionDate($attribute, $params)
@@ -225,11 +230,14 @@ class Transaction extends \yii\db\ActiveRecord
         }
     }
 
-    public static function getReservationStatusCount($status = null)
+    public static function getStatusCount($status = null, $package_item_id = null)
     {
         $model = self::find();
         if ($status !== null) {
             $model->where(['status' => $status]);
+        }
+        if ($package_item_id !== null) {
+            $model->andWhere(['package_item_id' => $package_item_id]);
         }
         return $model->count();
     }
@@ -277,6 +285,13 @@ class Transaction extends \yii\db\ActiveRecord
         $status = static::getStatusDropdownList($template);
         if (isset($status[$id])) {
             return $status[$id];
+        }
+    }
+
+    public function checkVacancy($attribute, $params)
+    {
+        if (PackageItem::getVacancyCount($this->$attribute) === 0) {
+            $this->addError($attribute, 'There is no vacant room.');
         }
     }
 }

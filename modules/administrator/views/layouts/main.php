@@ -147,10 +147,10 @@ $identity = Yii::$app->user->identity;
                     <li><?= Html::a('<i class="fa fa-paw fa-fw"></i> Spas', ['spa/index']) ?></li>
                     <?php endif; ?>
                     <?php if (\Yii::$app->user->can('manager')): ?>
-                    <li><?= Html::a('<i class="fa fa-book fa-fw"></i> Reservations <span class="badge">' . Reservation::getReservationStatusCount(Reservation::STATUS_NEW) . '</span>', ['reservation/index']) ?></li>
+                    <li><?= Html::a('<i class="fa fa-book fa-fw"></i> Reservations <span class="badge">' . Reservation::getStatusCount(Reservation::STATUS_NEW) . '</span>', ['reservation/index']) ?></li>
                     <?php endif; ?>
                     <?php if (\Yii::$app->user->can('manager')): ?>
-                    <li><?= Html::a('<i class="fa fa-tasks fa-fw"></i> Transactions  <span class="badge">' . Transaction::getReservationStatusCount(Transaction::STATUS_CHECK_IN) . '</span>', ['transaction/index']) ?></li>
+                    <li><?= Html::a('<i class="fa fa-tasks fa-fw"></i> Transactions  <span class="badge">' . Transaction::getStatusCount(Transaction::STATUS_CHECK_IN) . '</span>', ['transaction/index']) ?></li>
                     <?php endif; ?>
                 </ul>
             </div>

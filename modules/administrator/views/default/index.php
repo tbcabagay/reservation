@@ -5,6 +5,8 @@ use app\models\Reservation;
 use app\models\Transaction;
 use dosamigos\highcharts\HighCharts;
 
+use app\models\PackageItem;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\TransactionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -21,6 +23,34 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <div class="row">
+        <?php foreach ($packageItems as $packageItem): ?>
+            <div class="col-lg-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <?= Html::encode($packageItem['title']) ?>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="text-center">
+                                    <div class="huge"><?= PackageItem::getVacancyCount($packageItem['id']) ?></div>
+                                    <div>Vacant</div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="text-center">
+                                    <div class="huge"><?= $packageItem['quantity'] ?></div>
+                                    <div>Total</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+
+    <div class="row">
         <div class="col-lg-6">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -29,8 +59,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             <i class="fa fa-book fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge"><?= Reservation::getReservationStatusCount() ?></div>
-                            <div>Total Reservations</div>
+                            <div class="huge"><?= Reservation::getStatusCount() ?></div>
+                            <div><?= Yii::t('app', 'Total {n, plural, =1{Reservation} other{Reservations}}', ['n' => Reservation::getStatusCount(Reservation::STATUS_DONE)]) ?></div>
                         </div>
                     </div>
                 </div>
@@ -46,8 +76,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             <i class="fa fa-tasks fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge"><?= Transaction::getReservationStatusCount() ?></div>
-                            <div>Total Transactions</div>
+                            <div class="huge"><?= Transaction::getStatusCount(Transaction::STATUS_CHECK_OUT) ?></div>
+                            <div><?= Yii::t('app', 'Completed {n, plural, =1{Transaction} other{Transactions}}', ['n' => Transaction::getStatusCount(Transaction::STATUS_CHECK_OUT)]) ?></div>
                         </div>
                     </div>
                 </div>
@@ -63,7 +93,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= Reservation::getStatusValue(Reservation::STATUS_FOR_VERIFICATION, 'raw') ?>
                 </div>
                 <div class="panel-body">
-                    <i class="fa fa-hourglass"></i> <?= Reservation::getReservationStatusCount(Reservation::STATUS_FOR_VERIFICATION) ?>
+                    <i class="fa fa-hourglass"></i> <?= Reservation::getStatusCount(Reservation::STATUS_FOR_VERIFICATION) ?>
                 </div>
             </div>
         </div>
@@ -73,7 +103,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= Reservation::getStatusValue(Reservation::STATUS_NEW, 'raw') ?>
                 </div>
                 <div class="panel-body">
-                    <i class="fa fa-file-o"></i> <?= Reservation::getReservationStatusCount(Reservation::STATUS_NEW) ?>
+                    <i class="fa fa-file-o"></i> <?= Reservation::getStatusCount(Reservation::STATUS_NEW) ?>
                 </div>
             </div>
         </div>
@@ -83,7 +113,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= Reservation::getStatusValue(Reservation::STATUS_CONFIRM, 'raw') ?>
                 </div>
                 <div class="panel-body">
-                    <i class="fa fa-book"></i> <?= Reservation::getReservationStatusCount(Reservation::STATUS_CONFIRM) ?>
+                    <i class="fa fa-book"></i> <?= Reservation::getStatusCount(Reservation::STATUS_CONFIRM) ?>
                 </div>
             </div>
         </div>
@@ -93,7 +123,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= Reservation::getStatusValue(Reservation::STATUS_DONE, 'raw') ?>
                 </div>
                 <div class="panel-body">
-                    <i class="fa fa-check"></i> <?= Reservation::getReservationStatusCount(Reservation::STATUS_DONE) ?>
+                    <i class="fa fa-check"></i> <?= Reservation::getStatusCount(Reservation::STATUS_DONE) ?>
                 </div>
             </div>
         </div>
@@ -103,7 +133,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= Reservation::getStatusValue(Reservation::STATUS_CANCEL, 'raw') ?>
                 </div>
                 <div class="panel-body">
-                    <i class="fa fa-remove"></i> <?= Reservation::getReservationStatusCount(Reservation::STATUS_CANCEL) ?>
+                    <i class="fa fa-remove"></i> <?= Reservation::getStatusCount(Reservation::STATUS_CANCEL) ?>
                 </div>
             </div>
         </div>
@@ -113,7 +143,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= Reservation::getStatusValue(Reservation::STATUS_DELETE, 'raw') ?>
                 </div>
                 <div class="panel-body">
-                    <i class="fa fa-trash"></i> <?= Reservation::getReservationStatusCount(Reservation::STATUS_DELETE) ?>
+                    <i class="fa fa-trash"></i> <?= Reservation::getStatusCount(Reservation::STATUS_DELETE) ?>
                 </div>
             </div>
         </div>
@@ -123,7 +153,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= Transaction::getStatusValue(Transaction::STATUS_CHECK_IN, 'raw') ?>
                 </div>
                 <div class="panel-body">
-                    <i class="fa fa-sign-in"></i> <?= Transaction::getReservationStatusCount(Transaction::STATUS_CHECK_IN) ?>
+                    <i class="fa fa-sign-in"></i> <?= Transaction::getStatusCount(Transaction::STATUS_CHECK_IN) ?>
                 </div>
             </div>
         </div>
@@ -133,7 +163,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= Transaction::getStatusValue(Transaction::STATUS_CHECK_OUT, 'raw') ?>
                 </div>
                 <div class="panel-body">
-                    <i class="fa fa-sign-out"></i> <?= Transaction::getReservationStatusCount(Transaction::STATUS_CHECK_OUT) ?>
+                    <i class="fa fa-sign-out"></i> <?= Transaction::getStatusCount(Transaction::STATUS_CHECK_OUT) ?>
                 </div>
             </div>
         </div>

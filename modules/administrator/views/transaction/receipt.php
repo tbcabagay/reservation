@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 $formatter = Yii::$app->formatter;
-$grandTotal = $model->order_total + $model->service_total + $model->penalty_from_excess_hour;
+$grandTotal = $model->order_total + $model->service_total + $model->penalty_from_excess_hour + $model->package_fee;
 ?>
 
 <p><?= Yii::$app->params['appName'] ?><br>
@@ -20,6 +20,8 @@ $grandTotal = $model->order_total + $model->service_total + $model->penalty_from
     <dd><?= Html::encode($formatter->asDateTime($model->check_out)) ?></dd>
     <dt><?= Yii::t('app', '# of {n, plural, =1{Guest} other{Guests}}', ['n' => $model->quantity_of_guest]) ?></dt>
     <dd><?= Html::encode($model->quantity_of_guest) ?></dd>
+    <dt><?= Yii::t('app', 'Package Fee') ?></dt>
+    <dd><?= Html::encode($formatter->asCurrency($model->package_fee)) ?></dd>
     <dt><?= Yii::t('app', 'Order Total Amount') ?></dt>
     <dd><?= Html::encode($formatter->asCurrency($model->order_total)) ?></dd>
     <dt><?= Yii::t('app', 'Service Total Amount') ?></dt>
