@@ -263,9 +263,11 @@ class Reservation extends \yii\db\ActiveRecord
 
     public static function getStatusCount($status = null, $package_item_id = null)
     {
+        $now = date('Y-m-d');
         $model = self::find();
+        $model->where(['check_in' => $now]);
         if ($status !== null) {
-            $model->where(['status' => $status]);
+            $model->andWhere(['status' => $status]);
         }
         if ($package_item_id !== null) {
             $model->andWhere(['package_item_id' => $package_item_id]);
