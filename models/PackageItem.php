@@ -250,7 +250,7 @@ class PackageItem extends \yii\db\ActiveRecord
         }
     }
 
-    public static function getVacancyCount($id)
+    public static function getVacancyCount($id, $checkInDate = null)
     {
         $quantity = 0;
         $reservation = 0;
@@ -258,7 +258,7 @@ class PackageItem extends \yii\db\ActiveRecord
         $packageItem = static::findOne($id);
         if ($packageItem !== null) {
             $quantity = $packageItem->quantity;
-            $reservation = Reservation::getStatusCount(Reservation::STATUS_CONFIRM, ['package_item_id' => $id]);
+            $reservation = Reservation::getStatusCount(Reservation::STATUS_CONFIRM, ['package_item_id' => $id], $checkInDate);
             $transaction = Transaction::getStatusCount(Transaction::STATUS_CHECK_IN, ['package_item_id' => $id]);
             return $quantity - ($reservation + $transaction);
         }

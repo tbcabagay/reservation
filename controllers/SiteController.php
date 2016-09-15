@@ -6,9 +6,9 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 use app\models\LoginForm;
 use app\models\ContactForm;
-
 use app\models\Package;
 use app\models\PackageItem;
 use app\models\Reservation;
@@ -147,19 +147,6 @@ class SiteController extends Controller
         $packageItem = $this->findPackageItemSlug($slug);
         $reservation = new Reservation();
         $reservation->scenario = Reservation::SCENARIO_NEW;
-
-        /*$reservation->firstname = 'Tomas';
-        $reservation->lastname = 'Cabagay';
-        $reservation->contact = '09268147785';
-        $reservation->email = 'tomas.cabagay@gmail.com';
-        $reservation->check_in = '2016-08-31';
-        $reservation->quantity_of_guest = 2;
-
-        $reservation->cc_number = 5110927139772347;
-        $reservation->cc_type = 'visa';
-        $reservation->cc_expiry_month = 9;
-        $reservation->cc_expiry_year = 2021;*/
-
         $reservation->cc_cvv = '012';
 
         if ($reservation->load(Yii::$app->request->post()) && $reservation->placeReservation($packageItem)) {
@@ -239,6 +226,35 @@ class SiteController extends Controller
         return $this->render('menus', [
             'model' =>  $result,
         ]);
+    }
+
+    public function actionCheckRoomAvailability()
+    {
+        $request = Yii::$app->request;
+        $response = Yii::$app->response;
+        if ($request->isAjax && $request->isPost) {
+            $date = $post = $request->post('date');
+            $item = $post = $request->post('item');
+
+            $count = PackageItem::getVacancyCount($item, $date);
+
+            if ($count > 0) {
+                $data = [
+                    'status' => 'success',
+                    'message' => Yii::t('app', 'There {n, plural, =1{is one room} other{are # rooms}} available on the chosen date.', ['n' => $count]),
+                ];
+            } else {
+                $data = [
+                    'status' => 'danger',
+                    'message' => Yii::t('app', 'There is no room available on the chosen date.'),
+                ];
+            }
+
+            $response->format = Response::FORMAT_JSON;
+            $response->data = $data;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
     protected function findPackageItemSlug($slug)

@@ -51,6 +51,7 @@ $config = [
             'rules' => [
                 'reservation/<slug>' => 'site/reservation',
                 'gallery/<slug>' => 'site/gallery',
+                'check-room-availability' => 'site/check-room-availability',
                 'home' => 'site/index',
                 'explore' => 'site/explore',
                 'services' => 'site/services',

@@ -261,11 +261,14 @@ class Reservation extends \yii\db\ActiveRecord
         }
     }
 
-    public static function getStatusCount($status = null, $package_item_id = null)
+    public static function getStatusCount($status = null, $package_item_id = null, $checkInDate = null)
     {
-        $now = date('Y-m-d');
         $model = self::find();
-        $model->where(['check_in' => $now]);
+        if ($checkInDate !== null) {
+            $model->where(['check_in' => $checkInDate]);
+        } else {
+            $model->where(['check_in' => date('Y-m-d')]);
+        }
         if ($status !== null) {
             $model->andWhere(['status' => $status]);
         }
