@@ -103,6 +103,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         <?= $form->field($reservation, 'cc_cvv')->textInput(['maxlength' => true]) ?>
 
+                        <p><?= Html::a('<i class="fa fa-exclamation-circle"></i> What is CVV?', '#', [
+                            'title' => Html::img('@web/img/cvv2.png'),
+                            'class' => 'btn btn-danger btn-xs',
+                            'data' => [
+                                'toggle' => 'tooltip',
+                                'placement' => 'right',
+                                'container' => 'body',
+                            ],
+                        ]) ?></p>
+
                         <?= $form->field($reservation, 'cc_expiry_month')->widget(TouchSpin::classname(), [
                             'pluginOptions' => [
                                 'step' => 1,
@@ -168,6 +178,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->registerJs('
     (function($) {
         $("#check-in-date-verification").hide();
+        $(\'a[data-toggle="tooltip"]\').tooltip({ html: true }).on("click", function() { return false; });
     })(jQuery);
 ');
 ?>
