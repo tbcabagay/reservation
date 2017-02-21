@@ -103,11 +103,14 @@ class UserController extends Controller
      */
     public function actionDelete($id)
     {
+        $admin = ['admin', 'administrator', 'manager'];
         $model = $this->findModel($id);
-        $model->setAttribute('status', User::STATUS_DELETE);
-        $model->scenario = User::SCENARIO_TOGGLE_STATUS;
-        $model->save();
-
+        
+        if (!in_array($model->username, $admin)) {
+            $model->setAttribute('status', User::STATUS_DELETE);
+            $model->scenario = User::SCENARIO_TOGGLE_STATUS;
+            $model->save();
+        }
         return $this->redirect(['index']);
     }
 

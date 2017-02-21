@@ -94,6 +94,7 @@ class Reservation extends \yii\db\ActiveRecord
             [['email', 'address'], 'string', 'max' => 150],
             [['creditcard_id', 'cc_number'], 'string', 'max' => 40],
             [['package_item_id'], 'exist', 'skipOnError' => true, 'targetClass' => PackageItem::className(), 'targetAttribute' => ['package_item_id' => 'id']],
+            [['firstname', 'lastname'], 'match', 'pattern' => '/^[A-Za-z]+$/'],
         ];
     }
 
