@@ -95,6 +95,8 @@ class MenuItemController extends Controller
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'categories' => MenuCategory::getCategoryDropdownList(),
+                'packages' => MenuPackage::getTitleDropdownList(),
             ]);
         }
     }
