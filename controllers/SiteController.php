@@ -149,7 +149,7 @@ class SiteController extends Controller
         $reservation->scenario = Reservation::SCENARIO_NEW;
         $reservation->package_item_id = $packageItem->id;
 
-        $reservation->firstname = 'Tomas';
+        /*$reservation->firstname = 'Tomas';
         $reservation->lastname = 'Cabagay';
         $reservation->contact = '536-6001';
         $reservation->email = 'tomas.cabagay@gmail.com';
@@ -159,7 +159,7 @@ class SiteController extends Controller
         $reservation->cc_expiry_month = 9;
         $reservation->cc_expiry_year = 2021;
         $reservation->cc_cvv = '012';
-        $reservation->verifyCode = 'yaeison';
+        $reservation->verifyCode = 'yaeison';*/
 
         if ($reservation->load(Yii::$app->request->post()) && $reservation->placeReservation($packageItem)) {
             Yii::$app->session->setFlash('reservationFormSubmitted');
