@@ -15,7 +15,7 @@ use PayPal\Api\CreditCardToken;
 use PayPal\Api\FundingInstrument;
 use PayPal\Api\Payer;
 use PayPal\Api\Payment;
-use PayPal\Api\Transaction;
+use PayPal\Api\Transaction as PayPalTransaction;
 use PayPal\Api\Amount;
 use PayPal\Exception\PPConnectionException;
 use PayPal\Exception\PayPalConnectionException;
@@ -193,7 +193,7 @@ class Reservation extends \yii\db\ActiveRecord
                     $amount->setCurrency(Yii::$app->myPaypalPayment->getCurrency());
                     $amount->setTotal(($this->packageItem->rate * 0.5) / 46.52);
 
-                    $transaction = new Transaction();
+                    $transaction = new  PayPalTransaction();
                     $transaction->setAmount($amount);
                     $transaction->setDescription('Hotel Reservation Fee - ' . $this->getAttribute(Yii::$app->formatter->asDateTime($this->getAttribute('check_in'))));
 
@@ -257,25 +257,30 @@ class Reservation extends \yii\db\ActiveRecord
         }
     }
 
-    public function getVacancyCount()
+    public function countVacancy()
     {
-        if (empty($this->check_in)) {
-            return null;
-        } else {
             $reservation = self::find()
-                ->where(['<=', 'check_in', $this->check_in])
-                ->andWhere(['>=', 'check_out', $this->check_out])
+                ->where(['between', 'check_in', $this->check_in, $this->check_out])
+                ->orWhere(['between', 'check_out', $this->check_in, $this->check_out])
                 ->andWhere(['status' => self::STATUS_CONFIRM])
                 ->andWhere(['package_item_id' => $this->package_item_id])
                 ->count();
             $transaction = \app\models\Transaction::find()
-                ->where(['<=', 'check_in', $this->check_in])
-                ->andWhere(['>=', 'check_out', $this->check_out])
+                ->where(['between', 'check_in', $this->check_in, $this->check_out])
+                ->orWhere(['between', 'check_out', $this->check_in, $this->check_out])
                 ->andWhere(['status' => \app\models\Transaction::STATUS_CHECK_IN])
                 ->andWhere(['package_item_id' => $this->package_item_id])
                 ->count();
             $packageItem = PackageItem::findOne($this->package_item_id);
             return $packageItem->quantity - ($reservation + $transaction);
+    }
+
+    public function getVacancyCount()
+    {
+        if (empty($this->check_in)) {
+            return null;
+        } else {
+            return $this->countVacancy();
         }
     }
 
@@ -286,20 +291,7 @@ class Reservation extends \yii\db\ActiveRecord
         if (strtotime($dateToCompare) < strtotime($now)) {
             $this->addError($attribute, 'The ' . $this->getAttributeLabel($attribute) . ' should not set to period earlier than today.');
         }
-        $reservation = self::find()
-            ->where(['<=', 'check_in', $this->check_in])
-            ->andWhere(['>=', 'check_out', $this->check_out])
-            ->andWhere(['status' => self::STATUS_CONFIRM])
-            ->andWhere(['package_item_id' => $this->package_item_id])
-            ->count();
-        $transaction = \app\models\Transaction::find()
-            ->where(['<=', 'check_in', $this->check_in])
-            ->andWhere(['>=', 'check_out', $this->check_out])
-            ->andWhere(['status' => \app\models\Transaction::STATUS_CHECK_IN])
-            ->andWhere(['package_item_id' => $this->package_item_id])
-            ->count();
-        $packageItem = PackageItem::findOne($this->package_item_id);
-        $quantity = $packageItem->quantity - ($reservation + $transaction);
+        $quantity = $this->countVacancy();
         if ($quantity < 1) {
             $this->addError($attribute, 'No available room.');
         }

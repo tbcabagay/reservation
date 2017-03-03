@@ -52,6 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <legend>Guest Details</legend>
 
                         <?= $form->field($reservation, 'check_in')->widget(DatePicker::classname(), [
+                            'type' => DatePicker::TYPE_INLINE,
                             'pluginOptions' => [
                                 'autoclose' => true,
                                 'todayHighlight' => true,
@@ -60,6 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]) ?>
 
                         <?= $form->field($reservation, 'check_out')->widget(DatePicker::classname(), [
+                            'type' => DatePicker::TYPE_INLINE,
                             'pluginOptions' => [
                                 'autoclose' => true,
                                 'todayHighlight' => true,

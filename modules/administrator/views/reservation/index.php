@@ -56,6 +56,11 @@ $this->params['breadcrumbs'][] = $this->title;
                             'hAlign' => GridView::ALIGN_CENTER,
                         ],
                         [
+                            'attribute' => 'check_out',
+                            'format' => 'date',
+                            'hAlign' => GridView::ALIGN_CENTER,
+                        ],
+                        [
                             'attribute' => 'status',
                             'value' => function ($model, $key, $index, $column) {
                                 return Reservation::getStatusValue($model->status);
