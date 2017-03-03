@@ -64,6 +64,9 @@ $this->registerJs('
             $(checkOut).prop("disabled", true);
         }
     });
+    $(document).on("beforeSubmit", "#check-out-form", function(e) {
+        $(document).find("#modal-check-out").modal("hide");
+    });
 })(jQuery);
 ');
 ?>
