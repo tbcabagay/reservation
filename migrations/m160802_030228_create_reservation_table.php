@@ -21,6 +21,7 @@ class m160802_030228_create_reservation_table extends Migration
             'email' => $this->string(150)->notNull(),
             'status' => $this->smallInteger()->notNull(),
             'check_in' => $this->date()->notNull(),
+            'check_out' => $this->date()->notNull(),
             'quantity_of_guest' => $this->smallInteger()->notNull(),
             'remark' => $this->text(),
             'address' => $this->string(150),

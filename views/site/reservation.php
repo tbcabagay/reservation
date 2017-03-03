@@ -27,7 +27,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php else: ?>
     <div class="row">
         <div class="col-lg-8">
-            <?php $form = ActiveForm::begin(); ?>
+            <?php $form = ActiveForm::begin([
+                'id' => 'reservation-form',
+            ]); ?>
 
                 <div class="panel panel-default">
                     <div class="panel-body">
@@ -55,25 +57,34 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'todayHighlight' => true,
                                 'format' => 'yyyy-mm-dd',
                             ],
+                        ]) ?>
+
+                        <?= $form->field($reservation, 'check_out')->widget(DatePicker::classname(), [
+                            'pluginOptions' => [
+                                'autoclose' => true,
+                                'todayHighlight' => true,
+                                'format' => 'yyyy-mm-dd',
+                            ],
                             'pluginEvents' => [
                                 'changeDate' => '
                                     function(e) {
                                         var spinner = \'<i class="fa fa-spinner fa-spin fa-fw"></i>\';
                                         $("#check-in-date-verification").html(spinner).show();
-                                        var data = {date: e.format(0), item: ' . $packageItem->id . '};
+                                        // var data = {date: e.format(0), item: ' . $packageItem->id . '};
                                         setTimeout(function() {
-                                            $.post("' . Url::to(['site/check-room-availability']) . '",
-                                                data,
+                                            $.post("' . Url::to(['site/check-room-availability', 'package_item_id' => $packageItem->id]) . '",
+                                                $("#reservation-form").serialize(),
                                                 function(data) {
                                                     var message = \'<div class="alert alert-\' + data.status + \'" role="alert">\' + data.message + \'</div>\';
                                                     $("#check-in-date-verification").html(message);
                                                 }
                                             );
-                                        }, 2000);
+                                        }, 0);
                                     }
                                 ',
                             ],
                         ]) ?>
+
                         <p id="check-in-date-verification"></p>
 
                         <?= $form->field($reservation, 'quantity_of_guest')->widget(TouchSpin::classname(), [

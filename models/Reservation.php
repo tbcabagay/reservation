@@ -31,6 +31,7 @@ use PayPal\Exception\PayPalConnectionException;
  * @property string $email
  * @property integer $status
  * @property string $check_in
+ * @property string $check_out
  * @property integer $quantity_of_guest
  * @property string $remark
  * @property string $address
@@ -63,7 +64,7 @@ class Reservation extends \yii\db\ActiveRecord
     {
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_CHANGE_STATUS] = ['status'];
-        $scenarios[self::SCENARIO_NEW] = ['firstname', 'lastname', 'contact', 'check_in', 'quantity_of_guest', 'email', 'address', 'remark', 'verifyCode', 'cc_type', 'cc_number', 'cc_cvv', 'cc_expiry_month', 'cc_expiry_year'];
+        $scenarios[self::SCENARIO_NEW] = ['firstname', 'lastname', 'contact', 'check_in', 'check_out', 'quantity_of_guest', 'email', 'address', 'remark', 'verifyCode', 'cc_type', 'cc_number', 'cc_cvv', 'cc_expiry_month', 'cc_expiry_year'];
         return $scenarios;
     }
 
@@ -81,11 +82,14 @@ class Reservation extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['package_item_id', 'firstname', 'lastname', 'contact', 'email', 'status', 'check_in', 'quantity_of_guest', 'created_at', 'updated_at', 'cc_type', 'cc_number', 'cc_cvv', 'cc_expiry_month', 'cc_expiry_year'], 'required'],
+            [['package_item_id', 'firstname', 'lastname', 'contact', 'email', 'status', 'check_in', 'check_out', 'quantity_of_guest', 'created_at', 'updated_at', 'cc_type', 'cc_number', 'cc_cvv', 'cc_expiry_month', 'cc_expiry_year'], 'required'],
             [['package_item_id', 'status', 'quantity_of_guest', 'created_at', 'updated_at', 'cc_cvv', 'cc_expiry_month', 'cc_expiry_year'], 'integer'],
             [['contact'], 'match', 'pattern' => '/^[\d()\s-]+$/', 'message' => 'Contact should only contain numbers, spaces, dashes, and parentheses'],
-            [['check_in'], 'safe'],
-            [['check_in'], 'validateCheckIn'],
+            ['check_in', 'date', 'format' => 'php:Y-m-d'],
+            ['check_out', 'date', 'format' => 'php:Y-m-d'],
+            ['check_out', 'compare', 'compareAttribute' => 'check_in', 'operator' => '>='],
+            [['check_in', 'check_out'], 'validateCheckDate'],
+            ['checkin', 'compare', 'compareValue' => 'checkout', 'operator' => '<='],
             [['email'], 'email'],
             [['remark'], 'string'],
             [['verifyCode'], 'captcha', 'on' => self::SCENARIO_NEW],
@@ -151,65 +155,65 @@ class Reservation extends \yii\db\ActiveRecord
 
     public function placeReservation($packageItem)
     {
-        $paypalContext = Yii::$app->myPaypalPayment->getContext();
-
-        try {
-            $card = new CreditCard();
-            $card->setType($this->cc_type);
-            $card->setNumber($this->cc_number);
-            $card->setExpireMonth($this->cc_expiry_month);
-            $card->setExpireYear($this->cc_expiry_year);
-            $card->setCvv2($this->cc_cvv);
-            $card->create($paypalContext);
-        } catch (PayPalConnectionException $ex) {
-            $exception = Json::decode($ex->getData());
-            throw new UserException($exception['details'][0]['issue']);
-        }
-
-        $this->setAttribute('package_item_id', $packageItem->id);
-        $this->setAttribute('status', self::STATUS_FOR_VERIFICATION);
-        $this->setAttribute('creditcard_id', $card->getId());
-
-
-
-        if ($this->save()) {
-            $this->refresh();
+        if ($this->validate()) {
+            $paypalContext = Yii::$app->myPaypalPayment->getContext();
 
             try {
-                $ccToken = new CreditCardToken();
-                $ccToken->setCreditCardId($this->getAttribute('creditcard_id'));
-
-                $fi = new FundingInstrument();
-                $fi->setCreditCardToken($ccToken);
-
-                $payer = new Payer();
-                $payer->setPaymentMethod("credit_card");
-                $payer->setFundingInstruments([$fi]);
-
-                $amount = new Amount();
-                $amount->setCurrency(Yii::$app->myPaypalPayment->getCurrency());
-                $amount->setTotal(($this->packageItem->rate * 0.5) / 46.52);
-
-                $transaction = new Transaction();
-                $transaction->setAmount($amount);
-                $transaction->setDescription('Hotel Reservation Fee - ' . $this->getAttribute(Yii::$app->formatter->asDateTime($this->getAttribute('check_in'))));
-
-                $payment = new Payment();
-                $payment->setIntent("sale");
-                $payment->setPayer($payer);
-                $payment->setTransactions(array($transaction));
-
-                $payment->create($paypalContext);
-            } catch (PPConnectionException $ex) {
-                throw new UserException($ex->getData());
-            } catch (\Exception $ex) {
-                throw new UserException($ex->getMessage());
+                $card = new CreditCard();
+                $card->setType($this->cc_type);
+                $card->setNumber($this->cc_number);
+                $card->setExpireMonth($this->cc_expiry_month);
+                $card->setExpireYear($this->cc_expiry_year);
+                $card->setCvv2($this->cc_cvv);
+                $card->create($paypalContext);
+            } catch (PayPalConnectionException $ex) {
+                $exception = Json::decode($ex->getData());
+                throw new UserException($exception['details'][0]['issue']);
             }
 
-            $this->setAttribute('status', self::STATUS_NEW);
-            $this->update(false);
+            $this->setAttribute('package_item_id', $packageItem->id);
+            $this->setAttribute('status', self::STATUS_FOR_VERIFICATION);
+            $this->setAttribute('creditcard_id', $card->getId());
 
-            return true;
+            if ($this->save(false)) {
+                $this->refresh();
+
+                try {
+                    $ccToken = new CreditCardToken();
+                    $ccToken->setCreditCardId($this->getAttribute('creditcard_id'));
+
+                    $fi = new FundingInstrument();
+                    $fi->setCreditCardToken($ccToken);
+
+                    $payer = new Payer();
+                    $payer->setPaymentMethod("credit_card");
+                    $payer->setFundingInstruments([$fi]);
+
+                    $amount = new Amount();
+                    $amount->setCurrency(Yii::$app->myPaypalPayment->getCurrency());
+                    $amount->setTotal(($this->packageItem->rate * 0.5) / 46.52);
+
+                    $transaction = new Transaction();
+                    $transaction->setAmount($amount);
+                    $transaction->setDescription('Hotel Reservation Fee - ' . $this->getAttribute(Yii::$app->formatter->asDateTime($this->getAttribute('check_in'))));
+
+                    $payment = new Payment();
+                    $payment->setIntent("sale");
+                    $payment->setPayer($payer);
+                    $payment->setTransactions(array($transaction));
+
+                    $payment->create($paypalContext);
+                } catch (PPConnectionException $ex) {
+                    throw new UserException($ex->getData());
+                } catch (\Exception $ex) {
+                    throw new UserException($ex->getMessage());
+                }
+
+                $this->setAttribute('status', self::STATUS_NEW);
+                $this->update(false);
+
+                return true;
+            }
         }
         return false;
     }
@@ -253,12 +257,51 @@ class Reservation extends \yii\db\ActiveRecord
         }
     }
 
-    public function validateCheckIn($attribute, $params)
+    public function getVacancyCount()
+    {
+        if (empty($this->check_in)) {
+            return null;
+        } else {
+            $reservation = self::find()
+                ->where(['<=', 'check_in', $this->check_in])
+                ->andWhere(['>=', 'check_out', $this->check_out])
+                ->andWhere(['status' => self::STATUS_CONFIRM])
+                ->andWhere(['package_item_id' => $this->package_item_id])
+                ->count();
+            $transaction = \app\models\Transaction::find()
+                ->where(['<=', 'check_in', $this->check_in])
+                ->andWhere(['>=', 'check_out', $this->check_out])
+                ->andWhere(['status' => \app\models\Transaction::STATUS_CHECK_IN])
+                ->andWhere(['package_item_id' => $this->package_item_id])
+                ->count();
+            $packageItem = PackageItem::findOne($this->package_item_id);
+            return $packageItem->quantity - ($reservation + $transaction);
+        }
+    }
+
+    public function validateCheckDate($attribute, $params)
     {
         $dateToCompare = $this->$attribute;
         $now = date('Y-m-d');
         if (strtotime($dateToCompare) < strtotime($now)) {
-            $this->addError($attribute, 'The check-in date should not set to period earlier than today.');
+            $this->addError($attribute, 'The ' . $this->getAttributeLabel($attribute) . ' should not set to period earlier than today.');
+        }
+        $reservation = self::find()
+            ->where(['<=', 'check_in', $this->check_in])
+            ->andWhere(['>=', 'check_out', $this->check_out])
+            ->andWhere(['status' => self::STATUS_CONFIRM])
+            ->andWhere(['package_item_id' => $this->package_item_id])
+            ->count();
+        $transaction = \app\models\Transaction::find()
+            ->where(['<=', 'check_in', $this->check_in])
+            ->andWhere(['>=', 'check_out', $this->check_out])
+            ->andWhere(['status' => \app\models\Transaction::STATUS_CHECK_IN])
+            ->andWhere(['package_item_id' => $this->package_item_id])
+            ->count();
+        $packageItem = PackageItem::findOne($this->package_item_id);
+        $quantity = $packageItem->quantity - ($reservation + $transaction);
+        if ($quantity < 1) {
+            $this->addError($attribute, 'No available room.');
         }
     }
 
